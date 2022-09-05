@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/frontend/static/css/main.f0ed08fc.css",
+    "main.js": "/frontend/static/js/main.00ddd183.js",
+    "static/js/406.78fb0bea.chunk.js": "/frontend/static/js/406.78fb0bea.chunk.js",
+    "static/js/255.c39140ca.chunk.js": "/frontend/static/js/255.c39140ca.chunk.js",
+    "static/media/cowboy.jpg": "/frontend/static/media/cowboy.264b52bc83517eeafd77.jpg",
+    "static/media/shop.jpg": "/frontend/static/media/shop.a2d5e84d8c93453486f7.jpg",
+    "static/media/lever.svg": "/frontend/static/media/lever.a9ccc3fab7b292f1852a142f8e6fe6db.svg",
+    "static/media/spring.svg": "/frontend/static/media/spring.e4238146c39d20d5a0ebdaa75ac2b153.svg",
+    "static/media/responsive.svg": "/frontend/static/media/responsive.94fba178856bd8a25754db4f1a096a56.svg",
+    "static/media/shield3.svg": "/frontend/static/media/shield3.0ec7d6a129640af32715dbeaca0268ae.svg",
+    "static/media/balance5.svg": "/frontend/static/media/balance5.9bdcc5990adcd8a726e34d4f4dc379d1.svg",
+    "static/media/hourglass4.svg": "/frontend/static/media/hourglass4.46ea812074d5da2135f6b33e093f3f6a.svg",
+    "static/media/slick.svg": "/frontend/static/media/slick.2630a3e3eab21c607e21.svg",
+    "static/media/slick.eot": "/frontend/static/media/slick.a4e97f5a2a64f0ab1323.eot",
+    "font/slick.ttf": "/frontend/./font/5f9008c8a5f72add6e5cdd402507a5e9.woff",
+    "static/media/slick.woff": "/frontend/static/media/slick.295183786cd8a1389865.woff",
+    "index.html": "/frontend/index.html",
+    "static/media/slick.ttf": "/frontend/static/media/slick.7f606bd9bada626d0064.ttf"
+  },
+  "entrypoints": [
+    "static/css/main.f0ed08fc.css",
+    "static/js/main.00ddd183.js"
+  ]
+}

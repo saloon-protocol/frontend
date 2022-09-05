@@ -17,6 +17,7 @@ export const mock = [
     type: 'Remote',
     team: 'Consumer',
     subtitle: 'Responsible for design systems and brand management.',
+    value:'$10,000,000'
   },
   {
     title: 'Community Manager',
@@ -24,6 +25,7 @@ export const mock = [
     type: 'Full time',
     team: 'Consulting',
     subtitle: 'Responsible for creating life in our apps.',
+    value:'$10,000,000'
   },
   {
     title: 'UX/UI Designer',
@@ -31,6 +33,7 @@ export const mock = [
     type: 'Part time',
     team: 'Internal tools',
     subtitle: 'Help us make the best decisions with qualitative experiments.',
+    value:'$10,000,000'
   },
   {
     title: 'Front-End Developer',
@@ -38,34 +41,7 @@ export const mock = [
     type: 'Remote',
     team: 'Internal tools',
     subtitle: 'Responsible for design systems and brand management.',
-  },
-  {
-    title: 'Community Manager',
-    location: 'Paris',
-    type: 'Full time',
-    team: 'Consulting',
-    subtitle: 'Responsible for creating life in our apps.',
-  },
-  {
-    title: 'UX/UI Designer',
-    location: 'Yerevan',
-    type: 'Part time',
-    team: 'Consumer',
-    subtitle: 'Help us make the best decisions with qualitative experiments.',
-  },
-  {
-    title: 'Front-End Developer',
-    location: 'Madrid',
-    type: 'Remote',
-    team: 'Consumer',
-    subtitle: 'Responsible for design systems and brand management.',
-  },
-  {
-    title: 'Community Manager',
-    location: 'Paris',
-    type: 'Full time',
-    team: 'Consulting',
-    subtitle: 'Responsible for creating life in our apps.',
+    value:'$10,000,000'
   },
 ];
 
@@ -157,8 +133,13 @@ const Jobs = () => {
               },
             }}
           >
-            <Box padding={4} display={'flex'} alignItems={'center'}>
-              <Typography marginRight={4} variant={'subtitle1'} fontWeight={700}>
+            <Box padding={4} display={'flex'} alignItems={'center'}
+              flexDirection={{ xs: 'column', sm: 'row' }}
+            
+            >
+              <Typography marginRight={4} variant={'subtitle1'} fontWeight={700}
+                paddingBottom={{xs:2}}
+              >
                 LOGO
               </Typography>
               <Box
@@ -166,27 +147,79 @@ const Jobs = () => {
                 flexDirection={{ xs: 'column', sm: 'row' }}
                 flex={'1 1 100%'}
                 justifyContent={{ sm: 'space-between' }}
-                alignItems={{ sm: 'center' }}
+                // alignItems={{ sm: 'center' }}
+                
               >
               
-                <Box marginBottom={{ xs: 1, sm: 0 }}>
-                  <Typography variant={'subtitle1'} fontWeight={700}>
+                <Box marginBottom={{ xs: 1, sm: 0 }}
+                  paddingY={{xs:2}}
+                >
+                  {/* <Typography marginRight={4} variant={'subtitle1'} fontWeight={700}>
+                    LOGO
+                  </Typography> */}
+              
+                  <Typography variant={'h6'} fontWeight={700}
+                    paddingBottom={{xs:1}}
+                  >
+                  
                     {item.title}
+                  
                   </Typography>
+                
                   <Typography color={'text.secondary'}>
                     {item.subtitle}
                   </Typography>
                 </Box>
-                <Typography color={'text.secondary'}>
-                  {`${item.team} / ${item.location}`}
-                </Typography>
+                <Box
+                  display={'flex'}
+                  flexDirection={{ xs: 'column', sm: 'column' }}
+                  // flex={'1 1 100%'}
+                  justifyContent={{ sm: 'space-between' }}
+                  alignItems={{ sm: 'left' }} 
+                  
+                >
+                  <Box>
+                    <Typography variant='caption'>
+                      Rewards up to
+                    </Typography>
+                  </Box>
+                  <Button
+                    href='/bounty'
+                    variant="outlined"
+                    color="secondary"
+                    size="large"
+                    sx={{borderRadius:0}}
+                    endIcon={
+                      <Box
+                        component={'svg'}
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        width={12}
+                        height={12}
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                          clipRule="evenodd"
+                        />
+                      </Box>
+                    }
+                  >
+                    <Typography variant='h6'>
+                      {item.value}
+                    </Typography>
+                  </Button>
+                  
+                </Box>
+              
               </Box>
               <Box marginLeft={2}>
-                <Button
+                {/* <Button
                   href='/bounty'
                   variant="outlined"
-                  color="primary"
-                  size="small"
+                  color="secondary"
+                  size="large"
                   sx={{borderRadius:0}}
                   endIcon={
                     <Box
@@ -205,8 +238,8 @@ const Jobs = () => {
                     </Box>
                   }
                 >
-                  Bounty
-                </Button>
+                  {item.value}
+                </Button> */}
               </Box>
             </Box>
           </Grid>

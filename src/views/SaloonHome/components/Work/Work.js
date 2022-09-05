@@ -12,7 +12,8 @@ const projects = [
   {
     title: 'Dynamic Bounties',
     description:
-      'Want to post a $1,000,000 bounty but don`t have the funds? \n Open up a crowd-sourced bounty pool at the Saloon.',
+      'Want to post a $1,000,000 bounty but don`t have the funds?',
+    description2:'Open up a crowd-sourced bounty pool at the Saloon.',
     
     image: <Spring/>,
   },
@@ -25,7 +26,8 @@ const projects = [
   {
     title: 'Get insurance (coming soon)',
     description:
-      'Protect your users and investors. Who better to assume the risk than the auditors who have poured hundreds of hours into pentesting?',
+      'Protect your users and investors.',
+    description2:'Who better to assume the risk than the auditors who have poured hundreds of hours into pentesting?',
     image: <Shield/>,
   },
 ];
@@ -47,16 +49,20 @@ const Work = () => {
           component="p"
           color="text.secondary"
           align={'center'}
-          marginBottom={6}
+          marginBottom={0}
         >
           We provide projects that are really serious about 
           security a way to actually show their commitment.
         </Typography>
-        <Box marginTop={2} display={'flex'} justifyContent={'center'}>
-      
-        </Box>
       </Box>
-      <Grid container spacing={4}>
+      <Grid 
+        // container 
+        spacing={4} 
+        // marginTop={{xs: -6}} 
+        md={12}
+        // display={'flex'}
+        // direction={{ xs: 'column', sm: 'row', md:'column' }}
+      >
         {projects.map((item, i) => (
           <Grid
             data-aos="fade-up"
@@ -65,18 +71,28 @@ const Work = () => {
             data-aos-duration={600}
             key={i}
             item
-            container
-            xs={12}
+            // container
+            // xs={6}
+            sm={4}
             spacing={4}
-            direction={i % 2 === 1 ? 'row-reverse' : 'row'}
-            justifyContent='space-evenly'
+            direction={{ md: i % 2 === 1 ? 'row-reverse' : 'row', xs: 'column'}}
+            // justifyContent='space-evenly'
             sx={{
               // backgroundColor: i % 2 === 1 ? theme.palette.alternate.main : 'inherit', 
               margin: 6}}
+            display={'flex'}
+            xs={12} md={12}
+            flex={'1 1 50%'}
+            justifyContent={{ sm: 'space-between' }}
+            alignItems={{ sm: 'center' }}
+            // alignItems="center"
             
           >
-            <Grid item container alignItems={'center'} xs={12} sm={6}>
-              <Box>
+            <Grid item alignItems={'center'} xs={12} 
+              sm={12} md={12}
+            >
+              <Box paddingX={4}>
+            
                 <Typography
                   variant={'h4'}
                   gutterBottom
@@ -84,8 +100,10 @@ const Work = () => {
                 >
                   {item.title}
                 </Typography>
-                <Typography color="text.secondary">
+                <Typography color="text.secondary" >
                   {item.description}
+                  <br/>
+                  {item.description2}
                 </Typography>
                 <Button
                   size={'large'}
@@ -115,14 +133,17 @@ const Work = () => {
             </Grid>
             <Grid
               item
-              container
+              // container
               justifyContent={'center'}
               alignItems={'center'}
               xs={12}
-              sm={4}
+              sm={12}
+              md={6}
+              // paddingBottom={{xs:8}}
               
               
             >
+            
               {item.image}
              
               

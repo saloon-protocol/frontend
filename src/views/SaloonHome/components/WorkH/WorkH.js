@@ -53,16 +53,15 @@ const WorkH = () => {
           component="p"
           color="text.secondary"
           align={'center'}
-          marginBottom={6}
+          marginBottom={0}
         >
           We aim to make smart contract auditing (aka hunting) the most profitable skill in the entire services market. With our knowledge based staking opportunities hunters will be able to MULTIPLY their earnings many times over.
         </Typography>
-        <Box marginTop={2} display={'flex'} justifyContent={'center'}>
-      
-        </Box>
+
       </Box>
 
-      <Grid container spacing={4} justifyContent={'center'} 
+      <Grid spacing={4}  md={12}
+        // justifyContent={'center'} 
         // maxWidth="xl"
       >
         {hunters.map((item, i) => (
@@ -73,19 +72,25 @@ const WorkH = () => {
             data-aos-duration={600}
             key={i}
             item
-            container
-            xs={12}
+            // container
+            // xs={6}
+            sm={4}
             spacing={4}
-            direction={i % 2 === 1 ? 'row-reverse' : 'row'}
-            justifyContent='space-evenly'
+            direction={{ md: i % 2 === 1 ? 'row-reverse' : 'row', xs: 'column'}}
+            // justifyContent='space-evenly'
             sx={{
               // backgroundColor: i % 2 === 1 ? theme.palette.alternate.main : 'inherit', 
               margin: 6}}
+            display={'flex'}
+            xs={12} md={12}
+            flex={'1 1 50%'}
+            justifyContent={{ sm: 'space-between' }}
+            alignItems={{ sm: 'center' }}
             
             
           >
-            <Grid item container alignItems={'center'} xs={12} sm={6}>
-              <Box>
+            <Grid item alignItems={'center'} xs={12} sm={12} md={12}>
+              <Box paddingX={4}>
                 <Typography
                   variant={'h4'}
                   gutterBottom
@@ -124,11 +129,13 @@ const WorkH = () => {
             </Grid>
             <Grid
               item
-              container
+        
               justifyContent={'center'}
               alignItems={'center'}
               xs={12}
-              sm={4}
+              sm={12}
+              md={6}
+              // paddingBottom={{xs:6}}
               
               
             >

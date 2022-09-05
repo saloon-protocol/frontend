@@ -21,7 +21,7 @@ const HeroCareer = () => {
         paddingTop: 16,
       }}
     >
-      <Container marginTop={-4}>
+      <Container marginTop={{xs:0, sm:-4}}>
         <Box>
           <Box
             marginBottom={{ xs: 0, sm: 4 }}

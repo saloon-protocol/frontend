@@ -32,6 +32,7 @@ const SaloonHome = () => {
           backgroundImage: `radial-gradient(${theme.palette.wildwest.darkbrown} 0%, ${theme.palette.wildwest.wine} 100%)`,
 
         }}
+        // paddingTop={{xs:6}}
       >
         <Container 
         >

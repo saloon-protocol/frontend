@@ -44,7 +44,10 @@ const Footer = () => {
               
             </Link>
           </Box>
-          <Box display="flex" flexWrap={'wrap'} alignItems={'center'}>
+          <Box display="flex" 
+            // flexWrap={'wrap'} 
+            flexDirection={{ xs: 'column', sm: 'row' }}
+            alignItems={'center'}>
 
             <Box marginTop={1} marginRight={2}> 
               <Typography
@@ -57,41 +60,48 @@ const Footer = () => {
                 &copy;2022 Saloon. All rights reserved
               </Typography>
             </Box>
-            <Box marginTop={1} marginRight={2}>
-              <Button
-                component="a"
-                href="/docs/introduction"
-                color="inherit"
-                variant="outlined"
-                size="small"
-                sx={{borderRadius:0}}
-              >
-                DISCORD
-              </Button>
-            </Box>
-            <Box marginTop={1} marginRight={2}>
-              <Button
-                component="a"
-                href="/docs/introduction"
-                color="inherit"
-                variant="outlined"
-                size="small"
-                sx={{borderRadius:0}}
-              >
-                TWITTER
-              </Button>
-            </Box>
-            <Box marginTop={1}>
-              <Button
-                component="a"
-                href="/docs/introduction"
-                color="inherit"
-                variant="outlined"
-                size="small"
-                sx={{borderRadius:0}}
-              >
-                GITHUB
-              </Button>
+            <Box
+              display={'flex'}
+              flexDirection={{ xs: 'row', sm: 'row' }}
+              alignItems={{ xs: 'center', sm: 'center' }}
+              justifyContent="space-between"
+            >
+              <Box marginTop={1} marginRight={2}>
+                <Button
+                  component="a"
+                  href="/docs/introduction"
+                  color="inherit"
+                  variant="outlined"
+                  size="small"
+                  sx={{borderRadius:0}}
+                >
+                  DISCORD
+                </Button>
+              </Box>
+              <Box marginTop={1} marginRight={2}>
+                <Button
+                  component="a"
+                  href="/docs/introduction"
+                  color="inherit"
+                  variant="outlined"
+                  size="small"
+                  sx={{borderRadius:0}}
+                >
+                  TWITTER
+                </Button>
+              </Box>
+              <Box marginTop={1}>
+                <Button
+                  component="a"
+                  href="/docs/introduction"
+                  color="inherit"
+                  variant="outlined"
+                  size="small"
+                  sx={{borderRadius:0}}
+                >
+                  GITHUB
+                </Button>
+              </Box>
             </Box>
           </Box>
         </Box>

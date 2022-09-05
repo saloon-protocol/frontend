@@ -69,7 +69,9 @@ const Rewards = () => {
             }}
             xs={12}
           >
-            <Grid padding={2} display={'flex'} alignItems={'center'}>
+            <Grid padding={2} display={'flex'} alignItems={{ xs: 'left', sm: 'center' }}
+              flexDirection={{ xs: 'column', sm: 'row' }}
+            >
               <Grid item xs={12} md={6}
                 display={'flex'}
                 flexDirection={{ xs: 'column', sm: 'row' }}

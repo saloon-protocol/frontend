@@ -21,7 +21,9 @@ const Routes = () => {
         <Route key={i} path={item.path} element={item.renderer()} />
       ))}
       {/* Create a route for fonts?? */}
-      <Route path="*" element={<Navigate replace to="/not-found-cover" />} />
+      {/* <Route path="*" element={<Navigate replace to="/not-found-cover" />} /> */}
+      <Route path="*" element={<Navigate replace to="/saloonhome" />} />
+
     </ReactRoutes>
   );
 };

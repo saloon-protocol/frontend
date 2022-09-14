@@ -4,7 +4,7 @@
   "author": "youngDuckling",
   "email": "saloonfinance@gmail.com",
   "version": "4.7.0",
-  "private": true,
+  "private": false,
   "scripts": {
     "start": "react-scripts start",
     "build": "cross-env GENERATE_SOURCEMAP=false react-scripts build",

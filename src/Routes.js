@@ -22,7 +22,7 @@ const Routes = () => {
       ))}
       {/* Create a route for fonts?? */}
       {/* <Route path="*" element={<Navigate replace to="/not-found-cover" />} /> */}
-      <Route path="*" element={<Navigate replace to="/saloonhome" />} />
+      <Route path="*" element={<Navigate replace to="/" />} />
 
     </ReactRoutes>
   );

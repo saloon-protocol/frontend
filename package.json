@@ -1,14 +1,14 @@
 {
-  "homepage": "https://saloon-protocol.github.io/frontend",
+  "homepage": "https://saloon-protocol.github.io/frontend/",
   "name": "saloon",
   "author": "youngDuckling",
   "email": "saloonfinance@gmail.com",
   "version": "4.7.0",
   "private": true,
   "scripts": {
+    "start": "react-scripts start",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "start": "react-scripts start",
     "build": "cross-env GENERATE_SOURCEMAP=false react-scripts build",
     "prettier:fix": "prettier './src/**/*.js' --write",
     "eslint:fix": "eslint ./src --fix",

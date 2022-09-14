@@ -1,9 +1,8 @@
 {
   "files": {
     "main.css": "/frontend/static/css/main.f0ed08fc.css",
-    "main.js": "/frontend/static/js/main.78ba5731.js",
-    "static/js/406.78fb0bea.chunk.js": "/frontend/static/js/406.78fb0bea.chunk.js",
-    "static/js/255.c39140ca.chunk.js": "/frontend/static/js/255.c39140ca.chunk.js",
+    "main.js": "/frontend/static/js/main.d17e5d7b.js",
+    "static/js/255.4bcf0834.chunk.js": "/frontend/static/js/255.4bcf0834.chunk.js",
     "static/media/cowboy.jpg": "/frontend/static/media/cowboy.264b52bc83517eeafd77.jpg",
     "static/media/shop.jpg": "/frontend/static/media/shop.a2d5e84d8c93453486f7.jpg",
     "static/media/lever.svg": "/frontend/static/media/lever.a9ccc3fab7b292f1852a142f8e6fe6db.svg",
@@ -21,6 +20,6 @@
   },
   "entrypoints": [
     "static/css/main.f0ed08fc.css",
-    "static/js/main.78ba5731.js"
+    "static/js/main.d17e5d7b.js"
   ]
 }

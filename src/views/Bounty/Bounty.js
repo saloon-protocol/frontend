@@ -7,7 +7,7 @@ import Main from 'layouts/Main';
 import Container from 'components/Container';
 // import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
-// import Button from '@mui/material/Button';
+import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 import {
@@ -42,6 +42,17 @@ const Bounty = () => {
       
           <Grid item xs={6}>
             <Rewards/>
+            {/* insert SUBMIT BUTTON HERE */}
+            <Box paddingTop={1}>
+              <Button fullWidth color='secondary'
+                href='/bounty'  
+                variant='outlined' 
+                sx={{borderRadius:0}} 
+                size='large' 
+              >
+                SUBMIT BUG
+              </Button>
+            </Box>
           </Grid>
         </Grid>
       </Container>

@@ -4,7 +4,7 @@
   "author": "youngDuckling",
   "email": "saloonfinance@gmail.com",
   "version": "4.7.0",
-  "private": false,
+  "private": true,
   "scripts": {
     "start": "react-scripts start",
     "build": "cross-env GENERATE_SOURCEMAP=false react-scripts build",
@@ -42,6 +42,7 @@
     "@mui/material": "^5.2.4",
     "aos": "^2.3.4",
     "card-validator": "^8.1.1",
+    "ethers": "^5.7.1",
     "formik": "^2.2.6",
     "jarallax": "^2.0.3",
     "prop-types": "^15.7.2",
@@ -58,6 +59,7 @@
     "react-visibility-sensor": "^5.1.1",
     "slick-carousel": "^1.8.1",
     "web-vitals": "^2.1.2",
+    "web3modal": "^1.9.9",
     "yup": "^0.32.11"
   },
   "devDependencies": {

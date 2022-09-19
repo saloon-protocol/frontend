@@ -13,7 +13,7 @@ const mock = [
   {
     title: 'Hunters',
     subtitle:
-      'A very simple and modern template with a very harmonious color scheme. Also the additional plugins like the statistics are great and fit perfectly into the overall picture.',
+      'Leverage your auditors skills like never before.\nFind bugs. Get Paid. Didn`t find anything? Get Returns.',
     button: 'Sign up for Launch Updates',
     image: cowboy,
     link: 'https://mailchi.mp/47ae7c35bae0/saloon-finance-pre-launch'
@@ -21,7 +21,7 @@ const mock = [
   {
     title: 'Projects',
     subtitle:
-      'Keep your entire team in sync with development and easily manage tasks, goals, and deadlines. Easily manage and edit any Adwords campaign inline to improve ROI with constant review.',
+      'Put up big a bounty for a fraction of the price and get more auditors looking at your code. Don`t get hacked, don`t lose investor`s money and don`t lose your business. Stop worrying. Be happy.',
     button: 'Put up a Bounty',
     link: '/'
   },

@@ -14,9 +14,9 @@ const mock = [
     title: 'Hunters',
     subtitle:
       'A very simple and modern template with a very harmonious color scheme. Also the additional plugins like the statistics are great and fit perfectly into the overall picture.',
-    button: 'Go Hunt',
+    button: 'Sign up for Launch Updates',
     image: cowboy,
-    link: '/bounties'
+    link: 'https://mailchi.mp/47ae7c35bae0/saloon-finance-pre-launch'
   },
   {
     title: 'Projects',
@@ -43,14 +43,14 @@ const Reviews = () => {
               width={1}
               height={1}
               sx={{
-                
+
                 textDecoration: 'none',
                 '&:hover': {
                   transform: `translateY(-${theme.spacing(1 / 2)})`,
                   boxShadow: '0 6px 20px 0 rgba(0,0,0,0.38)',
                 },
-                
-                
+
+
                 // transition: 'all .2s ease-in-out',
                 // '&:hover': {
                 //   transform: `translateY(-${theme.spacing(1 / 2)})`,
@@ -67,28 +67,29 @@ const Reviews = () => {
                 data-aos-duration={600}
                 flexDirection={'column'}
                 display={'flex'}
-                sx={{borderRadius: 0, 
+                sx={{
+                  borderRadius: 0,
                   backgroundImage: cowboy,
                   boxShadow: 0,
-                  
+
                 }}
-                
-                
+
+
               >
-            
-                
+
+
                 <CardContent
-                  
+
                   sx={{
                     borderRadius: 0,
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'flex-start',
                     backgroundColor: theme.palette.wildwest.darkbrown,
-                    
+
                     // backgroundImage: `linear-gradient(0deg, ${theme.palette.wildwest.wine} 1%, ${theme.palette.wildwest.darkbrown} 100%)`,
                     // boxShadow: 0
-                    
+
                   }}
                 >
                   <Typography
@@ -97,20 +98,20 @@ const Reviews = () => {
                     alignItems={'center'}
                     color={theme.palette.wildwest.wine}
                     sx={{ fontWeight: 600 }}
-                    
+
                   >
                     {item.title}
                   </Typography>
-                  
-                
-                  
-                  
-                  <Typography marginBottom= {2} 
+
+
+
+
+                  <Typography marginBottom={2}
                     color={theme.palette.wildwest.wine}
                   >
                     {item.subtitle}
                   </Typography>
-                  
+
                   {/* <Box
                     component='img'
                     src={cowboy}
@@ -123,10 +124,10 @@ const Reviews = () => {
                   </Box> */}
                   <Button
                     variant="contained"
-                    color= "primary"
+                    color="primary"
                     size="large"
-                    sx ={{borderRadius: 0, borderColor: 'white', borderWidth:2}}
-                    
+                    sx={{ borderRadius: 0, borderColor: 'white', borderWidth: 2 }}
+
                     href={item.link}
                     fullWidth
                     endIcon={
@@ -138,7 +139,7 @@ const Reviews = () => {
                         viewBox="0 0 24 24"
                         stroke="currentColor"
                         color='white'
-                        
+
 
                       >
                         <path
@@ -154,7 +155,7 @@ const Reviews = () => {
                       fontWeight={900}
 
                       color={theme.palette.wildwest.grey}
-                      sx={{textTransform: 'uppercase'}}
+                      sx={{ textTransform: 'uppercase' }}
                     >
                       {item.button}
                     </Typography>

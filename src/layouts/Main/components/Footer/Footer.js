@@ -28,7 +28,7 @@ const Footer = () => {
             width={80}
           >
             <Link
-          
+
               height={1}
               width={1}
               fontFamily='Diplomata'
@@ -38,24 +38,24 @@ const Footer = () => {
               href='/saloonhome'
 
             >
-         
+
               Saloon
-              
-              
+
+
             </Link>
           </Box>
-          <Box display="flex" 
+          <Box display="flex"
             // flexWrap={'wrap'} 
             flexDirection={{ xs: 'column', sm: 'row' }}
             alignItems={'center'}>
 
-            <Box marginTop={1} marginRight={2}> 
+            <Box marginTop={1} marginRight={2}>
               <Typography
                 // align={'center'}
                 variant={'caption'}
                 color="text.secondary"
                 // fontWeight={2}
-                sx={{textTransform: 'uppercase'}}
+                sx={{ textTransform: 'uppercase' }}
               >
                 &copy;2022 Saloon. All rights reserved
               </Typography>
@@ -69,11 +69,11 @@ const Footer = () => {
               <Box marginTop={1} marginRight={2}>
                 <Button
                   component="a"
-                  href="/docs/introduction"
+                  href="https://discord.gg/6H2bnD8rYH"
                   color="inherit"
                   variant="outlined"
                   size="small"
-                  sx={{borderRadius:0}}
+                  sx={{ borderRadius: 0 }}
                 >
                   DISCORD
                 </Button>
@@ -85,7 +85,7 @@ const Footer = () => {
                   color="inherit"
                   variant="outlined"
                   size="small"
-                  sx={{borderRadius:0}}
+                  sx={{ borderRadius: 0 }}
                 >
                   TWITTER
                 </Button>
@@ -97,7 +97,7 @@ const Footer = () => {
                   color="inherit"
                   variant="outlined"
                   size="small"
-                  sx={{borderRadius:0}}
+                  sx={{ borderRadius: 0 }}
                 >
                   GITHUB
                 </Button>

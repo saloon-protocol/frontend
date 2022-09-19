@@ -47,8 +47,9 @@ const Bounty = () => {
               <Button fullWidth color='secondary'
                 href='/bounty'  
                 variant='outlined' 
-                sx={{borderRadius:0}} 
-                size='large' 
+                sx={{borderRadius:0, paddingY:4}} 
+                size='large'
+                
               >
                 SUBMIT BUG
               </Button>
@@ -61,6 +62,9 @@ const Bounty = () => {
         // backgroundImage
         // backgroundImage: `linear-gradient(180deg, ${theme.palette.background.paper} 0%, ${theme.palette.alternate.main} 100%)`
       }}>
+        <Container>
+          Bounty Pool Details here
+        </Container>
         <Container sx={{backgroundColor: theme.palette.background.paper}} >
           <Typography variant={'h4'} fontWeight={700} marginBottom={4}  >
             Project Overview

@@ -7,10 +7,14 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { SimpleNavItem } from './components';
 // import { Typography } from '@mui/material';
 import { Link } from '@mui/material';
-
+// import Web3Modal from 'web3modal';
+// import {ethers} from 'ethers';
+// import WalletConnectProvider from '@walletconnect/web3-provider';
+// import { useState } from 'react';
 // NavItem has popover function instead of SimpleNavItem
 
 const Topbar = ({ onSidebarOpen, pages, colorInvert = false }) => {
+  // const [web3Provider, setWeb3Provider] = useState(null);
   // const theme = useTheme();
   // const { mode } = theme.palette;
   const {
@@ -20,6 +24,33 @@ const Topbar = ({ onSidebarOpen, pages, colorInvert = false }) => {
     about: aboutPage,
     // bounties: bountiesPage
   } = pages;
+
+
+  // const providerOptions = {
+  //   walletconnect: {
+  //     package: WalletConnectProvider, // required
+  //     options: {
+  //       infuraId: {3: 'https://ropsten.infura.io/v3/c520361dc356433d881e7cb3a00193e7'}, // required
+  //     },
+  //   },
+  // };
+  
+
+  // async function connectWallet() {
+  //   try {
+  //     let web3Modal = new Web3Modal({
+  //       cacheProvider:false,
+  //       providerOptions,
+  //     });
+  //     const web3ModalInstance = await web3Modal.connect();
+  //     const web3ModalProvider = new ethers.providers.Web3Provider(web3ModalInstance);
+  //     if(web3ModalProvider){
+  //       setWeb3Provider(web3ModalProvider);
+  //     }
+  //   } catch(error){
+  //     console.error(error);
+  //   }
+  // }
 
   return (
     <Box
@@ -80,6 +111,22 @@ const Topbar = ({ onSidebarOpen, pages, colorInvert = false }) => {
             colorInvert={colorInvert}
           />
         </Box>
+        {/* <Box marginLeft={4}>
+          {
+            web3Provider == null ? (
+              // run if null
+              <Button onClick={connectWallet}>
+                Connect
+              </Button>
+            ) : (
+              // run if there (update this to something more fun)
+              <Typography>
+                Connected
+              </Typography>
+            )
+          }
+
+        </Box> */}
         <Box marginLeft={4}>
         </Box>
       </Box>

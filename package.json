@@ -38,9 +38,12 @@
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
+    "@ethersproject/shims": "^5.7.0",
+    "@maticnetwork/maticjs-ethers": "^1.0.2",
     "@mui/icons-material": "^5.2.4",
     "@mui/material": "^5.2.4",
     "@walletconnect/web3-provider": "^1.8.0",
+    "alchemy-sdk": "^2.0.4",
     "aos": "^2.3.4",
     "card-validator": "^8.1.1",
     "ethers": "^5.7.1",

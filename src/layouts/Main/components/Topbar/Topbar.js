@@ -5,26 +5,33 @@ import Button from '@mui/material/Button';
 // import { alpha, useTheme} from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
 import { SimpleNavItem } from './components';
-// import { Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { Link } from '@mui/material';
-// import Web3Modal from 'web3modal';
-// import {ethers} from 'ethers';
+import Web3Modal from 'web3modal';
+import '@ethersproject/shims';
+import {ethers} from 'ethers';
 // import WalletConnectProvider from '@walletconnect/web3-provider';
-// import { useState } from 'react';
+import { useState } from 'react';
 // NavItem has popover function instead of SimpleNavItem
 
 const Topbar = ({ onSidebarOpen, pages, colorInvert = false }) => {
-  // const [web3Provider, setWeb3Provider] = useState(null);
+
+  // const provider = new ethers.providers.JsonRpcProvider(process.env.INFURA_RINKEBY);
+
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  // let signer;
+
+  // async function connectWallet(){
+  //   await provider.send('eth_requestAccounts', []);
+
+  //   signer = await provider.getSigner();
+  //   console.log('Account address:', await signer.getAddress());
+  // }
+
+  
+  const [web3Provider, setWeb3Provider] = useState(null);
   // const theme = useTheme();
   // const { mode } = theme.palette;
-  const {
-    // eslint-disable-next-line
-
-    testing: testPage,
-    about: aboutPage,
-    // bounties: bountiesPage
-  } = pages;
-
 
   // const providerOptions = {
   //   walletconnect: {
@@ -36,21 +43,29 @@ const Topbar = ({ onSidebarOpen, pages, colorInvert = false }) => {
   // };
   
 
-  // async function connectWallet() {
-  //   try {
-  //     let web3Modal = new Web3Modal({
-  //       cacheProvider:false,
-  //       providerOptions,
-  //     });
-  //     const web3ModalInstance = await web3Modal.connect();
-  //     const web3ModalProvider = new ethers.providers.Web3Provider(web3ModalInstance);
-  //     if(web3ModalProvider){
-  //       setWeb3Provider(web3ModalProvider);
-  //     }
-  //   } catch(error){
-  //     console.error(error);
-  //   }
-  // }
+  async function connectWallet() {
+    try {
+      let web3Modal = new Web3Modal({
+        cacheProvider:false,
+        provider,
+      });
+      const web3ModalInstance = await web3Modal.connect();
+      const web3ModalProvider = new ethers.providers.Web3Provider(web3ModalInstance);
+      if(web3ModalProvider){
+        setWeb3Provider(web3ModalProvider);
+      }
+    } catch(error){
+      console.error(error);
+    }
+  }
+
+  const {
+    // eslint-disable-next-line
+
+    testing: testPage,
+    about: aboutPage,
+    // bounties: bountiesPage
+  } = pages;
 
   return (
     <Box
@@ -111,7 +126,7 @@ const Topbar = ({ onSidebarOpen, pages, colorInvert = false }) => {
             colorInvert={colorInvert}
           />
         </Box>
-        {/* <Box marginLeft={4}>
+        <Box marginLeft={4}>
           {
             web3Provider == null ? (
               // run if null
@@ -125,8 +140,12 @@ const Topbar = ({ onSidebarOpen, pages, colorInvert = false }) => {
               </Typography>
             )
           }
+          {/* <Button onClick={connectWallet}>
+            Connect
+          </Button> */}
 
-        </Box> */}
+
+        </Box>
         <Box marginLeft={4}>
         </Box>
       </Box>

@@ -9,12 +9,12 @@ import Container from 'components/Container';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import WETH from '../../chain-info/WETH.json';
+// import WETH from '../../chain-info/WETH.json';
 import {
 // eslint-disable-next-line
-  Jobs, Rewards,InScope
+  Jobs, Rewards,InScope,Staking
 } from './components';
-import { ethers } from 'ethers';
+// import { ethers } from 'ethers';
 // import { use } from '@maticnetwork/maticjs';
 // import { Web3ClientPlugin } from '@maticnetwork/maticjs-ethers';
 // install ethers plugin
@@ -25,23 +25,22 @@ import { ethers } from 'ethers';
 const Bounty = () => {
   const theme = useTheme();
   // for some reason I cant hide my alchemy key
-  const provider = new ethers.providers.WebSocketProvider('wss://polygon-mainnet.g.alchemy.com/v2/QvRTaIZE9c0e1g_KlKSukPkBPFSKo4Du');
-  let transfers;
-  const test = 5;  
+  // const provider = new ethers.providers.WebSocketProvider('wss://polygon-mainnet.g.alchemy.com/v2/QvRTaIZE9c0e1g_KlKSukPkBPFSKo4Du');
+  
   // const signer = provider.getSigner();
-  async function trackEvent(){
-    // const WETHAddress = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2';
-    const WETHAddress = '0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619';
+  // async function trackEvent(){
+  //   // const WETHAddress = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2';
+  //   const WETHAddress = '0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619';
 
-    const WETHabi = WETH;
-    const contract = new ethers.Contract(WETHAddress, WETHabi, provider);
-    contract.on('Transfer',(src, dst, wad) => {
-      console.log({wad});
-      transfers += wad;
+  //   const WETHabi = WETH;
+  //   const contract = new ethers.Contract(WETHAddress, WETHabi, provider);
+  //   contract.on('Transfer',(src, dst, wad) => {
+  //     console.log({wad});
+  //     transfers += wad;
       
-    }); 
+  //   }); 
 
-  }
+  // }
   
 
   return (
@@ -81,18 +80,19 @@ const Bounty = () => {
           </Grid>
         </Grid>
       </Container>
+      <Container>
+        <Staking/>
+        {/* <Button onClick={trackEvent}>
+          Test
+        </Button> */}
+          
+      </Container>
 
       <Box sx={{
         // backgroundImage
         // backgroundImage: `linear-gradient(180deg, ${theme.palette.background.paper} 0%, ${theme.palette.alternate.main} 100%)`
       }}>
-        <Container>
-          Bounty Pool Details here:{transfers}{test}
-          <Button onClick={trackEvent}>
-            Test
-          </Button>
-          
-        </Container>
+        
         <Container sx={{backgroundColor: theme.palette.background.paper}} >
           <Typography variant={'h4'} fontWeight={700} marginBottom={4}  >
             Project Overview

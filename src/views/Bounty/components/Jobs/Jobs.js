@@ -39,34 +39,7 @@ export const mock = [
     team: 'Internal tools',
     subtitle: 'Responsible for design systems and brand management.',
   },
-  {
-    title: 'Community Manager',
-    location: 'Paris',
-    type: 'Full time',
-    team: 'Consulting',
-    subtitle: 'Responsible for creating life in our apps.',
-  },
-  {
-    title: 'UX/UI Designer',
-    location: 'Yerevan',
-    type: 'Part time',
-    team: 'Consumer',
-    subtitle: 'Help us make the best decisions with qualitative experiments.',
-  },
-  {
-    title: 'Front-End Developer',
-    location: 'Madrid',
-    type: 'Remote',
-    team: 'Consumer',
-    subtitle: 'Responsible for design systems and brand management.',
-  },
-  {
-    title: 'Community Manager',
-    location: 'Paris',
-    type: 'Full time',
-    team: 'Consulting',
-    subtitle: 'Responsible for creating life in our apps.',
-  },
+
 ];
 
 const Jobs = () => {

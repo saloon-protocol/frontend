@@ -12,11 +12,9 @@ import Search from '../Search';
 
 export const mock = [
   {
-    title: 'Front-End Developer',
-    location: 'Madrid',
-    type: 'Remote',
-    team: 'Consumer',
-    subtitle: 'Responsible for design systems and brand management.',
+    title: 'DeFi',
+    
+    subtitle: 'AMM with lowest fees.',
     value:'$10,000,000'
   },
   {
@@ -25,7 +23,7 @@ export const mock = [
     type: 'Full time',
     team: 'Consulting',
     subtitle: 'Responsible for creating life in our apps.',
-    value:'$10,000,000'
+    value:'$1,000,000'
   },
   {
     title: 'UX/UI Designer',
@@ -33,7 +31,7 @@ export const mock = [
     type: 'Part time',
     team: 'Internal tools',
     subtitle: 'Help us make the best decisions with qualitative experiments.',
-    value:'$10,000,000'
+    value:'$100,000'
   },
   {
     title: 'Front-End Developer',
@@ -133,115 +131,95 @@ const Jobs = () => {
               },
             }}
           >
-            <Box padding={4} display={'flex'} alignItems={'center'}
-              flexDirection={{ xs: 'column', sm: 'row' }}
-            
-            >
-              <Typography marginRight={4} variant={'subtitle1'} fontWeight={700}
-                paddingBottom={{xs:2}}
-              >
-                LOGO
-              </Typography>
-              <Box
-                display={'flex'}
+            <Grid>
+              <Grid item padding={4} display={'flex'} alignItems={'center'}
                 flexDirection={{ xs: 'column', sm: 'row' }}
-                flex={'1 1 100%'}
-                justifyContent={{ sm: 'space-between' }}
-                // alignItems={{ sm: 'center' }}
-                
+                justifyContent="space-between"
+                md={12}
+              
               >
-              
-                <Box marginBottom={{ xs: 1, sm: 0 }}
-                  paddingY={{xs:2}}
-                >
-                  {/* <Typography marginRight={4} variant={'subtitle1'} fontWeight={700}>
+                <Grid item direction="row">
+                  <Typography marginRight={4} variant={'subtitle1'} fontWeight={700}
+                    paddingBottom={{xs:2}}
+                  >
                     LOGO
-                  </Typography> */}
-              
-                  <Typography variant={'h6'} fontWeight={700}
-                    paddingBottom={{xs:1}}
-                  >
-                  
-                    {item.title}
-                  
                   </Typography>
-                
-                  <Typography color={'text.secondary'}>
-                    {item.subtitle}
-                  </Typography>
-                </Box>
-                <Box
-                  display={'flex'}
-                  flexDirection={{ xs: 'column', sm: 'column' }}
-                  // flex={'1 1 100%'}
-                  justifyContent={{ sm: 'space-between' }}
-                  alignItems={{ sm: 'left' }} 
-                  
-                >
-                  <Box>
-                    <Typography variant='caption'>
-                      Rewards up to
-                    </Typography>
-                  </Box>
-                  <Button
-                    href='/bounty'
-                    variant="outlined"
-                    color="secondary"
-                    size="large"
-                    sx={{borderRadius:0}}
-                    endIcon={
-                      <Box
-                        component={'svg'}
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        width={12}
-                        height={12}
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                          clipRule="evenodd"
-                        />
-                      </Box>
-                    }
+                  <Box
+                    display={'flex'}
+                    flexDirection={{ xs: 'column', sm: 'row' }}
+                    flex={'1 1 100%'}
+                    justifyContent={{ sm: 'space-between' }}
+                    // alignItems={{ sm: 'center' }}
+                    
                   >
-                    <Typography variant='h6'>
-                      {item.value}
-                    </Typography>
-                  </Button>
-                  
-                </Box>
-              
-              </Box>
-              <Box marginLeft={2}>
-                {/* <Button
-                  href='/bounty'
-                  variant="outlined"
-                  color="secondary"
-                  size="large"
-                  sx={{borderRadius:0}}
-                  endIcon={
-                    <Box
-                      component={'svg'}
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      width={12}
-                      height={12}
+
+                    <Box marginBottom={{ xs: 1, sm: 0 }}
+                      paddingY={{xs:2}}
                     >
-                      <path
-                        fillRule="evenodd"
-                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                        clipRule="evenodd"
-                      />
+                  
+                      <Typography variant={'h6'} fontWeight={700}
+                        paddingBottom={{xs:1}}
+                      >
+                      
+                        {item.title}
+                      
+                      </Typography>
+                    
+                      <Typography color={'text.secondary'}>
+                        {item.subtitle}
+                      </Typography>
                     </Box>
-                  }
-                >
-                  {item.value}
-                </Button> */}
-              </Box>
-            </Box>
+                  </Box>
+                </Grid>
+                <Grid item>
+                  <Box
+                    display={'flex'}
+                    flexDirection={{ xs: 'column', sm: 'column' }}
+                    // flex={'1 1 100%'}
+                    justifyContent={{ sm: 'space-between' }}
+                    alignItems={{ sm: 'left' }} 
+                    
+                  >
+                    <Box>
+                      <Typography variant='caption'>
+                        Rewards up to
+                      </Typography>
+                    </Box>
+                    <Button
+                      href='/bounty'
+                      variant="outlined"
+                      color="secondary"
+                      size="large"
+                      sx={{borderRadius:0}}
+                      endIcon={
+                        <Box
+                          component={'svg'}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          width={12}
+                          height={12}
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                            clipRule="evenodd"
+                          />
+                        </Box>
+                      }
+                    >
+                      <Typography variant='h6'>
+                        {item.value}
+                      </Typography>
+                    </Button>
+                    
+                  </Box>
+                  <Box>
+                    APY
+                  </Box>
+                </Grid>
+              </Grid>
+            </Grid>
           </Grid>
         ))}
       </Grid>

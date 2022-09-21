@@ -80,8 +80,8 @@ const Bounty = () => {
           </Grid>
         </Grid>
       </Container>
-      <Container>
-        <Staking/>
+      <Container marginTop={-5}>
+        <Staking />
         {/* <Button onClick={trackEvent}>
           Test
         </Button> */}

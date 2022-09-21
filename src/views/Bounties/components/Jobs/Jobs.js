@@ -15,7 +15,8 @@ export const mock = [
     title: 'DeFi',
     
     subtitle: 'AMM with lowest fees.',
-    value:'$10,000,000'
+    value:'$10,000,000',
+    APY: '52%'
   },
   {
     title: 'Community Manager',
@@ -23,7 +24,8 @@ export const mock = [
     type: 'Full time',
     team: 'Consulting',
     subtitle: 'Responsible for creating life in our apps.',
-    value:'$1,000,000'
+    value:'$1,000,000',
+    APY: '35%'
   },
   {
     title: 'UX/UI Designer',
@@ -31,7 +33,8 @@ export const mock = [
     type: 'Part time',
     team: 'Internal tools',
     subtitle: 'Help us make the best decisions with qualitative experiments.',
-    value:'$100,000'
+    value:'$100,000',
+    APY: '12%'
   },
   {
     title: 'Front-End Developer',
@@ -39,7 +42,8 @@ export const mock = [
     type: 'Remote',
     team: 'Internal tools',
     subtitle: 'Responsible for design systems and brand management.',
-    value:'$10,000,000'
+    value:'$10,000,000',
+    APY: '18%'
   },
 ];
 
@@ -130,47 +134,49 @@ const Jobs = () => {
                 borderBottom: 0,
               },
             }}
+            
           >
-            <Grid>
-              <Grid item padding={4} display={'flex'} alignItems={'center'}
+            <Grid 
+              // direction = "row"
+            >
+              <Grid container item padding={4} 
+                display={'flex'} 
+                alignItems={'center'}
                 flexDirection={{ xs: 'column', sm: 'row' }}
+                // direction = "row"
                 justifyContent="space-between"
                 md={12}
+                // spacing={5}
               
               >
-                <Grid item direction="row">
-                  <Typography marginRight={4} variant={'subtitle1'} fontWeight={700}
+                <Grid item >
+                  
+                  <Typography item 
+                    // marginRight={4} 
+                    variant={'subtitle1'} fontWeight={700}
                     paddingBottom={{xs:2}}
                   >
                     LOGO
                   </Typography>
-                  <Box
-                    display={'flex'}
-                    flexDirection={{ xs: 'column', sm: 'row' }}
-                    flex={'1 1 100%'}
-                    justifyContent={{ sm: 'space-between' }}
-                    // alignItems={{ sm: 'center' }}
-                    
-                  >
-
-                    <Box marginBottom={{ xs: 1, sm: 0 }}
-                      paddingY={{xs:2}}
-                    >
-                  
-                      <Typography variant={'h6'} fontWeight={700}
-                        paddingBottom={{xs:1}}
-                      >
-                      
-                        {item.title}
-                      
-                      </Typography>
-                    
-                      <Typography color={'text.secondary'}>
-                        {item.subtitle}
-                      </Typography>
-                    </Box>
-                  </Box>
                 </Grid>
+                <Grid item marginBottom={{ xs: 1, sm: 0 }}
+                  paddingY={{xs:2}}
+                  md={4}
+                >
+              
+                  <Typography variant={'h6'} fontWeight={700}
+                    paddingBottom={{xs:1}}
+                  >
+                  
+                    {item.title}
+                  
+                  </Typography>
+                
+                  <Typography color={'text.secondary'}>
+                    {item.subtitle}
+                  </Typography>
+                </Grid>
+
                 <Grid item>
                   <Box
                     display={'flex'}
@@ -212,12 +218,53 @@ const Jobs = () => {
                         {item.value}
                       </Typography>
                     </Button>
-                    
-                  </Box>
-                  <Box>
-                    APY
                   </Box>
                 </Grid>
+                <Grid item md={2}>
+                  <Box
+                    display={'flex'}
+                    flexDirection={{ xs: 'column', sm: 'column' }}
+                    // flex={'1 1 100%'}
+                    justifyContent={{ sm: 'space-between' }}
+                    alignItems={{ sm: 'left' }} 
+                    
+                  >
+                    <Box>
+                      <Typography variant='caption'>
+                        Bount Pool APY
+                      </Typography>
+                    </Box>
+                    <Button
+                      href='/bounty'
+                      variant="outlined"
+                      color="inherit"
+                      size="medium"
+                      sx={{borderRadius:0}}
+                      endIcon={
+                        <Box
+                          component={'svg'}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          width={12}
+                          height={12}
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                            clipRule="evenodd"
+                          />
+                        </Box>
+                      }
+                    >
+                      <Typography variant='subtitle1'>
+                        {item.APY}
+                      </Typography>
+                    </Button>
+                  </Box>
+
+                </Grid>
+
               </Grid>
             </Grid>
           </Grid>

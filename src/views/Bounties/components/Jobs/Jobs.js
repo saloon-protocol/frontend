@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -10,44 +10,58 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Search from '../Search';
 
-export const mock = [
-  {
-    title: 'DeFi',
-    
-    subtitle: 'AMM with lowest fees.',
-    value:'$10,000,000',
-    APY: '52%'
-  },
-  {
-    title: 'Community Manager',
-    location: 'Paris',
-    type: 'Full time',
-    team: 'Consulting',
-    subtitle: 'Responsible for creating life in our apps.',
-    value:'$1,000,000',
-    APY: '35%'
-  },
-  {
-    title: 'UX/UI Designer',
-    location: 'Yerevan',
-    type: 'Part time',
-    team: 'Internal tools',
-    subtitle: 'Help us make the best decisions with qualitative experiments.',
-    value:'$100,000',
-    APY: '12%'
-  },
-  {
-    title: 'Front-End Developer',
-    location: 'Madrid',
-    type: 'Remote',
-    team: 'Internal tools',
-    subtitle: 'Responsible for design systems and brand management.',
-    value:'$10,000,000',
-    APY: '18%'
-  },
-];
+// export const mock = [
+//   {
+//     title: 'DeFi',
+
+//     subtitle: 'AMM with lowest fees.',
+//     value: '$10,000,000',
+//     APY: '52%'
+//   },
+//   {
+//     title: 'Community Manager',
+//     location: 'Paris',
+//     type: 'Full time',
+//     team: 'Consulting',
+//     subtitle: 'Responsible for creating life in our apps.',
+//     value: '$1,000,000',
+//     APY: '35%'
+//   },
+//   {
+//     title: 'UX/UI Designer',
+//     location: 'Yerevan',
+//     type: 'Part time',
+//     team: 'Internal tools',
+//     subtitle: 'Help us make the best decisions with qualitative experiments.',
+//     value: '$100,000',
+//     APY: '12%'
+//   },
+//   {
+//     title: 'Front-End Developer',
+//     location: 'Madrid',
+//     type: 'Remote',
+//     team: 'Internal tools',
+//     subtitle: 'Responsible for design systems and brand management.',
+//     value: '$10,000,000',
+//     APY: '18%'
+//   },
+// ];
+
+const fetchData = async () => {
+  const res = await fetch('https://0xdjango.pythonanywhere.com/api/v1/all-bounties');
+  const json = await res.json();
+  console.log(json);
+  return json;
+};
 
 const Jobs = () => {
+  const [bounties, setBounties] = useState([]);
+  useEffect(() => {
+    fetchData().then(bounties => {
+      setBounties(bounties);
+    });
+  }, []);
+  // console.log(items2);
   const theme = useTheme();
   return (
     <Box>
@@ -76,7 +90,7 @@ const Jobs = () => {
         <Grid item xs={12} md={2}>
           <FormControl variant="outlined" sx={{ borderRadius: 0, minWidth: 1 }}>
             <InputLabel id="career-listing__jobs-role--label">Filters</InputLabel>
-            <Select sx={{ borderRadius: 0}} labelId="career-listing__jobs-role--label" label="Roles">
+            <Select sx={{ borderRadius: 0 }} labelId="career-listing__jobs-role--label" label="Roles">
               <MenuItem value="">
                 <em>All roles</em>
               </MenuItem>
@@ -90,7 +104,7 @@ const Jobs = () => {
         <Grid item xs={12} md={2}>
           <FormControl variant="outlined" sx={{ minWidth: 1 }}>
             <InputLabel id="career-listing__jobs-role--label">Sort by</InputLabel>
-            <Select sx={{ borderRadius: 0}} labelId="career-listing__jobs-role--label" label="Teams">
+            <Select sx={{ borderRadius: 0 }} labelId="career-listing__jobs-role--label" label="Teams">
               <MenuItem value="" >
                 <em>All teams</em>
               </MenuItem>
@@ -99,12 +113,12 @@ const Jobs = () => {
               <MenuItem value={'internal-tools'}>Internal tools</MenuItem>
             </Select>
           </FormControl>
-          
+
         </Grid>
         <Grid item xs={12} md={8} marginTop={-1}>
-            
-          <Search/>
-            
+
+          <Search />
+
         </Grid>
       </Grid>
       <Box
@@ -123,7 +137,7 @@ const Jobs = () => {
           borderRadius: 2,
         }}
       >
-        {mock.map((item, i) => (
+        {bounties.map((item, i) => (
           <Grid
             item
             xs={12}
@@ -134,44 +148,44 @@ const Jobs = () => {
                 borderBottom: 0,
               },
             }}
-            
+
           >
-            <Grid 
-              // direction = "row"
+            <Grid
+            // direction = "row"
             >
-              <Grid container item padding={4} 
-                display={'flex'} 
+              <Grid container item padding={4}
+                display={'flex'}
                 alignItems={'center'}
                 flexDirection={{ xs: 'column', sm: 'row' }}
                 // direction = "row"
                 justifyContent="space-between"
                 md={12}
                 // spacing={5}
-              
+
               >
                 <Grid item >
-                  
-                  <Typography item 
+
+                  <Typography item
                     // marginRight={4} 
                     variant={'subtitle1'} fontWeight={700}
-                    paddingBottom={{xs:2}}
+                    paddingBottom={{ xs: 2 }}
                   >
                     LOGO
                   </Typography>
                 </Grid>
                 <Grid item marginBottom={{ xs: 1, sm: 0 }}
-                  paddingY={{xs:2}}
+                  paddingY={{ xs: 2 }}
                   md={4}
                 >
-              
+
                   <Typography variant={'h6'} fontWeight={700}
-                    paddingBottom={{xs:1}}
+                    paddingBottom={{ xs: 1 }}
                   >
-                  
+
                     {item.title}
-                  
+
                   </Typography>
-                
+
                   <Typography color={'text.secondary'}>
                     {item.subtitle}
                   </Typography>
@@ -183,8 +197,8 @@ const Jobs = () => {
                     flexDirection={{ xs: 'column', sm: 'column' }}
                     // flex={'1 1 100%'}
                     justifyContent={{ sm: 'space-between' }}
-                    alignItems={{ sm: 'left' }} 
-                    
+                    alignItems={{ sm: 'left' }}
+
                   >
                     <Box>
                       <Typography variant='caption'>
@@ -196,7 +210,7 @@ const Jobs = () => {
                       variant="outlined"
                       color="secondary"
                       size="large"
-                      sx={{borderRadius:0}}
+                      sx={{ borderRadius: 0 }}
                       endIcon={
                         <Box
                           component={'svg'}
@@ -226,12 +240,12 @@ const Jobs = () => {
                     flexDirection={{ xs: 'column', sm: 'column' }}
                     // flex={'1 1 100%'}
                     justifyContent={{ sm: 'space-between' }}
-                    alignItems={{ sm: 'left' }} 
-                    
+                    alignItems={{ sm: 'left' }}
+
                   >
                     <Box>
                       <Typography variant='caption'>
-                        Bount Pool APY
+                        Bounty Pool APY
                       </Typography>
                     </Box>
                     <Button
@@ -239,7 +253,7 @@ const Jobs = () => {
                       variant="outlined"
                       color="inherit"
                       size="medium"
-                      sx={{borderRadius:0}}
+                      sx={{ borderRadius: 0 }}
                       endIcon={
                         <Box
                           component={'svg'}
@@ -258,7 +272,7 @@ const Jobs = () => {
                       }
                     >
                       <Typography variant='subtitle1'>
-                        {item.APY}
+                        {item.apy}
                       </Typography>
                     </Button>
                   </Box>

@@ -24,6 +24,14 @@ module.exports = {
     'react',
   ],
   'rules': {
+    "no-unused-vars": [
+        "error",
+        {
+            "varsIgnorePattern": "^[A-Z]"
+        }
+    ],
+    "react/jsx-uses-react": "error",   
+    "react/jsx-uses-vars": "error",
     'indent': [
       'error',
       2,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 // import VisibilitySensor from 'react-visibility-sensor';
 // import CountUp from 'react-countup';
 import { useTheme } from '@mui/material/styles';
@@ -19,6 +19,14 @@ import {
 // import { Web3ClientPlugin } from '@maticnetwork/maticjs-ethers';
 // install ethers plugin
 // use(Web3ClientPlugin);
+
+
+const fetchData = async () => {
+  const res = await fetch('https://0xdjango.pythonanywhere.com/api/v1/bounty?project=defi%20panda');
+  const json = await res.json();
+  console.log(json);
+  return json;
+};
 
 
 
@@ -42,8 +50,15 @@ const Bounty = () => {
 
   // }
   
+  const [bounty, setBounty] = useState([]);
+  useEffect(() => {
+    fetchData().then(bounty => {
+      setBounty(bounty);
+    });
+  }, []);
 
   return (
+    
     <Main>
 
       <Container>
@@ -54,11 +69,11 @@ const Bounty = () => {
                 LOGO
               </Typography>
               <Typography variant={'h3'} fontWeight={700} marginBottom={4} >
-                Project Name
+                {bounty.title}
               </Typography>
             </Box>
             <Typography color={'text.primary'} >
-              Quick description of what the project is about.
+              {bounty.subtitle}
             </Typography>
           </Grid>
 

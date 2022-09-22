@@ -61,7 +61,6 @@ const Jobs = () => {
       setBounties(bounties);
     });
   }, []);
-  // console.log(items2);
   const theme = useTheme();
   return (
     <Box>

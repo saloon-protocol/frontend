@@ -190,7 +190,7 @@ const Jobs = () => {
                   </Typography>
                 </Grid>
 
-                <Grid item>
+                <Grid item md={2}>
                   <Box
                     display={'flex'}
                     flexDirection={{ xs: 'column', sm: 'column' }}
@@ -209,6 +209,7 @@ const Jobs = () => {
                       variant="outlined"
                       color="secondary"
                       size="large"
+                      fullWidth
                       sx={{ borderRadius: 0 }}
                       endIcon={
                         <Box

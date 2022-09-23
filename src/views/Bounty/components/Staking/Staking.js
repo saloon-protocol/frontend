@@ -9,10 +9,43 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { Button } from '@mui/material';
 
+// import Web3Modal from 'web3modal';
+
+// import {ethers} from 'ethers';
+// import ManagerProxy from '../../../../chain-info/abi/ManagerProxy.json';
+
 
 const Staking = () => {
   const theme = useTheme();
 
+  // const provider = new ethers.providers.Web3Provider(window.ethereum);
+  // const [web3Provider, setWeb3Provider] = useState(null);
+  // async function connectWallet() {
+  //   try {
+  //     let web3Modal = new Web3Modal({
+  //       cacheProvider:false,
+  //       provider,
+  //     });
+  //     const web3ModalInstance = await web3Modal.connect();
+  //     const web3ModalProvider = new ethers.providers.Web3Provider(web3ModalInstance);
+  //     if(web3ModalProvider){
+  //       setWeb3Provider(web3ModalProvider);
+  //     }
+  //   } catch(error){
+  //     console.error(error);
+  //   }
+  // }
+
+  // async function viewBountyValue () {
+  //   const managerAddress = '0x90e4184234fc97f8004E4f4C210CC6F45A11b4d7';
+  //   const managerABI= ManagerProxy;
+    
+  //   const contract = new ethers.Contract(managerAddress, managerABI, provider);
+  //   var bounty = await contract.viewProjectDeposit('YEEHAW');
+  //   console.log('intial number', bounty.toString());
+
+  // }
+  
 
   return (
 
@@ -95,7 +128,9 @@ const Staking = () => {
                     variant="outlined"
                     size="large"
                     sx={{ borderRadius: 0 }}
+                    // maxWidth={10}
                     // onClick={}
+                    
                   >
                     <Typography marginX={4}>
                       STAKE
@@ -110,6 +145,7 @@ const Staking = () => {
                     variant="outlined"
                     size="large"
                     sx={{ borderRadius: 0 }}
+                    fullWidth
                     // onClick={}
                   >
                     <Typography marginX={2}>

@@ -73,18 +73,18 @@ const Work = () => {
             item
             // container
             // xs={6}
-            sm={4}
+            
             spacing={4}
-            direction={{ md: i % 2 === 1 ? 'row-reverse' : 'row', xs: 'column'}}
+            direction={{ sm: i % 2 === 1 ? 'row-reverse' : 'row', xs: 'column'}}
             // justifyContent='space-evenly'
             sx={{
               // backgroundColor: i % 2 === 1 ? theme.palette.alternate.main : 'inherit', 
               margin: 6}}
             display={'flex'}
-            xs={12} md={12}
+            xs={12} sm={12} md={12}
             flex={'1 1 50%'}
             justifyContent={{ sm: 'space-between' }}
-            alignItems={{ sm: 'center' }}
+            alignItems={{ sm: 'center'}}
             // alignItems="center"
             
           >

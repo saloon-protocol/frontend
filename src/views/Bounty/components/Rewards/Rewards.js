@@ -9,36 +9,39 @@ import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 // import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import PropTypes from 'prop-types';
 
 
-
-const Rewards = () => {
+const Rewards = (props) => {
+  const { data } = props;
   const theme = useTheme();
 
   const mock = [
     {
       title: 'High',
-      figure: 1000000,
+      figure: data.amount_critical,
       prefix: 'USD $',
       color: theme.palette.primary.superlight,
       font: 'h5'
     },
     {
       title: 'Medium',
-      figure: 100000,
+      figure: data.amount_medium,
       prefix: 'USD $',
       color: theme.palette.primary.superlightred,
       font: 'h6'
     },
     {
       title: 'Low',
-      figure: 1000,
+      figure: data.amount_low,
       prefix: 'USD $',
       color: theme.palette.background.paper,
       font: 'subtitle1'
     },
   
   ];
+
+ 
 
   const [viewPortEntered, setViewPortEntered] = useState(false);
   const setViewPortVisibility = (isVisible) => {
@@ -125,6 +128,10 @@ const Rewards = () => {
 
     
   );
+};
+
+Rewards.propTypes = {
+  data: PropTypes.object
 };
 
 export default Rewards;

@@ -17,27 +17,49 @@ import {
   Jobs, Rewards,InScope
 } from './components';
 import { ethers } from 'ethers';
+// eslint-disable-next-line
+import { useParams } from 'react-router-dom';
 
 
 
-const fetchData = async () => {
-  const res = await fetch('https://0xdjango.pythonanywhere.com/api/v1/bounty?project=defi%20panda');
-  const json = await res.json();
-  // console.log(json);
-  return json;
-};
+// const title = 'Bettr';
+// const title = 'Slaussie';
+// const title = 'DeFi Panda';
+
+
+
 
 
 // mumbai websocket= wss://polygon-mumbai.g.alchemy.com/v2/MFd0LBZozOhdiLbJPopgwAMbqIxeZSC7
 const Bounty = () => {
   const theme = useTheme();
 
+  const {title} = useParams();
+
+
+  const fetchData = async () => {
+    // eslint-disable-next-line
+    const res = await fetch(`https://0xdjango.pythonanywhere.com/api/v1/bounty?project=${title}`);
+    const json = await res.json();
+    console.log(json);
+  
+    return json;
+  };
+
   const [bounty, setBounty] = useState([]);
   useEffect(() => {
     fetchData().then(bounty => {
       setBounty(bounty);
     });
+    
   }, []);
+  
+  
+  
+
+  
+
+
   
   // const polywss = 'wss://polygon-mainnet.g.alchemy.com/v2/QvRTaIZE9c0e1g_KlKSukPkBPFSKo4Du'
   // for some reason I cant hide my alchemy key
@@ -65,11 +87,12 @@ const Bounty = () => {
     
   }
 
-  const [deposit, setDeposit] = useState(null);
+  const [deposit, setDeposit] = useState();
   useEffect(() => {
     viewDeposit().then(deposit => {
       setDeposit(deposit);
     });
+   
   });
 
   
@@ -92,7 +115,7 @@ const Bounty = () => {
   return (
     
     <Main>
-
+      
       <Container>
         <Grid container spacing={4}>
           <Grid item xs={6} >
@@ -106,6 +129,7 @@ const Bounty = () => {
             </Box>
             <Typography color={'text.primary'} >
               {bounty.description}
+              {/* {JSON.stringify(params)} */}
             </Typography>
           </Grid>
 
@@ -165,7 +189,7 @@ const Bounty = () => {
                     
                   </Typography>
                   <Typography>
-                    Testing {deposit}
+                    Testing We can fecth project deposit: {deposit}
                   </Typography>
                   
                 </Grid>

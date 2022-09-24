@@ -1,14 +1,17 @@
 import React from 'react';
-import { Routes as ReactRoutes, Route, Navigate } from 'react-router-dom';
-import viewsRoutes from 'views/routes';
-import docsRoutes from 'docs/routes';
-import blocksRoutes from 'blocks/routes';
-import demosRoutes from 'demos/routes';
+import { Routes as ReactRoutes, Route } from 'react-router-dom';
+// import viewsRoutes from 'views/routes';
+// import docsRoutes from 'docs/routes';
+// import blocksRoutes from 'blocks/routes';
+// import demosRoutes from 'demos/routes';
+// eslint-disable-next-line
+import { About, SaloonHome, Bounties, Bounty 
+} from 'views';
 
 const Routes = () => {
   return (
     <ReactRoutes>
-      {viewsRoutes.map((item, i) => (
+      {/* {viewsRoutes.map((item, i) => (
         <Route key={i} path={item.path} element={item.renderer()} />
       ))}
       {docsRoutes.map((item, i) => (
@@ -20,9 +23,18 @@ const Routes = () => {
       {demosRoutes.map((item, i) => (
         <Route key={i} path={item.path} element={item.renderer()} />
       ))}
-      {/* Create a route for fonts?? */}
-      {/* <Route path="*" element={<Navigate replace to="/not-found-cover" />} /> */}
-      <Route path="*" element={<Navigate replace to="/" />} />
+      <Route path="*" element={<Navigate replace to="/not-found-cover" />} />
+      <Route path="*" element={<Navigate replace to="/" />} /> */}
+      
+      <Route path="/" element={<SaloonHome/>} />
+      <Route path="/bounties" element={<Bounties/>}>
+        
+      </Route>
+      <Route path="/bounties/:title" element={<Bounty/>} />
+      <Route path="/about" element={<About/>} />
+      <Route path="/bounty" element={<Bounty/>} />
+      
+      
 
     </ReactRoutes>
   );

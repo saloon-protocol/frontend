@@ -9,43 +9,11 @@ import Select from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Search from '../Search';
+// eslint-disable-next-line
+import { useParams } from 'react-router-dom';
 
-// export const mock = [
-//   {
-//     title: 'DeFi',
+// eslint-disable-next-line
 
-//     subtitle: 'AMM with lowest fees.',
-//     value: '$10,000,000',
-//     APY: '52%'
-//   },
-//   {
-//     title: 'Community Manager',
-//     location: 'Paris',
-//     type: 'Full time',
-//     team: 'Consulting',
-//     subtitle: 'Responsible for creating life in our apps.',
-//     value: '$1,000,000',
-//     APY: '35%'
-//   },
-//   {
-//     title: 'UX/UI Designer',
-//     location: 'Yerevan',
-//     type: 'Part time',
-//     team: 'Internal tools',
-//     subtitle: 'Help us make the best decisions with qualitative experiments.',
-//     value: '$100,000',
-//     APY: '12%'
-//   },
-//   {
-//     title: 'Front-End Developer',
-//     location: 'Madrid',
-//     type: 'Remote',
-//     team: 'Internal tools',
-//     subtitle: 'Responsible for design systems and brand management.',
-//     value: '$10,000,000',
-//     APY: '18%'
-//   },
-// ];
 
 const fetchData = async () => {
   const res = await fetch('https://0xdjango.pythonanywhere.com/api/v1/all-bounties');
@@ -60,8 +28,14 @@ const Jobs = () => {
     fetchData().then(bounties => {
       setBounties(bounties);
     });
+    
+    
   }, []);
   const theme = useTheme();
+
+  const params = useParams();
+
+  console.log(params);
   return (
     <Box>
       <Box marginBottom={4}>
@@ -205,7 +179,9 @@ const Jobs = () => {
                       </Typography>
                     </Box>
                     <Button
-                      href='/bounty'
+                      // eslint-disable-next-line
+                      href={`/bounties/${item.title}`}
+                      // href="/bounty"
                       variant="outlined"
                       color="secondary"
                       size="large"
@@ -249,7 +225,7 @@ const Jobs = () => {
                       </Typography>
                     </Box>
                     <Button
-                      href='/bounty'
+                      href={`/bounties/${item.title}`}
                       variant="outlined"
                       color="inherit"
                       size="medium"

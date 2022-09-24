@@ -52,6 +52,37 @@ const Rewards = (props) => {
     setViewPortEntered(isVisible);
   };
 
+  // const mumbaiwss = 'wss://polygon-mumbai.g.alchemy.com/v2/MFd0LBZozOhdiLbJPopgwAMbqIxeZSC7';
+  // const provider = new ethers.providers.WebSocketProvider(mumbaiwss);
+
+  // async function viewDeposit(){
+
+  //   const managerAddress = '0x90e4184234fc97f8004E4f4C210CC6F45A11b4d7';
+  //   const managerAbi = MANAGER;
+  //   const contract = new ethers.Contract(managerAddress, managerAbi, provider);
+  //   const bountyname = 'YEEHAW';
+  //   // try {
+  //   //   const weiDeposit = await contract.viewProjectDeposit(bountyname);
+  //   //   console.log(deposit);
+  //   // } catch(error) {
+  //   //   console.log(error);
+  //   // }
+  //   const weiDeposit = await contract.viewProjectDeposit(bountyname);
+
+  //   const deposit = ethers.utils.formatEther(weiDeposit);
+  //   console.log(deposit);
+
+  //   return deposit;
+    
+  // }
+
+  // const [deposit, setDeposit] = useState(null);
+  // useEffect(() => {
+  //   viewDeposit().then(deposit => {
+  //     setDeposit(deposit);
+  //   });
+  // });
+
   return (
 
     <Box>

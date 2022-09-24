@@ -16,13 +16,10 @@ import {
 
 const routes = [
   {
-    path: '/bounty',
+    path: '/bounty/:title',
     renderer: (params = {}) => <BountyView {...params} />,
   },
-  // {
-  //   path: '/abouty',
-  //   renderer: (params = {}) => <About {...params} />,
-  // },
+
   {
     path: '/bounties',
     renderer: (params = {}) => <BountiesView {...params} />,

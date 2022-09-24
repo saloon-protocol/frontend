@@ -10,15 +10,14 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 // import WETH from '../../chain-info/WETH.json';
+import MANAGER from '../../chain-info/Manager.json';
+
 import {
 // eslint-disable-next-line
   Jobs, Rewards,InScope,Staking
 } from './components';
-// import { ethers } from 'ethers';
-// import { use } from '@maticnetwork/maticjs';
-// import { Web3ClientPlugin } from '@maticnetwork/maticjs-ethers';
-// install ethers plugin
-// use(Web3ClientPlugin);
+import { ethers } from 'ethers';
+
 
 
 const fetchData = async () => {
@@ -29,33 +28,66 @@ const fetchData = async () => {
 };
 
 
-
+// mumbai websocket= wss://polygon-mumbai.g.alchemy.com/v2/MFd0LBZozOhdiLbJPopgwAMbqIxeZSC7
 const Bounty = () => {
   const theme = useTheme();
-  // for some reason I cant hide my alchemy key
-  // const provider = new ethers.providers.WebSocketProvider('wss://polygon-mainnet.g.alchemy.com/v2/QvRTaIZE9c0e1g_KlKSukPkBPFSKo4Du');
-  
-  // const signer = provider.getSigner();
-  // async function trackEvent(){
-  //   // const WETHAddress = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2';
-  //   const WETHAddress = '0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619';
 
-  //   const WETHabi = WETH;
-  //   const contract = new ethers.Contract(WETHAddress, WETHabi, provider);
-  //   contract.on('Transfer',(src, dst, wad) => {
-  //     console.log({wad});
-  //     transfers += wad;
-      
-  //   }); 
-
-  // }
-  
   const [bounty, setBounty] = useState([]);
   useEffect(() => {
     fetchData().then(bounty => {
       setBounty(bounty);
     });
   }, []);
+  
+  // const polywss = 'wss://polygon-mainnet.g.alchemy.com/v2/QvRTaIZE9c0e1g_KlKSukPkBPFSKo4Du'
+  // for some reason I cant hide my alchemy key
+  const mumbaiwss = 'wss://polygon-mumbai.g.alchemy.com/v2/MFd0LBZozOhdiLbJPopgwAMbqIxeZSC7';
+  const provider = new ethers.providers.WebSocketProvider(mumbaiwss);
+
+  async function viewDeposit(){
+
+    const managerAddress = '0x90e4184234fc97f8004E4f4C210CC6F45A11b4d7';
+    const managerAbi = MANAGER;
+    const contract = new ethers.Contract(managerAddress, managerAbi, provider);
+    const bountyname = 'YEEHAW';
+    // try {
+    //   const weiDeposit = await contract.viewProjectDeposit(bountyname);
+    //   console.log(deposit);
+    // } catch(error) {
+    //   console.log(error);
+    // }
+    const weiDeposit = await contract.viewProjectDeposit(bountyname);
+
+    const deposit = ethers.utils.formatEther(weiDeposit);
+    console.log(deposit);
+
+    return deposit;
+    
+  }
+
+  const [deposit, setDeposit] = useState(null);
+  useEffect(() => {
+    viewDeposit().then(deposit => {
+      setDeposit(deposit);
+    });
+  });
+
+  
+  
+  // const signer = provider.getSigner();
+  // async function trackEvent(){
+  //   // const WETHAddress = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'; // ethereum
+  //   const WETHAddress = '0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619'; //polygon
+
+  //   const WETHabi = WETH;
+  //   const contract = new ethers.Contract(WETHAddress, WETHabi, provider);
+  //   contract.on('Transfer',(src, dst, wad) => {
+  //     console.log({wad});
+  //     // transfers += wad;
+      
+  //   }); 
+
+  // }
 
   return (
     
@@ -97,9 +129,9 @@ const Bounty = () => {
       </Container>
       <Container marginTop={-5}>
         <Staking />
-        {/* <Button onClick={trackEvent}>
-          Test
-        </Button> */}
+        <Button onClick={viewDeposit}>
+          Test {deposit}
+        </Button>
           
       </Container>
 

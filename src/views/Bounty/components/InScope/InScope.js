@@ -7,10 +7,12 @@ import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 // import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import PropTypes from 'prop-types';
 
 
-
-const InScope = () => {
+const InScope = (props) => {
+  const { data } = props;
+  console.log(data.assets);
   const theme = useTheme();
 
   const mock = [
@@ -35,7 +37,7 @@ const InScope = () => {
 
     <Box>
       <Typography variant={'h4'} fontWeight={700} marginBottom={4}  >
-        Assets in Scope
+        {/* {data.assets.map((home,i) => <div>{home.title},{i}</div>)} */}
       </Typography>
       <Grid
         container
@@ -66,13 +68,13 @@ const InScope = () => {
                     fontWeight={700}
                     sx={{textTransform:'uppercase'}}
                   >
-                    <Link underline='hover' href={item.link} color={'text.primary'}>
-                      {item.title}
+                    <Link underline='hover' href={item.address} color={'text.primary'}>
+                      {item.address}
                     </Link>
                   </Typography>
                   <Typography variant= 'body1' gutterBottom color={'text.primary'} 
                     fontWeight={500}>
-                    {item.prefix}{item.loc}
+                    {item.title}
                   </Typography>
                 </Grid>
                 <Grid item>
@@ -91,6 +93,10 @@ const InScope = () => {
 
     
   );
+};
+
+InScope.propTypes = {
+  data: PropTypes.object
 };
 
 export default InScope;

@@ -186,7 +186,7 @@ const Jobs = () => {
                   </Typography>
 
                   <Typography color={'text.secondary'}>
-                    {item.subtitle}
+                    {item.description.substring(0,75).trim()}...
                   </Typography>
                 </Grid>
 

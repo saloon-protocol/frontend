@@ -123,7 +123,9 @@ const Bounty = () => {
               <Typography variant={'h5'} fontWeight={700} marginRight={1} >
                 LOGO
               </Typography>
-              <Typography variant={'h3'} fontWeight={700} marginBottom={4} >
+              <Typography variant={'h3'} 
+                fontFamily={'Roboto Slab'}
+                fontWeight={700} marginBottom={4} >
                 {bounty.title}
               </Typography>
             </Box>

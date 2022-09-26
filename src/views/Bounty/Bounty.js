@@ -16,7 +16,7 @@ import {
 // eslint-disable-next-line
   Jobs, Rewards,InScope
 } from './components';
-import { ethers } from 'ethers';
+// import { ethers } from 'ethers';
 // eslint-disable-next-line
 import { useParams } from 'react-router-dom';
 
@@ -42,45 +42,51 @@ const Bounty = () => {
     });
     
   }, []);
+
+  var formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits: 0,
+  });
   
-  // const polywss = 'wss://polygon-mainnet.g.alchemy.com/v2/QvRTaIZE9c0e1g_KlKSukPkBPFSKo4Du'
-  // for some reason I cant hide my alchemy key
-  const mumbaiwss = 'wss://polygon-mumbai.g.alchemy.com/v2/MFd0LBZozOhdiLbJPopgwAMbqIxeZSC7';
-  const provider = new ethers.providers.WebSocketProvider(mumbaiwss);
+  // // const polywss = 'wss://polygon-mainnet.g.alchemy.com/v2/QvRTaIZE9c0e1g_KlKSukPkBPFSKo4Du'
+  // // for some reason I cant hide my alchemy key
+  // const mumbaiwss = 'wss://polygon-mumbai.g.alchemy.com/v2/MFd0LBZozOhdiLbJPopgwAMbqIxeZSC7';
+  // const provider = new ethers.providers.WebSocketProvider(mumbaiwss);
 
-  async function viewBounty(){
+  // async function viewBounty(){
 
-    // const managerAddress = '0x90e4184234fc97f8004E4f4C210CC6F45A11b4d7';
-    const managerAddress = '0x46EA853931aB3B232A6786d37b936488e862fd52';
+  //   // const managerAddress = '0x90e4184234fc97f8004E4f4C210CC6F45A11b4d7';
+  //   const managerAddress = '0x46EA853931aB3B232A6786d37b936488e862fd52';
 
-    const managerAbi = MANAGER;
-    const contract = new ethers.Contract(managerAddress, managerAbi, provider);
-    const bountyname = 'YEEHAW';
-    // const bountyName = bounty.title;
+  //   const managerAbi = MANAGER;
+  //   const contract = new ethers.Contract(managerAddress, managerAbi, provider);
+  //   const bountyname = 'YEEHAW';
+  //   // const bountyName = bounty.title;
 
-    // const weiDeposit = await contract.viewProjectDeposit(bountyname);
-    const values = await contract.viewBountyInfo(bountyname);
+  //   // const weiDeposit = await contract.viewProjectDeposit(bountyname);
+  //   const values = await contract.viewBountyInfo(bountyname);
 
-    // const deposit = ethers.utils.formatEther(weiDeposit);
-    var dict = {};
-    dict['payout'] = ethers.utils.formatEther(values[0]);
-    dict['apy'] = ethers.utils.formatEther(values[1]);
-    dict['staked'] = ethers.utils.formatEther(values[2]);
-    dict['poolCap'] = ethers.utils.formatEther(values[3]);
+  //   // const deposit = ethers.utils.formatEther(weiDeposit);
+  //   var dict = {};
+  //   dict['payout'] = ethers.utils.formatEther(values[0]);
+  //   dict['apy'] = ethers.utils.formatEther(values[1]);
+  //   dict['staked'] = ethers.utils.formatEther(values[2]);
+  //   dict['poolCap'] = ethers.utils.formatEther(values[3]);
     
-    console.log(dict);
+  //   console.log(dict);
 
-    return dict;
+  //   return dict;
 
-  }
+  // }
 
-  const [info, setInfo] = useState([]);
-  useEffect(() => {
-    viewBounty().then(info => {
-      setInfo(info);
-    });
+  // const [info, setInfo] = useState([]);
+  // useEffect(() => {
+  //   viewBounty().then(info => {
+  //     setInfo(info);
+  //   });
    
-  },[]);
+  // },[]);
 
   
   
@@ -123,8 +129,9 @@ const Bounty = () => {
       
           <Grid item xs={6}>
             <Rewards 
-              // data={bounty} 
-              chain_data={info}/>
+              data={bounty} 
+              // chain_data={info}
+            />
             {/* insert SUBMIT BUTTON HERE */}
             <Box paddingTop={1}>
               <Button fullWidth color='secondary'
@@ -174,8 +181,8 @@ const Bounty = () => {
                     fontWeight={700}
                     sx={{textTransform:'uppercase'}}
                   >
-                    {info.apy}% APY
-                    
+                    {/* {info.apy}% APY */}
+                    {bounty.pool_apy}% APY
                   </Typography>
                   
                 </Grid>
@@ -190,7 +197,8 @@ const Bounty = () => {
                     <Typography color={'text.primary'} variant='h5'
                       fontWeight={700}
                     >
-                      ${info.staked} / 
+                      {/* ${info.staked} /  */}
+                      {formatter.format(bounty.pool_total / 10**18 * 2500000)} /
                       {/* $60,000 /  */}
                     </Typography>
                   </Grid>
@@ -201,7 +209,8 @@ const Bounty = () => {
                     <Typography color={'text.primary'} variant='h5' 
                       fontWeight={700}
                     >
-                      ${info.poolCap}
+                      {/* ${info.poolCap} */}
+                      $100,000
                       {/* $100,000 */}
                     </Typography>
 

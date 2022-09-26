@@ -56,6 +56,12 @@ const Jobs = () => {
   }, []);
   const theme = useTheme();
 
+  var formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits: 0,
+  });
+
   // for some reason I cant hide my alchemy key
   const mumbaiwss = 'wss://polygon-mumbai.g.alchemy.com/v2/MFd0LBZozOhdiLbJPopgwAMbqIxeZSC7';
   const provider = new ethers.providers.WebSocketProvider(mumbaiwss);
@@ -275,7 +281,7 @@ const Jobs = () => {
                     >
                       <Typography variant='h6'>
                         {/* {viewBounty(item.title)} */}
-                        {item.value}
+                        {formatter.format(item.pool_total / 10**18 * 2500000)}
                       </Typography>
                     </Button>
                   </Box>
@@ -318,7 +324,7 @@ const Jobs = () => {
                       }
                     >
                       <Typography variant='subtitle1'>
-                        {item.apy}
+                        {item.pool_apy}%
                       </Typography>
                     </Button>
                   </Box>

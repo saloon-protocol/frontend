@@ -20,17 +20,6 @@ import { ethers } from 'ethers';
 // eslint-disable-next-line
 import { useParams } from 'react-router-dom';
 
-
-
-// const title = 'Bettr';
-// const title = 'Slaussie';
-// const title = 'DeFi Panda';
-
-
-
-
-
-// mumbai websocket= wss://polygon-mumbai.g.alchemy.com/v2/MFd0LBZozOhdiLbJPopgwAMbqIxeZSC7
 const Bounty = () => {
   const theme = useTheme();
 
@@ -54,46 +43,44 @@ const Bounty = () => {
     
   }, []);
   
-  
-  
-
-  
-
-
-  
   // const polywss = 'wss://polygon-mainnet.g.alchemy.com/v2/QvRTaIZE9c0e1g_KlKSukPkBPFSKo4Du'
   // for some reason I cant hide my alchemy key
   const mumbaiwss = 'wss://polygon-mumbai.g.alchemy.com/v2/MFd0LBZozOhdiLbJPopgwAMbqIxeZSC7';
   const provider = new ethers.providers.WebSocketProvider(mumbaiwss);
 
-  async function viewDeposit(){
+  async function viewBounty(){
 
-    const managerAddress = '0x90e4184234fc97f8004E4f4C210CC6F45A11b4d7';
+    // const managerAddress = '0x90e4184234fc97f8004E4f4C210CC6F45A11b4d7';
+    const managerAddress = '0x46EA853931aB3B232A6786d37b936488e862fd52';
+
     const managerAbi = MANAGER;
     const contract = new ethers.Contract(managerAddress, managerAbi, provider);
     const bountyname = 'YEEHAW';
-    // try {
-    //   const weiDeposit = await contract.viewProjectDeposit(bountyname);
-    //   console.log(deposit);
-    // } catch(error) {
-    //   console.log(error);
-    // }
-    const weiDeposit = await contract.viewProjectDeposit(bountyname);
+    // const bountyName = bounty.title;
 
-    const deposit = ethers.utils.formatEther(weiDeposit);
-    console.log(deposit);
+    // const weiDeposit = await contract.viewProjectDeposit(bountyname);
+    const values = await contract.viewBountyInfo(bountyname);
 
-    return deposit;
+    // const deposit = ethers.utils.formatEther(weiDeposit);
+    var dict = {};
+    dict['payout'] = ethers.utils.formatEther(values[0]);
+    dict['apy'] = ethers.utils.formatEther(values[1]);
+    dict['staked'] = ethers.utils.formatEther(values[2]);
+    dict['poolCap'] = ethers.utils.formatEther(values[3]);
     
+    console.log(dict);
+
+    return dict;
+
   }
 
-  const [deposit, setDeposit] = useState();
+  const [info, setInfo] = useState([]);
   useEffect(() => {
-    viewDeposit().then(deposit => {
-      setDeposit(deposit);
+    viewBounty().then(info => {
+      setInfo(info);
     });
    
-  });
+  },[]);
 
   
   
@@ -105,9 +92,7 @@ const Bounty = () => {
   //   const WETHabi = WETH;
   //   const contract = new ethers.Contract(WETHAddress, WETHabi, provider);
   //   contract.on('Transfer',(src, dst, wad) => {
-  //     console.log({wad});
-  //     // transfers += wad;
-      
+  //     console.log({wad});      
   //   }); 
 
   // }
@@ -137,7 +122,9 @@ const Bounty = () => {
 
       
           <Grid item xs={6}>
-            <Rewards data={bounty}/>
+            <Rewards 
+              // data={bounty} 
+              chain_data={info}/>
             {/* insert SUBMIT BUTTON HERE */}
             <Box paddingTop={1}>
               <Button fullWidth color='secondary'
@@ -187,11 +174,8 @@ const Bounty = () => {
                     fontWeight={700}
                     sx={{textTransform:'uppercase'}}
                   >
-                    {bounty.apy} APY
+                    {info.apy}% APY
                     
-                  </Typography>
-                  <Typography>
-                    Testing We can fecth project deposit: {deposit}
                   </Typography>
                   
                 </Grid>
@@ -206,7 +190,8 @@ const Bounty = () => {
                     <Typography color={'text.primary'} variant='h5'
                       fontWeight={700}
                     >
-                      $10,000 / 
+                      ${info.staked} / 
+                      {/* $60,000 /  */}
                     </Typography>
                   </Grid>
                   <Grid item marginLeft={1}>
@@ -216,7 +201,8 @@ const Bounty = () => {
                     <Typography color={'text.primary'} variant='h5' 
                       fontWeight={700}
                     >
-                      $100,000
+                      ${info.poolCap}
+                      {/* $100,000 */}
                     </Typography>
 
                   </Grid>

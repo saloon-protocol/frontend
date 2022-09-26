@@ -13,27 +13,30 @@ import PropTypes from 'prop-types';
 
 
 const Rewards = (props) => {
-  const { data } = props;
+  // const { data } = props;
+  const { chain_data } = props;
   const theme = useTheme();
 
   const mock = [
     {
       title: 'High',
-      figure: data.amount_critical,
+      // figure: data.amount_critical,
+      figure: chain_data.payout,
+      // figure: 1000000,
       prefix: 'USD $',
       color: theme.palette.primary.superlight,
       font: 'h5'
     },
     {
       title: 'Medium',
-      figure: data.amount_medium,
+      figure: chain_data.payout * 0.2,
       prefix: 'USD $',
       color: theme.palette.primary.superlightred,
       font: 'h6'
     },
     {
       title: 'Low',
-      figure: data.amount_low,
+      figure: chain_data.payout * 0.05,
       prefix: 'USD $',
       color: theme.palette.background.paper,
       font: 'subtitle1'
@@ -44,6 +47,7 @@ const Rewards = (props) => {
  
 
   const [viewPortEntered, setViewPortEntered] = useState(false);
+  // eslint-disable-next-line
   const setViewPortVisibility = (isVisible) => {
     if (viewPortEntered) {
       return;
@@ -146,6 +150,7 @@ const Rewards = (props) => {
                         end={viewPortEntered ? item.figure : 0}
                         start={0}
                         prefix= {item.prefix}
+                        // decimals = {3}
                       />
                     </VisibilitySensor>
                   </Box>
@@ -162,7 +167,8 @@ const Rewards = (props) => {
 };
 
 Rewards.propTypes = {
-  data: PropTypes.object
+  // data: PropTypes.object
+  chain_data: PropTypes.object
 };
 
 export default Rewards;

@@ -9,6 +9,9 @@ import Select from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Search from '../Search';
+import MANAGER from '../../../../chain-info/Manager.json';
+import { ethers } from 'ethers';
+
 // eslint-disable-next-line
 import { useParams } from 'react-router-dom';
 
@@ -24,18 +27,84 @@ const fetchData = async () => {
 
 const Jobs = () => {
   const [bounties, setBounties] = useState([]);
+  // useEffect(() => {
+  //   fetchData().then(bounties => {
+  //     setBounties(bounties);
+  //     console.log(bounties);
+
+  //     // go through dictionary and add payout and APY data keys to each bounty
+  //     const len = Object.keys(bounties).length;
+  //     for(var i = 0; i < len; i++){
+  //       // const payout = viewBounty(bounties[i]['title']);
+  //       const result = [viewBounty('YEEHAW')];
+  //       bounties[i]['payout'] = result[0];
+  //       // bounties[i]['apy'] = result[1];
+  //     }
+  //     // bounties[0]['payout'] = len;
+  //     console.log(bounties);
+  //   });
+    
+    
+  // }, []);
   useEffect(() => {
     fetchData().then(bounties => {
       setBounties(bounties);
+      console.log(bounties);
     });
     
     
   }, []);
   const theme = useTheme();
 
-  const params = useParams();
+  // for some reason I cant hide my alchemy key
+  const mumbaiwss = 'wss://polygon-mumbai.g.alchemy.com/v2/MFd0LBZozOhdiLbJPopgwAMbqIxeZSC7';
+  const provider = new ethers.providers.WebSocketProvider(mumbaiwss);
+  // eslint-disable-next-line
+  async function viewPayout(bountyTitle){
 
-  console.log(params);
+    // const managerAddress = '0x90e4184234fc97f8004E4f4C210CC6F45A11b4d7';
+    const managerAddress = '0x46EA853931aB3B232A6786d37b936488e862fd52';
+
+    const managerAbi = MANAGER;
+    const contract = new ethers.Contract(managerAddress, managerAbi, provider);
+    // const bountyname = 'YEEHAW';
+    const bountyName = bountyTitle;
+    // const weiDeposit = await contract.viewProjectDeposit(bountyname);
+    const weiPayout = await contract.viewBountyPayout(bountyName);
+
+    // const deposit = ethers.utils.formatEther(weiDeposit);
+
+    // var dict = {};
+    const payout = ethers.utils.formatEther(weiPayout);
+    // const apy = ethers.utils.formatEther(values[1]);
+
+    // dict['payout'] = ethers.utils.formatEther(values[0]);
+    // dict['apy'] = ethers.utils.formatEther(values[1]);
+    // bounties['payout'] = payout;
+    
+    // console.log(dict);
+
+    return payout;
+
+  }
+
+  // const [info, setInfo] = useState();
+  // useEffect(() => {
+  //   viewPayout().then(info => {
+  //     setInfo(info);
+  //   });
+  //   // go through dictionary and add payout and APY data keys to each bounty
+  //   const len = Object.keys(bounties).length;
+  //   for(var i = 0; i < len; i++){
+  //     // const payout = viewBounty(bounties[i]['title']);
+  //     const result = [viewPayout('YEEHAW')];
+  //     bounties[i]['payout'] = result;
+  //     // bounties[i]['apy'] = result[1];
+  //   }
+  //   console.log(bounties);
+    
+  // });
+
   return (
     <Box>
       <Box marginBottom={4}>
@@ -48,7 +117,7 @@ const Jobs = () => {
         >go hunt
         </Typography>
         <Typography fontWeight={700} variant={'h4'} align={'center'}>
-          Bounties
+          Bounties  
         </Typography>
       </Box>
       <Grid
@@ -205,6 +274,7 @@ const Jobs = () => {
                       }
                     >
                       <Typography variant='h6'>
+                        {/* {viewBounty(item.title)} */}
                         {item.value}
                       </Typography>
                     </Button>

@@ -11,7 +11,8 @@ import Web3Modal from 'web3modal';
 import '@ethersproject/shims';
 import {ethers} from 'ethers';
 // import WalletConnectProvider from '@walletconnect/web3-provider';
-import { useState } from 'react';
+// eslint-disable-next-line
+import { useState, useEffect } from 'react';
 // NavItem has popover function instead of SimpleNavItem
 
 const Topbar = ({ onSidebarOpen, pages, colorInvert = false }) => {
@@ -53,11 +54,19 @@ const Topbar = ({ onSidebarOpen, pages, colorInvert = false }) => {
       const web3ModalProvider = new ethers.providers.Web3Provider(web3ModalInstance);
       if(web3ModalProvider){
         setWeb3Provider(web3ModalProvider);
+        return web3ModalProvider;
       }
     } catch(error){
       console.error(error);
     }
+    
   }
+
+  // useEffect(() => {
+  //   connectWallet().then(connected => {
+  //     setWeb3Provider(connected);
+  //   });
+  // });
 
   const {
     // eslint-disable-next-line

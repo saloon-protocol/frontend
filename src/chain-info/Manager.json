@@ -468,6 +468,20 @@
     "inputs": [
       { "internalType": "string", "name": "_projectName", "type": "string" }
     ],
+    "name": "viewBountyInfo",
+    "outputs": [
+      { "internalType": "uint256", "name": "payout", "type": "uint256" },
+      { "internalType": "uint256", "name": "apy", "type": "uint256" },
+      { "internalType": "uint256", "name": "staked", "type": "uint256" },
+      { "internalType": "uint256", "name": "poolCap", "type": "uint256" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "string", "name": "_projectName", "type": "string" }
+    ],
     "name": "viewBountyOwner",
     "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
@@ -484,10 +498,28 @@
   },
   {
     "inputs": [
+      { "internalType": "string", "name": "_projectName", "type": "string" }
+    ],
+    "name": "viewDesiredAPY",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
       { "internalType": "address", "name": "_token", "type": "address" },
       { "internalType": "address", "name": "_hunter", "type": "address" }
     ],
     "name": "viewHunterTotalTokenPayouts",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "string", "name": "_projectName", "type": "string" }
+    ],
+    "name": "viewPoolCap",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"

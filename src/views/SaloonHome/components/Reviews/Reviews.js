@@ -7,7 +7,7 @@ import Card from '@mui/material/Card';
 // import { CardActionArea } from '@mui/material';
 import Button from '@mui/material/Button';
 // import { CardMedia } from '@mui/material';
-import cowboy from '../../../../images/cowboy.jpg';
+// import cowboy from '../../../../images/cowboy.jpg';
 import { CardContent } from '@mui/material';
 const mock = [
   {
@@ -15,7 +15,7 @@ const mock = [
     subtitle:
       'Leverage your auditors skills like never before.\nFind bugs. Get Paid. Didn`t find anything? Get Returns.',
     button: 'Sign up for Launch Updates',
-    image: cowboy,
+    // image: cowboy,
     link: 'https://mailchi.mp/47ae7c35bae0/saloon-finance-pre-launch'
   },
   {
@@ -32,137 +32,118 @@ const Reviews = () => {
 
   return (
     <Box>
-      <Grid container spacing={2}>
+      <Grid container 
+      // spacing={2} 
+        alignItems={'center'} 
+        justifyContents={'space-between'} 
+        // sx={{
+
+        //   '&:hover': {
+        //     transform: `translateY(-${theme.spacing(1 / 2)})`,
+        //     boxShadow: '0 6px 20px 0 rgba(0,0,0,0.38)',
+        //   },
+        //   // backgroundColor: theme.palette.wildwest.darkbrown,
+
+        // }}
+      >
         {mock.map((item, i) => (
-          <Grid item xs={12} md={6} key={i}>
-            <Box
-              display='flex'
-              // component={'a'}
-              href={''}
-              // display={'block'}
-              width={1}
-              height={1}
-              sx={{
+          <Grid item xs={12} md={6} key={i}
+            padding={2}
+            sx={{
 
-                textDecoration: 'none',
-                '&:hover': {
-                  transform: `translateY(-${theme.spacing(1 / 2)})`,
-                  boxShadow: '0 6px 20px 0 rgba(0,0,0,0.38)',
-                },
+              '&:hover': {
+                transform: `translateY(-${theme.spacing(1 / 2)})`,
+                boxShadow: '0 6px 20px 0 rgba(0,0,0,0.38)',
+              },
 
-
-                // transition: 'all .2s ease-in-out',
-                // '&:hover': {
-                //   transform: `translateY(-${theme.spacing(1 / 2)})`,
-                // },
-              }}
+            }}
+          
+          >
+            <Grid md={12} 
+              // justifyContents={''} 
+              display={'grid'}
+              gridTemplateRows={'repeat(3, 3fr)'}
+              // gridAutoColumns={'1fr'}
+              // gridAutoFlow= {'row'}
+              
+              // alignItems={'center'} 
+              // direction={'cloumn'}
             >
-              <Card
-                // component={Card}
-                width={1}
-                height={1}
-                data-aos={'fade-up'}
-                data-aos-delay={i * 100}
-                data-aos-offset={100}
-                data-aos-duration={600}
-                flexDirection={'column'}
-                display={'flex'}
-                sx={{
-                  borderRadius: 0,
-                  backgroundImage: cowboy,
-                  boxShadow: 0,
+              <Grid item >
+                <Typography
+                  variant={'h4'}
+                  gutterBottom
+                  align={'center'}
+                  // color={theme.palette.wildwest.wine}
+                  color={theme.palette.wildwest.grey}
+                  sx={{ fontWeight: 600 }}
 
-                }}
-
-
-              >
-
-
-                <CardContent
-
-                  sx={{
-                    borderRadius: 0,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'flex-start',
-                    backgroundColor: theme.palette.wildwest.darkbrown,
-
-                    // backgroundImage: `linear-gradient(0deg, ${theme.palette.wildwest.wine} 1%, ${theme.palette.wildwest.darkbrown} 100%)`,
-                    // boxShadow: 0
-
-                  }}
                 >
-                  <Typography
-                    variant={'h4'}
-                    gutterBottom
-                    alignItems={'center'}
-                    color={theme.palette.wildwest.wine}
-                    sx={{ fontWeight: 600 }}
+                  {item.title}
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Typography 
+                  // marginBottom={2}
+                  // color={theme.palette.wildwest.wine}
+                  color={theme.palette.wildwest.grey}
+                  align='center'
+                >
+                  {item.subtitle}
+                </Typography>
+              </Grid>
+              {/* <Box
+                component='img'
+                src={cowboy}
+                maxHeight={{ xs: 300, sm: 400, md: 520 }}
+                sx={{
+                  objectFit: 'cover',
+                  filter: 'brightness(0.6)',
+                }}>
 
-                  >
-                    {item.title}
-                  </Typography>
+              </Box> */}
+              <Grid item>
 
-
-
-
-                  <Typography marginBottom={2}
-                    color={theme.palette.wildwest.wine}
-                  >
-                    {item.subtitle}
-                  </Typography>
-
-                  {/* <Box
-                    component='img'
-                    src={cowboy}
-                    maxHeight={{ xs: 300, sm: 400, md: 520 }}
-                    sx={{
-                      objectFit: 'cover',
-                      filter: 'brightness(0.6)',
-                    }}>
-
-                  </Box> */}
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    size="large"
-                    sx={{ borderRadius: 0, borderColor: 'white', borderWidth: 2 }}
-
-                    href={item.link}
-                    fullWidth
-                    endIcon={
-                      <svg
-                        width={16}
-                        height={16}
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        color='white'
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  sx={{ borderRadius: 0, borderColor: 'white', borderWidth: 2 }}
+                  href={item.link}
+                  fullWidth
+                  endIcon={
+                    <svg
+                      width={16}
+                      height={16}
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      color='white'
 
 
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M17 8l4 4m0 0l-4 4m4-4H3"
-                        />
-                      </svg>
-                    }
-                  >
-                    <Typography paddingY={2}
-                      fontWeight={900}
-
-                      color={theme.palette.wildwest.grey}
-                      sx={{ textTransform: 'uppercase' }}
                     >
-                      {item.button}
-                    </Typography>
-                  </Button>
-                </CardContent>
-              </Card>
-            </Box>
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M17 8l4 4m0 0l-4 4m4-4H3"
+                      />
+                    </svg>
+                  }
+                >
+                  <Typography paddingY={2}
+                    fontWeight={900}
+
+                    color={theme.palette.wildwest.grey}
+                    sx={{ textTransform: 'uppercase' }}
+                  >
+                    {item.button}
+                  </Typography>
+                </Button>
+              </Grid>
+            </Grid>
+            {/* </Box> */}
           </Grid>
         ))}
       </Grid>

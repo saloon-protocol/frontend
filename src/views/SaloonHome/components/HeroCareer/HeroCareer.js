@@ -46,6 +46,7 @@ const HeroCareer = () => {
               variant="h1"
               gutterBottom
               align={'center'}
+              color={'white'}
               sx={{ 
                 // text-shadow: `#FC0 1px 0 10px`,
             

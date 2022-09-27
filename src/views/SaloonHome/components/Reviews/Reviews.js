@@ -72,7 +72,7 @@ const Reviews = () => {
               <Grid item >
                 <Typography
                   variant={'h4'}
-                  gutterBottom
+                  // gutterBottom
                   align={'center'}
                   // color={theme.palette.wildwest.wine}
                   color={theme.palette.wildwest.grey}

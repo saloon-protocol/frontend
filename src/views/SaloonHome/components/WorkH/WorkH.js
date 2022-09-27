@@ -74,9 +74,8 @@ const WorkH = () => {
             item
             // container
             // xs={6}
-            sm={4}
             spacing={4}
-            direction={{ md: i % 2 === 1 ? 'row-reverse' : 'row', xs: 'column'}}
+            direction={{ sm: i % 2 === 1 ? 'row-reverse' : 'row', xs: 'column'}}
             // justifyContent='space-evenly'
             sx={{
               // backgroundColor: i % 2 === 1 ? theme.palette.alternate.main : 'inherit', 

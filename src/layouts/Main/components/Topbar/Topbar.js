@@ -18,11 +18,12 @@ import { useState, useEffect } from 'react';
 const Topbar = ({ onSidebarOpen, pages, colorInvert = false }) => {
 
   // const provider = new ethers.providers.JsonRpcProvider(process.env.INFURA_RINKEBY);
-  const mumbaiwss = 'wss://polygon-mumbai.g.alchemy.com/v2/MFd0LBZozOhdiLbJPopgwAMbqIxeZSC7';
-
+  var provider = null;
+  if (window.ethereum) {
+    provider = new ethers.providers.Web3Provider(window.ethereum);
+  }
   // const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const provider = new ethers.providers.WebSocketProvider(mumbaiwss);
-
+  
   // let signer;
 
   // async function connectWallet(){
@@ -34,6 +35,8 @@ const Topbar = ({ onSidebarOpen, pages, colorInvert = false }) => {
 
   
   const [web3Provider, setWeb3Provider] = useState(null);
+  // const [walletAddress, setWalletAddress] = useState(false);
+  const [walletAddressSmall, setWalletAddressSmall] = useState(null);
   // const theme = useTheme();
   // const { mode } = theme.palette;
 
@@ -57,6 +60,21 @@ const Topbar = ({ onSidebarOpen, pages, colorInvert = false }) => {
       const web3ModalProvider = new ethers.providers.Web3Provider(web3ModalInstance);
       if(web3ModalProvider){
         setWeb3Provider(web3ModalProvider);
+        try {
+          const accounts = await window.ethereum.request({
+            method: 'eth_requestAccounts',
+          });
+          setWalletAddressSmall(accounts[0].substring(0,6) + '...' + accounts[0].substring(accounts[0].length-4), () => {
+            console.log(walletAddressSmall);
+          });
+          // console.log(accounts[0]);
+          // console.log(walletAddress);
+          // setWalletAddressSmall(walletAddress.substring(0,5));
+          // console.log(walletAddressSmall);
+        } catch (error) {
+          console.log('Error connecting...');
+          console.log(error);
+        }
         return web3ModalProvider;
       }
       
@@ -155,7 +173,7 @@ const Topbar = ({ onSidebarOpen, pages, colorInvert = false }) => {
             ) : (
               // run if there (update this to something more fun)
               <Typography>
-                Connected
+                {walletAddressSmall}
               </Typography>
             )
           }

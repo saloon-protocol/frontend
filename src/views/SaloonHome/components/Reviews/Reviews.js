@@ -13,7 +13,7 @@ const mock = [
   {
     title: 'Hunters',
     subtitle:
-      'Leverage your auditors skills like never before.\nFind bugs. Get Paid. Didn`t find anything? Get Returns.',
+      'Leverage your auditing skills like never before.\nFind bugs. Get Paid. Didn`t find anything? Stake for crazy returns.',
     // button: 'Sign up for Launch Updates',
     button: 'Sign up for Launch Updates',
 
@@ -23,7 +23,7 @@ const mock = [
   {
     title: 'Projects',
     subtitle:
-      'Put up big a bounty for a fraction of the price and get more auditors looking at your code. Don`t get hacked, don`t lose investor`s money and don`t lose your business. Stop worrying. Be happy.',
+      'Post a big bounty for a fraction of the price and get more auditors looking at your code. Don`t get hacked, don`t lose investor`s money and don`t lose your business. Stop worrying. Be happy.',
     button: 'Put up a Bounty',
     link: '/'
   },

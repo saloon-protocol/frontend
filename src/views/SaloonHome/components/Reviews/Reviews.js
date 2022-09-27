@@ -14,7 +14,9 @@ const mock = [
     title: 'Hunters',
     subtitle:
       'Leverage your auditors skills like never before.\nFind bugs. Get Paid. Didn`t find anything? Get Returns.',
+    // button: 'Sign up for Launch Updates',
     button: 'Sign up for Launch Updates',
+
     // image: cowboy,
     link: 'https://mailchi.mp/47ae7c35bae0/saloon-finance-pre-launch'
   },

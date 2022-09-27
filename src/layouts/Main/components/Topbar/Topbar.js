@@ -18,8 +18,11 @@ import { useState, useEffect } from 'react';
 const Topbar = ({ onSidebarOpen, pages, colorInvert = false }) => {
 
   // const provider = new ethers.providers.JsonRpcProvider(process.env.INFURA_RINKEBY);
+  const mumbaiwss = 'wss://polygon-mumbai.g.alchemy.com/v2/MFd0LBZozOhdiLbJPopgwAMbqIxeZSC7';
 
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  // const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const provider = new ethers.providers.WebSocketProvider(mumbaiwss);
+
   // let signer;
 
   // async function connectWallet(){
@@ -56,6 +59,7 @@ const Topbar = ({ onSidebarOpen, pages, colorInvert = false }) => {
         setWeb3Provider(web3ModalProvider);
         return web3ModalProvider;
       }
+      
     } catch(error){
       console.error(error);
     }
@@ -105,7 +109,13 @@ const Topbar = ({ onSidebarOpen, pages, colorInvert = false }) => {
         >
           Saloon
         </Link>
+        <Typography 
+          // align='center'
+        >
+          TESTNET 
+        </Typography>
       </Box>
+      
       <Box sx={{ display: { xs: 'none', md: 'flex' } }} alignItems={'center'}>
 
         <Box marginLeft={4}>

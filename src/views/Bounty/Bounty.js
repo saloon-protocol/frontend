@@ -9,14 +9,15 @@ import Container from 'components/Container';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-// import WETH from '../../chain-info/WETH.json';
+import WETH from '../../chain-info/WETH.json';
 import MANAGER from '../../chain-info/Manager.json';
+import Web3Modal from 'web3modal';
 
 import {
 // eslint-disable-next-line
   Jobs, Rewards,InScope
 } from './components';
-// import { ethers } from 'ethers';
+import { ethers } from 'ethers';
 // eslint-disable-next-line
 import { useParams } from 'react-router-dom';
 
@@ -43,16 +44,41 @@ const Bounty = () => {
     
   }, []);
 
+  
+
   var formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
     maximumFractionDigits: 0,
   });
   
-  // // const polywss = 'wss://polygon-mainnet.g.alchemy.com/v2/QvRTaIZE9c0e1g_KlKSukPkBPFSKo4Du'
-  // // for some reason I cant hide my alchemy key
-  // const mumbaiwss = 'wss://polygon-mumbai.g.alchemy.com/v2/MFd0LBZozOhdiLbJPopgwAMbqIxeZSC7';
-  // const provider = new ethers.providers.WebSocketProvider(mumbaiwss);
+  // const polywss = 'wss://polygon-mainnet.g.alchemy.com/v2/QvRTaIZE9c0e1g_KlKSukPkBPFSKo4Du'
+  // for some reason I cant hide my alchemy key
+  const mumbaiwss = 'wss://polygon-mumbai.g.alchemy.com/v2/MFd0LBZozOhdiLbJPopgwAMbqIxeZSC7';
+  const provider = new ethers.providers.WebSocketProvider(mumbaiwss);
+  // const [web3Provider, setWeb3Provider] = useState(null);
+
+  const [web3Provider, setWeb3Provider] = useState(null);
+
+  async function connectWallet() {
+    try {
+      let web3Modal = new Web3Modal({
+        cacheProvider:false,
+        provider,
+      });
+      const web3ModalInstance = await web3Modal.connect();
+      const web3ModalProvider = new ethers.providers.Web3Provider(web3ModalInstance);
+      if(web3ModalProvider){
+        setWeb3Provider(web3ModalProvider);
+        return web3ModalProvider;
+      }
+      
+    } catch(error){
+      console.error(error);
+    }
+    
+  }
+
 
   // async function viewBounty(){
 
@@ -87,13 +113,31 @@ const Bounty = () => {
   //   });
    
   // },[]);
+  
+  
 
-  
-  
-  // const signer = provider.getSigner();
+  // async function getWETH(){
+    
+  //   // const WETHAddress = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'; // ethereum
+  //   // const address ='0xbA2C02d5c59238d5607aDcbc277c80a51694e73F';
+  //   // await provider.getSigner(address);
+  //   const WETHAddress = '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889'; //mumbai
+
+  //   const WETHabi = WETH;
+
+  //   const signer = await provider.getSigner();
+
+  //   const manager = '0xbA2C02d5c59238d5607aDcbc277c80a51694e73F';
+
+  //   const contract = new ethers.Contract(WETHAddress, WETHabi, signer);
+
+  //   await contract.connect(signer).transfer(manager,1);
+
+  // }
+
   // async function trackEvent(){
   //   // const WETHAddress = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'; // ethereum
-  //   const WETHAddress = '0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619'; //polygon
+  //   const WETHAddress = '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889'; //mumbai
 
   //   const WETHabi = WETH;
   //   const contract = new ethers.Contract(WETHAddress, WETHabi, provider);
@@ -226,20 +270,49 @@ const Bounty = () => {
                 >
                   <Grid direction="column" alignItems="center">
                     <Grid item color={'text.primary'} fontSize='medium' marginBottom={1}>
-                      <Button
+                      {/* <Button
                         color="secondary"
                         variant="outlined"
                         size="large"
                         sx={{ borderRadius: 0 }}
                         // maxWidth={10}
-                        // onClick={}
+                        onClick={connectWallet}
                         
                       >
                         <Typography marginX={4}>
                           STAKE
                         </Typography>
                           
-                      </Button>
+                      </Button> */}
+                      
+                      {
+                        web3Provider == null ? (
+                          // run if null
+                          <Button onClick={connectWallet} // CHANGE THIS TO STAKING FUNCTION
+                            color="secondary"
+                            variant="outlined"
+                            size="large"
+                            sx={{ borderRadius: 0 }}
+                            fullWidth
+                          >
+                            STAKE
+                          </Button>
+                        ) : (
+                          // run if there (update this to something more fun)
+                          <Button onClick={connectWallet}
+                            color="secondary"
+                            variant="outlined"
+                            size="large"
+                            sx={{ borderRadius: 0 }}
+                            fullWidth
+                          >
+                            <Typography>
+                              STAKE
+                            </Typography>
+                            
+                          </Button>
+                        )
+                      }
                     </Grid>
                   
                     <Grid item xs={6}>

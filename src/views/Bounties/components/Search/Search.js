@@ -68,13 +68,13 @@ const Search = () => {
               />
             </Box>
             <Box display={{ xs: 'none', sm: 'block' }} marginRight={2} sx={{ borderRadius: 0}}>
-              <Typography
+              {/* <Typography
                 color={'text.secondary'}
                 variant={'subtitle2'}
                 sx={{ whiteSpace: 'nowrap' }}
               >
                 123 Results
-              </Typography>
+              </Typography> */}
             </Box>
             <Box>
               <Button

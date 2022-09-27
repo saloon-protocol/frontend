@@ -37,6 +37,7 @@ const HeroCareer = () => {
               sx={{
                 fontWeight:900,
               }}
+
               
 
             >

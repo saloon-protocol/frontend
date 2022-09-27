@@ -64,7 +64,7 @@ const HeroCareer = () => {
               component="p"
               color="text.primary"
               align={'center'}
-              sx={{ marginBottom: 2, fontWeight:900 }}
+              sx={{ marginBottom: 1, fontWeight:900 }}
             >
               Only for those who take web3 security seriously.
               <br />

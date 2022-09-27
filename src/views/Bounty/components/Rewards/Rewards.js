@@ -13,15 +13,24 @@ import PropTypes from 'prop-types';
 
 
 const Rewards = (props) => {
-  // const { data } = props;
-  const { chain_data } = props;
+  const { data } = props;
+  // const { chain_data } = props;
   const theme = useTheme();
 
   const mock = [
     {
+      title: 'Critical',
+      figure: (data.pool_total / 10**18 * 2500000).toFixed(0),
+      // figure: chain_data.payout,
+      // figure: 1000000,
+      prefix: 'USD $',
+      color: theme.palette.primary.superlight,
+      font: 'h4'
+    },
+    {
       title: 'High',
-      // figure: data.amount_critical,
-      figure: chain_data.payout,
+      figure: (data.pool_total / 10**18 * 2500000 * 0.2).toFixed(0),
+      // figure: chain_data.payout,
       // figure: 1000000,
       prefix: 'USD $',
       color: theme.palette.primary.superlight,
@@ -29,14 +38,16 @@ const Rewards = (props) => {
     },
     {
       title: 'Medium',
-      figure: chain_data.payout * 0.2,
+      // figure: chain_data.payout * 0.2,
+      figure: (data.pool_total / 10**18 * 2500000 * 0.05).toFixed(0),
       prefix: 'USD $',
       color: theme.palette.primary.superlightred,
       font: 'h6'
     },
     {
       title: 'Low',
-      figure: chain_data.payout * 0.05,
+      // figure: chain_data.payout * 0.05,
+      figure: (data.pool_total / 10**18 * 2500000 * 0.01).toFixed(0),
       prefix: 'USD $',
       color: theme.palette.background.paper,
       font: 'subtitle1'
@@ -167,8 +178,8 @@ const Rewards = (props) => {
 };
 
 Rewards.propTypes = {
-  // data: PropTypes.object
-  chain_data: PropTypes.object
+  data: PropTypes.object
+  // chain_data: PropTypes.object
 };
 
 export default Rewards;

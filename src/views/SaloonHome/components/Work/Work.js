@@ -12,7 +12,7 @@ const projects = [
   {
     title: 'Dynamic Bounties',
     description:
-      'Want to post a $1,000,000 bounty but don`t have the funds?',
+      "Want to post a $1,000,000 bounty but don't have the funds?",
     description2:'Open up a crowd-sourced bounty pool at the Saloon.',
     
     image: <Spring/>,
@@ -20,7 +20,7 @@ const projects = [
   {
     title: 'Fair and integrated triaging at the core',
     description:
-      'We will filter out the invalid bugs as to not waste the project team`s time.',
+      "We will filter out the invalid bugs as to not waste the project team's time.",
     image: <Hourglass/>,
   },
   {

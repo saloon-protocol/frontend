@@ -14,14 +14,14 @@ const hunters = [
   {
     title: 'Leverage your knowledge',
     description:
-      'On top of the usual bounty payments that a hunter strives to earn, Saloon is opening up other avenues to use your smart contract knowledge and auditing skills to earn money. If you`ve audited a project and believe it is bug-free and/or exploit-proof, you can stake your capital to earn payments directly from the project.',
+      "On top of the usual bounty payments that a hunter strives to earn, Saloon is opening up other avenues to use your smart contract knowledge and auditing skills to earn money. If you've audited a project and believe it is bug-free and/or exploit-proof, you can stake your capital to earn payments directly from the project.",
     
     image: <Lever/>,
   },
   {
     title: 'Fairness',
     description:
-      'We will review every submission to determine validity and potential duplicate status to save your time. No need to wait on a response from a project when it`s not necessary.',
+      "We will review every submission to determine validity and potential duplicate status to save your time. No need to wait on a response from a project when it's not necessary.",
     image: <Balance/>,
   },
   {
@@ -55,7 +55,7 @@ const WorkH = () => {
           align={'center'}
           marginBottom={0}
         >
-          We aim to make smart contract auditing (aka hunting) the most profitable skill in the entire services market. With our knowledge based staking opportunities hunters will be able to MULTIPLY their earnings many times over.
+          We aim to make smart contract auditing (aka hunting) the most profitable skill in the entire services market. With our knowledge based staking opportunities hunters will be able to multiply their earnings many times over.
         </Typography>
 
       </Box>

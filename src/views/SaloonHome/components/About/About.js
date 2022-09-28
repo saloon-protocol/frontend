@@ -47,7 +47,7 @@ const About = () => {
             Our plan consists of offering the protocols that are really serious about security a way to actually show their commitment.
             <br />
             <br />
-            We want to raise the bar so security can`t be faked. 
+            We want to raise the bar so security can't be faked. 
             We want to make it as clear as a Caribbean lagoon who is serious and can be trusted in this industry.
             <br />
             <br />

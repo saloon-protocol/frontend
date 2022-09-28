@@ -13,82 +13,164 @@ import {ethers} from 'ethers';
 // import WalletConnectProvider from '@walletconnect/web3-provider';
 // eslint-disable-next-line
 import { useState, useEffect } from 'react';
+
 // NavItem has popover function instead of SimpleNavItem
 
 const Topbar = ({ onSidebarOpen, pages, colorInvert = false }) => {
 
-  // const provider = new ethers.providers.JsonRpcProvider(process.env.INFURA_RINKEBY);
-  var provider = null;
-  if (window.ethereum) {
-    provider = new ethers.providers.Web3Provider(window.ethereum);
+  const mumbaiwss = 'wss://polygon-mumbai.g.alchemy.com/v2/MFd0LBZozOhdiLbJPopgwAMbqIxeZSC7';
+  
+  var provider;
+  if(window.ethereum){
+    const provider = new ethers.providers.WebSocketProvider(mumbaiwss);
   }
-  // const provider = new ethers.providers.Web3Provider(window.ethereum);
-  
-  // let signer;
 
-  // async function connectWallet(){
-  //   await provider.send('eth_requestAccounts', []);
+  const [provids, setProvider] = useState();
+  const [library, setLibrary] = useState();
+  const [account, setAccount] = useState();
+  const [signature, setSignature] = useState("");
+  const [error, setError] = useState("");
+  const [chainId, setChainId] = useState();
+  const [network, setNetwork] = useState();
+  const [message, setMessage] = useState("");
+  const [signedMessage, setSignedMessage] = useState("");
+  const [verified, setVerified] = useState();
 
-  //   signer = await provider.getSigner();
-  //   console.log('Account address:', await signer.getAddress());
-  // }
+  const web3Modal = new Web3Modal({
+    cacheProvider: true, // optional
+    provider // required
+  });
 
-  
-  const [web3Provider, setWeb3Provider] = useState(null);
-  // const [walletAddress, setWalletAddress] = useState(false);
-  const [walletAddressSmall, setWalletAddressSmall] = useState(null);
-  // const theme = useTheme();
-  // const { mode } = theme.palette;
-
-  // const providerOptions = {
-  //   walletconnect: {
-  //     package: WalletConnectProvider, // required
-  //     options: {
-  //       infuraId: {3: 'https://ropsten.infura.io/v3/c520361dc356433d881e7cb3a00193e7'}, // required
-  //     },
-  //   },
-  // };
-  
-
-  async function connectWallet() {
+  const connectWallet = async () => {
     try {
-      let web3Modal = new Web3Modal({
-        cacheProvider:false,
-        provider,
-      });
-      const web3ModalInstance = await web3Modal.connect();
-      const web3ModalProvider = new ethers.providers.Web3Provider(web3ModalInstance);
-      if(web3ModalProvider){
-        setWeb3Provider(web3ModalProvider);
-        try {
-          const accounts = await window.ethereum.request({
-            method: 'eth_requestAccounts',
-          });
-          setWalletAddressSmall(accounts[0].substring(0,6) + '...' + accounts[0].substring(accounts[0].length-4), () => {
-            console.log(walletAddressSmall);
-          });
-          // console.log(accounts[0]);
-          // console.log(walletAddress);
-          // setWalletAddressSmall(walletAddress.substring(0,5));
-          // console.log(walletAddressSmall);
-        } catch (error) {
-          console.log('Error connecting...');
-          console.log(error);
-        }
-        return web3ModalProvider;
-      }
-      
-    } catch(error){
-      console.error(error);
+      const provider = await web3Modal.connect();
+      const library = new ethers.providers.Web3Provider(provider);
+      const accounts = await library.listAccounts();
+      const network = await library.getNetwork();
+      setProvider(provider);
+      setLibrary(library);
+      if (accounts) setAccount(accounts[0]);
+      setChainId(network.chainId);
+    } catch (error) {
+      setError(error);
     }
-    
-  }
+  };
+
+  const handleNetwork = (e) => {
+    const id = e.target.value;
+    setNetwork(Number(id));
+  };
+
+  const handleInput = (e) => {
+    const msg = e.target.value;
+    setMessage(msg);
+  };
+
+  const switchNetwork = async () => {
+    try {
+      await library.provider.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: toHex(network) }]
+      });
+    } catch (switchError) {
+      if (switchError.code === 4902) {
+        try {
+          await library.provider.request({
+            method: "wallet_addEthereumChain",
+            params: [networkParams[toHex(network)]]
+          });
+        } catch (error) {
+          setError(error);
+        }
+      }
+    }
+  };
+
+  const signMessage = async () => {
+    if (!library) return;
+    try {
+      const signature = await library.provider.request({
+        method: "personal_sign",
+        params: [message, account]
+      });
+      setSignedMessage(message);
+      setSignature(signature);
+    } catch (error) {
+      setError(error);
+    }
+  };
+
+  const verifyMessage = async () => {
+    if (!library) return;
+    try {
+      const verify = await library.provider.request({
+        method: "personal_ecRecover",
+        params: [signedMessage, signature]
+      });
+      setVerified(verify === account.toLowerCase());
+    } catch (error) {
+      setError(error);
+    }
+  };
+
+  const truncateAddress = (address) => {
+    if (!address) return "No Account";
+    const match = address.match(
+      /^(0x[a-zA-Z0-9]{2})[a-zA-Z0-9]+([a-zA-Z0-9]{2})$/
+    );
+    if (!match) return address;
+    return `${match[1]}…${match[2]}`;
+  };
+
+  const refreshState = () => {
+    setAccount();
+    setChainId();
+    setNetwork("");
+    setMessage("");
+    setSignature("");
+    setVerified(undefined);
+  };
+
+  const disconnect = async () => {
+    await web3Modal.clearCachedProvider();
+    refreshState();
+  };
 
   // useEffect(() => {
-  //   connectWallet().then(connected => {
-  //     setWeb3Provider(connected);
-  //   });
-  // });
+  //   if (web3Modal.cachedProvider) {
+  //     connectWallet();
+  //   }
+  // }, []);
+
+  useEffect(() => {
+    if (provider?.on) {
+      const handleAccountsChanged = (accounts) => {
+        console.log("accountsChanged", accounts);
+        if (accounts) setAccount(accounts[0]);
+      };
+
+      const handleChainChanged = (_hexChainId) => {
+        setChainId(_hexChainId);
+      };
+
+      const handleDisconnect = () => {
+        console.log("disconnect", error);
+        disconnect();
+      };
+
+      provider.on("accountsChanged", handleAccountsChanged);
+      provider.on("chainChanged", handleChainChanged);
+      provider.on("disconnect", handleDisconnect);
+
+      return () => {
+        if (provider.removeListener) {
+          provider.removeListener("accountsChanged", handleAccountsChanged);
+          provider.removeListener("chainChanged", handleChainChanged);
+          provider.removeListener("disconnect", handleDisconnect);
+        }
+      };
+    }
+  }, [provider]);
 
   const {
     // eslint-disable-next-line
@@ -165,16 +247,18 @@ const Topbar = ({ onSidebarOpen, pages, colorInvert = false }) => {
         </Box>
         <Box marginLeft={4}>
           {
-            web3Provider == null ? (
+            !account ? (
               // run if null
               <Button onClick={connectWallet}>
                 Connect
               </Button>
             ) : (
               // run if there (update this to something more fun)
+              // figure out how to truncate this address
               <Typography>
-                {walletAddressSmall}
+                {truncateAddress(account)}
               </Typography>
+              
             )
           }
           {/* <Button onClick={connectWallet}>

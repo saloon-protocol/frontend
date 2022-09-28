@@ -5,8 +5,8 @@ module.exports = {
     'es2021': true,
   },
   'extends': [
-    'eslint:recommended',
-    'plugin:react/recommended',
+    // 'eslint:recommended',
+    // 'plugin:react/recommended',
   ],
   'settings': {
     'react': {
@@ -24,12 +24,12 @@ module.exports = {
     'react',
   ],
   'rules': {
-    "no-unused-vars": [
-        "error",
-        {
-            "varsIgnorePattern": "^[A-Z]"
-        }
-    ],
+    // "no-unused-vars": [
+    //     "error",
+    //     {
+    //         "varsIgnorePattern": "^[A-Z]"
+    //     }
+    // ],
     "react/jsx-uses-react": "error",   
     "react/jsx-uses-vars": "error",
     'indent': [
@@ -41,10 +41,10 @@ module.exports = {
       'error',
       'unix',
     ],
-    'quotes': [
-      'error',
-      'single',
-    ],
+    // 'quotes': [
+    //   'error',
+    //   'single',
+    // ],
     'semi': [
       'error',
       'always',

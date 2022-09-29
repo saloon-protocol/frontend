@@ -81,7 +81,7 @@ const Footer = () => {
               <Box marginTop={1} marginRight={2}>
                 <Button
                   component="a"
-                  href="/docs/introduction"
+                  href="https://twitter.com/saloonfinance"
                   color="inherit"
                   variant="outlined"
                   size="small"

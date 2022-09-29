@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography';
 import WETH from '../../chain-info/WETH.json';
 import MANAGER from '../../chain-info/Manager.json';
 import Web3Modal from 'web3modal';
+import { useSigner } from '@web3modal/react';
 
 import {
 // eslint-disable-next-line
@@ -20,6 +21,7 @@ import {
 import { ethers } from 'ethers';
 // eslint-disable-next-line
 import { useParams } from 'react-router-dom';
+import { isNonNullChain } from 'typescript';
 
 const Bounty = () => {
   const theme = useTheme();
@@ -55,101 +57,234 @@ const Bounty = () => {
   // const polywss = 'wss://polygon-mainnet.g.alchemy.com/v2/QvRTaIZE9c0e1g_KlKSukPkBPFSKo4Du'
   // for some reason I cant hide my alchemy key
   const mumbaiwss = 'wss://polygon-mumbai.g.alchemy.com/v2/MFd0LBZozOhdiLbJPopgwAMbqIxeZSC7';
-  const provider = new ethers.providers.WebSocketProvider(mumbaiwss);
-  // const [web3Provider, setWeb3Provider] = useState(null);
 
-  const [web3Provider, setWeb3Provider] = useState(null);
-
-  async function connectWallet() {
-    try {
-      let web3Modal = new Web3Modal({
-        cacheProvider:false,
-        provider,
-      });
-      const web3ModalInstance = await web3Modal.connect();
-      const web3ModalProvider = new ethers.providers.Web3Provider(web3ModalInstance);
-      if(web3ModalProvider){
-        setWeb3Provider(web3ModalProvider);
-        return web3ModalProvider;
-      }
-      
-    } catch(error){
-      console.error(error);
-    }
-    
+  var provider = new ethers.providers.Web3Provider(window.ethereum);
+  if(window.ethereum){
+    const provider = new ethers.providers.WebSocketProvider(mumbaiwss);
   }
 
+  const [provids, setProvider] = useState();
+  const [library, setLibrary] = useState();
+  const [account, setAccount] = useState();
+  const [signature, setSignature] = useState("");
+  const [error, setError] = useState("");
+  const [chainId, setChainId] = useState();
+  const [network, setNetwork] = useState();
+  const [message, setMessage] = useState("");
+  const [signedMessage, setSignedMessage] = useState("");
+  const [verified, setVerified] = useState();
+  const [allowance, setAllowance] = useState(null);
 
-  // async function viewBounty(){
+  const web3Modal = new Web3Modal({
+    // network:"mumbai", // optional
+    cacheProvider: false, // optional
+    provider // required
+  });
 
-  //   // const managerAddress = '0x90e4184234fc97f8004E4f4C210CC6F45A11b4d7';
-  //   const managerAddress = '0x46EA853931aB3B232A6786d37b936488e862fd52';
+  const connectWallet = async () => {
+    try {
+      const provider = await web3Modal.connect();
+      // const provider = new ethers.providers.WebSocketProvider(mumbaiwss);
+      const library = new ethers.providers.Web3Provider(provider);
+      const accounts = await library.listAccounts();
+      const network = await library.getNetwork();
+     
+      setProvider(provider);
+      setLibrary(library);
+      if (accounts) setAccount(accounts[0]);
+      
+      setChainId(network.chainId);
+    } catch (error) {
+      setError(error);
+    }
+  };
 
-  //   const managerAbi = MANAGER;
-  //   const contract = new ethers.Contract(managerAddress, managerAbi, provider);
-  //   const bountyname = 'YEEHAW';
-  //   // const bountyName = bounty.title;
+  
 
-  //   // const weiDeposit = await contract.viewProjectDeposit(bountyname);
-  //   const values = await contract.viewBountyInfo(bountyname);
+  async function approveWETH(){
+    const WETHAddress = '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889'; //mumbai
+    const WETHabi = WETH;
+    const signer = await provider.getSigner();
+    const manager = '0xbA2C02d5c59238d5607aDcbc277c80a51694e73F';
+    const contract = new ethers.Contract(WETHAddress, WETHabi, signer);
+    await contract.approve(manager,10000000);
+  }
 
-  //   // const deposit = ethers.utils.formatEther(weiDeposit);
-  //   var dict = {};
-  //   dict['payout'] = ethers.utils.formatEther(values[0]);
-  //   dict['apy'] = ethers.utils.formatEther(values[1]);
-  //   dict['staked'] = ethers.utils.formatEther(values[2]);
-  //   dict['poolCap'] = ethers.utils.formatEther(values[3]);
-    
-  //   console.log(dict);
+  async function transferWETH(){
+    const WETHAddress = '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889'; //mumbai
+    const WETHabi = WETH;
+    const signer = await provider.getSigner();
+    const manager = '0xbA2C02d5c59238d5607aDcbc277c80a51694e73F';
+    const contract = new ethers.Contract(WETHAddress, WETHabi, signer);
+    await contract.transfer(manager,10000000);
+  }
 
-  //   return dict;
+  const checkAllowance = async () => {
+    const provider = new ethers.providers.WebSocketProvider(mumbaiwss);
+    // // Should be token address used by bounty
+    const WETHAddress = '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889'; //mumbai
+    const WETHabi = WETH;
 
-  // }
+    const manager = '0xbA2C02d5c59238d5607aDcbc277c80a51694e73F';
+    // // my should be signers wallet
+    const my = '0x0376e82258Ed00A9D7c6513eC9ddaEac015DEdFc';
+    const contract = new ethers.Contract(WETHAddress, WETHabi, provider);
+    const bountyAddress = '0x5eAF3aFD1038853D285cf4b2fAf8Ef288915f408';
+    const allow = await contract.allowance(my,bountyAddress);
+    let formattedAllowance = allow.toString();
+    return formattedAllowance;
+  };
+  
 
-  // const [info, setInfo] = useState([]);
+  const handleNetwork = (e) => {
+    const id = e.target.value;
+    setNetwork(Number(id));
+  };
+
+  const handleInput = (e) => {
+    const msg = e.target.value;
+    setMessage(msg);
+  };
+
+  const switchNetwork = async () => {
+    await window.ethereum.request({
+      method: "wallet_switchEthereumChain",
+      params: [{
+        chainId: "0x89",
+        // rpcUrls: ["https://polygon-rpc.com/"],
+        // chainName: "Matic Mainnet",
+        // nativeCurrency: {
+        //   name: "MATIC",
+        //   symbol: "MATIC",
+        //   decimals: 18
+        // },
+        // blockExplorerUrls: ["https://polygonscan.com/"]
+      }]
+    });
+    window.location.reload();
+  };
+
+  const signMessage = async () => {
+    if (!library) return;
+    try {
+      const signature = await library.provider.request({
+        method: "personal_sign",
+        params: [message, account]
+      });
+      setSignedMessage(message);
+      setSignature(signature);
+    } catch (error) {
+      setError(error);
+    }
+  };
+
+  const verifyMessage = async () => {
+    if (!library) return;
+    try {
+      const verify = await library.provider.request({
+        method: "personal_ecRecover",
+        params: [signedMessage, signature]
+      });
+      setVerified(verify === account.toLowerCase());
+    } catch (error) {
+      setError(error);
+    }
+  };
+
+  const truncateAddress = (address) => {
+    if (!address) return "No Account";
+    const match = address.match(
+      /^(0x[a-zA-Z0-9]{2})[a-zA-Z0-9]+([a-zA-Z0-9]{2})$/
+    );
+    if (!match) return address;
+    return `${match[1]}…${match[2]}`;
+  };
+
+  const refreshState = () => {
+    setAccount();
+    setChainId();
+    setNetwork("");
+    setMessage("");
+    setSignature("");
+    setVerified(undefined);
+  };
+
+  const disconnect = async () => {
+    await web3Modal.clearCachedProvider();
+    refreshState();
+  };
+
   // useEffect(() => {
-  //   viewBounty().then(info => {
-  //     setInfo(info);
-  //   });
-   
-  // },[]);
-  
-  
+  //   if (web3Modal.cachedProvider) {
+  //     connectWallet();
+  //   }
+  // }, []);
 
-  // async function getWETH(){
-    
-  //   // const WETHAddress = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'; // ethereum
-  //   // const address ='0xbA2C02d5c59238d5607aDcbc277c80a51694e73F';
-  //   // await provider.getSigner(address);
-  //   const WETHAddress = '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889'; //mumbai
+  const[chain, setChain] = useState();
+  const checkChainId = async() => {
+    const signer = await provider.getSigner();
+    const chainId = await signer.getChainId();
+    const chain = chainId.toString();
+    return chain;
+  };
 
-  //   const WETHabi = WETH;
+  useEffect(() => {
+    checkAllowance().then(allowance => {
+      setAllowance(allowance);
+    });
+    checkChainId().then(id => {
+      setChain(id);
+    });
+  });
+ 
+ 
+  useEffect(() => {
 
-  //   const signer = await provider.getSigner();
+    if (provider?.on) {
+      const handleAccountsChanged = (accounts) => {
+        console.log("accountsChanged", accounts);
+        if (accounts) setAccount(accounts[0]);
+        
+      };
+      
 
-  //   const manager = '0xbA2C02d5c59238d5607aDcbc277c80a51694e73F';
+      const handleChainChanged = (_hexChainId) => {
+        setChainId(_hexChainId);
+      };
 
-  //   const contract = new ethers.Contract(WETHAddress, WETHabi, signer);
+      const handleDisconnect = () => {
+        console.log("disconnect", error);
+        disconnect();
+      };
 
-  //   await contract.connect(signer).transfer(manager,1);
+      provider.on("accountsChanged", handleAccountsChanged);
+      provider.on("chainChanged", handleChainChanged);
+      provider.on("disconnect", handleDisconnect);
 
-  // }
+     
+      return () => {
+        if (provider.removeListener) {
+          provider.removeListener("accountsChanged", handleAccountsChanged);
+          provider.removeListener("chainChanged", handleChainChanged);
+          provider.removeListener("disconnect", handleDisconnect);
+        }
+      };
+    }
+  }, [provider]);
 
+  const test = 1;
   // async function trackEvent(){
   //   // const WETHAddress = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'; // ethereum
   //   const WETHAddress = '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889'; //mumbai
-
   //   const WETHabi = WETH;
   //   const contract = new ethers.Contract(WETHAddress, WETHabi, provider);
   //   contract.on('Transfer',(src, dst, wad) => {
   //     console.log({wad});      
   //   }); 
-
   // }
-
   return (
-    
-    <Main>
+    // pass wallet data to MAIN so wallet address shows when connected
+    <Main> 
       
       <Container>
         <Grid container spacing={4}>
@@ -236,7 +371,7 @@ const Bounty = () => {
                 >
                   <Grid item alignItems="center">
                     <Typography color={'text.primary'} fontSize='small'>
-                      Staked
+                       Staked
                     </Typography>
                     <Typography color={'text.primary'} variant='h5'
                       fontWeight={700}
@@ -267,71 +402,93 @@ const Bounty = () => {
                 <Grid item marginRight={2}
                   // xs={12} 
                   // md={6}
-                >
-                  <Grid direction="column" alignItems="center">
-                    <Grid item color={'text.primary'} fontSize='medium' marginBottom={1}>
-                      {/* <Button
+                >   
+                  {
+                    // if wallet is not connected
+                    account == null ? (
+                      // run if null
+                      <Button onClick={connectWallet} // CHANGE THIS TO STAKING FUNCTION
                         color="secondary"
                         variant="outlined"
                         size="large"
                         sx={{ borderRadius: 0 }}
-                        // maxWidth={10}
-                        onClick={connectWallet}
-                        
-                      >
-                        <Typography marginX={4}>
-                          STAKE
-                        </Typography>
-                          
-                      </Button> */}
-                      
-                      {
-                        web3Provider == null ? (
-                          // run if null
-                          <Button onClick={connectWallet} // CHANGE THIS TO STAKING FUNCTION
-                            color="secondary"
-                            variant="outlined"
-                            size="large"
-                            sx={{ borderRadius: 0 }}
-                            fullWidth
-                          >
-                            STAKE
-                          </Button>
-                        ) : (
-                          // run if there (update this to something more fun)
-                          <Button onClick={connectWallet}
-                            color="secondary"
-                            variant="outlined"
-                            size="large"
-                            sx={{ borderRadius: 0 }}
-                            fullWidth
-                          >
-                            <Typography>
-                              STAKE
-                            </Typography>
-                            
-                          </Button>
-                        )
-                      }
-                    </Grid>
-                  
-                    <Grid item xs={6}>
-                      <Button
-                        color="inherit"
-                        variant="outlined"
-                        size="large"
-                        sx={{ borderRadius: 0 }}
                         fullWidth
-                        // onClick={}
                       >
-                        <Typography marginX={2}>
-                          UNSTAKE
-                        </Typography>
-                            
+                        CONNECT TO STAKE
                       </Button>
-                    </Grid>
-                  </Grid>
-                  
+                    ) : (
+                      <Box>
+                        {
+                          // if chain is not polygon
+                          chain == 137 ? (
+                            <Box>
+                              {
+                                // if staking hasnt been allowed
+                                allowance > 0 ? (
+                                  <Grid direction="column" alignItems="center">
+                                    <Grid item color={'text.primary'} fontSize='medium' marginBottom={1}>
+                                      <Button onClick={transferWETH} // CHANGE THIS TO STAKING FUNCTION
+                                        color="secondary"
+                                        variant="outlined"
+                                        size="large"
+                                        sx={{ borderRadius: 0 }}
+                                        fullWidth
+                                      >
+                                        STAKE
+                                      </Button>
+                                    </Grid>
+
+                                    <Grid item xs={6}>
+                                      <Button
+                                        color="inherit"
+                                        variant="outlined"
+                                        size="large"
+                                        sx={{ borderRadius: 0 }}
+                                        fullWidth
+                                        // onClick={}  IMPLEMENT THIS FUNCTION
+                                      >
+                                        <Typography marginX={2}>
+                                          UNSTAKE
+                                        </Typography>
+                                            
+                                      </Button>
+                                    </Grid>
+                                  </Grid>
+                                
+                                ) : (
+                                  // if not approved show approve button
+                                  <Button onClick={approveWETH} // CHANGE THIS TO APPROVE FUNCTION
+                                    color="inherit"
+                                    variant="outlined"
+                                    size="large"
+                                    sx={{ borderRadius: 0 }}
+                                    fullWidth
+                                  >
+                                    APPROVE STAKING
+                                  </Button>
+                                  
+                                  
+                                )
+                              }
+                            </Box> 
+                          ) : (
+                            <Button onClick={switchNetwork} // CHANGE THIS TO APPROVE FUNCTION
+                              color="inherit"
+                              variant="outlined"
+                              size="large"
+                              sx={{ borderRadius: 0 }}
+                              fullWidth
+                            >
+                              SWITCH TO POLYGON
+                            </Button>
+
+                          )
+                        }
+                      </Box>       
+                    
+                    )
+                  }
+
                 
                 </Grid>
               </Grid>

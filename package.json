@@ -43,6 +43,8 @@
     "@mui/icons-material": "^5.2.4",
     "@mui/material": "^5.2.4",
     "@walletconnect/web3-provider": "^1.8.0",
+    "@web3modal/ethereum": "^2.0.0-alpha.3",
+    "@web3modal/react": "^2.0.0-alpha.4",
     "alchemy-sdk": "^2.0.4",
     "aos": "^2.3.4",
     "card-validator": "^8.1.1",

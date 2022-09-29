@@ -245,28 +245,29 @@ const Topbar = ({ onSidebarOpen, pages, colorInvert = false }) => {
             colorInvert={colorInvert}
           />
         </Box>
-        <Box marginLeft={4}>
-          {
-            !account ? (
-              // run if null
-              <Button onClick={connectWallet}>
-                Connect
-              </Button>
-            ) : (
-              // run if there (update this to something more fun)
-              // figure out how to truncate this address
+        
+        {
+          !account ? (
+          // Realised connect button on top is redundant
+          // <Button onClick={connectWallet}>
+          //   Connect
+          // </Button>
+            null
+          ) : (
+            // run if there (update this to something more fun)
+            // figure out how to truncate this address
+            <Box marginLeft={4}>
               <Typography>
                 {truncateAddress(account)}
               </Typography>
-              
-            )
-          }
-          {/* <Button onClick={connectWallet}>
-            Connect
-          </Button> */}
-
-
-        </Box>
+            </Box>
+            
+          )
+        }
+        {/* <Button onClick={connectWallet}>
+          Connect
+        </Button> */}
+        
         <Box marginLeft={4}>
         </Box>
       </Box>

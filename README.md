@@ -76,3 +76,43 @@ return web3ModalProvider;
 // setWeb3Provider(connected);
 // });
 // });
+
+---
+
+{/\* if ( allowance == 0){
+<Grid direction="column" alignItems="center">
+<Grid item color={'text.primary'} fontSize='medium' marginBottom={1}>
+<Button onClick={connectWallet} // CHANGE THIS TO STAKING FUNCTION
+color="secondary"
+variant="outlined"
+size="large"
+sx={{ borderRadius: 0 }}
+fullWidth >
+STAKE
+</Button>
+</Grid>
+
+                            <Grid item xs={6}>
+                              <Button
+                                color="inherit"
+                                variant="outlined"
+                                size="large"
+                                sx={{ borderRadius: 0 }}
+                                fullWidth
+                                // onClick={}
+                              >
+                                <Typography marginX={2}>
+                                  UNSTAKE
+                                </Typography>
+
+                              </Button>
+                            </Grid>
+                          </Grid>
+
+                        }  else {
+                        // if not approved show approve button
+                          <Buton>
+                            Approve
+                          </Buton>
+
+                        } */}

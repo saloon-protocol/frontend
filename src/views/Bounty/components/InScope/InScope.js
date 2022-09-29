@@ -7,6 +7,10 @@ import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 // import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PropTypes from 'prop-types';
 
 
@@ -53,16 +57,20 @@ const InScope = (props) => {
             }}
             xs={12}
           >
-            <Box padding={2} display={'flex'} alignItems={'center'}>
-              <Grid container
-                display={'flex-start'}
-                flexDirection={{ xs: 'column', sm: 'row' }}
-                flex={'1 1 50%'}
-                justifyContent={{ sm: 'flex-start' }}
-                alignItems={{ sm: 'center' }}
 
+
+            <Accordion>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"                
               >
-                <Grid item xs={12} md={6}>
+                
+                
+                <Box 
+                  sx={{ width: '33%'}}
+                  // justifyContent='space-between'
+                >
                   <Typography 
                     variant='h6'
                     fontWeight={700}
@@ -76,16 +84,25 @@ const InScope = (props) => {
                     fontWeight={500}>
                     {item.title}
                   </Typography>
-                </Grid>
-                <Grid item>
-                  <Typography color={'text.primary'} fontSize='medium'>
-                    {item.description}
-                  </Typography>
+                </Box>
                 
-                </Grid>
-              </Grid>
-              
-            </Box>
+                <Typography align='center' color={'text.primary'} fontSize='medium'>
+                  {item.description}
+                </Typography>
+                
+                
+
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography>
+                  Nulla facilisi. Phasellus sollicitudin nulla et quam mattis feugiat.
+                  Aliquam eget maximus est, id dignissim quam.
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
+
+
+
           </Grid>
         ))}    
       </Grid>

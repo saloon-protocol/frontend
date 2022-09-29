@@ -12,7 +12,6 @@ import PropTypes from 'prop-types';
 
 const InScope = (props) => {
   const { data } = props;
-  console.log(data.assets);
   const theme = useTheme();
 
   const mock = [
@@ -32,6 +31,7 @@ const InScope = (props) => {
     },
   
   ];
+  console.log(mock);
 
   return (
 
@@ -43,7 +43,7 @@ const InScope = (props) => {
         container
         sx={{backgroundColor: theme.palette.alternate.main}}
       >
-        {mock.map((item, i) => (
+        {data.assets?.map((item, i) => (
           <Grid key={i} item
             sx={{
               borderBottom: `1px solid ${theme.palette.divider}`,
@@ -68,7 +68,7 @@ const InScope = (props) => {
                     fontWeight={700}
                     sx={{textTransform:'uppercase'}}
                   >
-                    <Link underline='hover' href={item.address} color={'text.primary'}>
+                    <Link underline='hover' href={'https://etherscan.io/'+item.address} target="_blank" color={'text.primary'}>
                       {item.address}
                     </Link>
                   </Typography>

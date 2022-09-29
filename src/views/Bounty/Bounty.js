@@ -522,12 +522,12 @@ const Bounty = () => {
           </Typography>
         </Container>
 
-        {/* <Container >
+        <Container >
           <Box>
             <InScope data={bounty}/>
           </Box>
           
-        </Container> */}
+        </Container>
 
         <Container  sx={{backgroundColor: theme.palette.background.paper}} >
           <Typography variant={'h4'} fontWeight={700} marginBottom={4}  >

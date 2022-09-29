@@ -27,7 +27,7 @@ const Bounty = () => {
   const theme = useTheme();
 
   const {title} = useParams();
-
+  
 
   const fetchData = async () => {
     // eslint-disable-next-line
@@ -518,12 +518,15 @@ const Bounty = () => {
           </Typography>
         </Container>
 
-        {/* <Container >
+        <Container >
           <Box>
+            <Typography variant={'h4'} fontWeight={700} marginBottom={4}  >
+              Assets in Scope
+            </Typography>
             <InScope data={bounty}/>
           </Box>
           
-        </Container> */}
+        </Container>
 
         <Container  sx={{backgroundColor: theme.palette.background.paper}} >
           <Typography variant={'h4'} fontWeight={700} marginBottom={4}  >

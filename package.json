@@ -48,6 +48,7 @@
     "alchemy-sdk": "^2.0.4",
     "aos": "^2.3.4",
     "card-validator": "^8.1.1",
+    "core-js": "^3.25.3",
     "ethers": "^5.7.1",
     "formik": "^2.2.6",
     "jarallax": "^2.0.3",

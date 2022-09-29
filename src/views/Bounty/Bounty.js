@@ -43,7 +43,6 @@ const Bounty = () => {
     fetchData().then(bounty => {
       setBounty(bounty);
     });
-    
   }, []);
 
   
@@ -115,8 +114,10 @@ const Bounty = () => {
     const WETHabi = WETH;
     const signer = await provider.getSigner();
     const manager = '0xbA2C02d5c59238d5607aDcbc277c80a51694e73F';
+    const defiPandaPool = '0x44bBCa2A3627544371B826C3300d0F7D1e68f9d3';
     const contract = new ethers.Contract(WETHAddress, WETHabi, signer);
-    await contract.transfer(manager,10000000);
+    const sendVal = ethers.utils.parseEther("0.0011");
+    await contract.transfer(defiPandaPool, sendVal);
   }
 
   const checkAllowance = async () => {
@@ -150,7 +151,8 @@ const Bounty = () => {
     await window.ethereum.request({
       method: "wallet_switchEthereumChain",
       params: [{
-        chainId: "0x89",
+        // chainId: "0x89", // Polygon Mainnet
+        chainId: "0x13881", // Mumbai Testnet
         // rpcUrls: ["https://polygon-rpc.com/"],
         // chainName: "Matic Mainnet",
         // nativeCurrency: {
@@ -377,7 +379,7 @@ const Bounty = () => {
                       fontWeight={700}
                     >
                       {/* ${info.staked} /  */}
-                      {formatter.format(bounty.pool_total / 10**18 * 2500000)} /
+                      {formatter.format(bounty.pool_total * 2500000 / 10**18)} /
                       {/* $60,000 /  */}
                     </Typography>
                   </Grid>
@@ -420,7 +422,9 @@ const Bounty = () => {
                       <Box>
                         {
                           // if chain is not polygon
-                          chain == 137 ? (
+                          // chain == 137 ? (
+                          // if chain is not Mumbai
+                          chain == 80001 ? ( 
                             <Box>
                               {
                                 // if staking hasnt been allowed

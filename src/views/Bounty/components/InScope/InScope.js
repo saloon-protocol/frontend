@@ -51,9 +51,6 @@ const InScope = (props) => {
   return (
 
     <Box>
-      <Typography variant={'h4'} fontWeight={700} marginBottom={4}  >
-        {/* {data.assets.map((home,i) => <div>{home.title},{i}</div>)} */}
-      </Typography>
       <Grid
         container
         // sx={{backgroundColor: theme.palette.alternate.main}}
@@ -61,7 +58,7 @@ const InScope = (props) => {
         {data.assets?.map((item, i) => (
           <Grid key={i} item
             sx={{
-              borderBottom: `1px solid ${theme.palette.divider}`,
+              borderBottom: `4px solid ${theme.palette.wildwest.wine}`,
               '&:last-child': {
                 borderBottom: 0,
               },

@@ -147,7 +147,7 @@ const Jobs = () => {
           },
         }}
       >
-        <Grid item xs={12} md={2}>
+        {/* <Grid item xs={12} md={2}>
           <FormControl variant="outlined" sx={{ minWidth: 1 }}>
             <InputLabel id="bounty_listing">Sort by</InputLabel>
             <Select sx={{ borderRadius: 0 }} labelId="career-listing__jobs-role--label" label="Teams">
@@ -159,8 +159,11 @@ const Jobs = () => {
             </Select>
           </FormControl>
 
-        </Grid>
-        <Grid item xs={12} md={10} marginTop={-1}>
+        </Grid> */}
+        <Grid item xs={12} 
+          // md={10} 
+          md={12}
+          marginTop={-1}>
 
           <Box>
             <Box

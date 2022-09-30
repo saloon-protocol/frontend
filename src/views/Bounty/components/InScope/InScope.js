@@ -12,8 +12,6 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
-import { styled } from '@mui/material/styles';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { gruvboxDark, pojoaque } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
@@ -53,7 +51,6 @@ const InScope = (props) => {
     <Box>
       <Grid
         container
-        // sx={{backgroundColor: theme.palette.alternate.main}}
       >
         {data.assets?.map((item, i) => (
           <Grid key={i} item
@@ -64,7 +61,6 @@ const InScope = (props) => {
               },
             }}
             xs={12}
-            // backgroundColor={theme.palette.oldwest.cream}
           >
 
 
@@ -83,15 +79,9 @@ const InScope = (props) => {
                   sx={{ width: 1}}
                   alignItems={'center'}
                   padding={2}
-                  // backgroundColor={theme.palette.background.default}
-                  // backgroundColor={theme.palette.wildwest.darkorange}
-
-
                 >
                   <Box 
-                    sx={{ width: '33%'}}
-                    // justifyContent='space-between'
-                    
+                    sx={{ width: '33%'}}                    
                   >
                     <Typography 
                       variant='h6'

@@ -87,10 +87,10 @@ const Jobs = () => {
             <InputLabel id="career-listing__jobs-role--label">Sort by</InputLabel>
             <Select labelId="career-listing__jobs-role--label" label="Teams">
               <MenuItem value="">
-                <em>All teams</em>
+                <em>All</em>
               </MenuItem>
-              <MenuItem value={'consumer'}>Consumer</MenuItem>
-              <MenuItem value={'consulting'}>Consulting</MenuItem>
+              <MenuItem value={'high'}>High to Low</MenuItem>
+              <MenuItem value={'low'}>Low to High</MenuItem>
               <MenuItem value={'internal-tools'}>Internal tools</MenuItem>
             </Select>
           </FormControl>

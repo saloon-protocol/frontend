@@ -8,6 +8,8 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import InputAdornment from '@mui/material/InputAdornment';
+import TextField from '@mui/material/TextField';
 import Search from '../Search';
 import MANAGER from '../../../../chain-info/Manager.json';
 import { ethers } from 'ethers';
@@ -26,6 +28,8 @@ const fetchData = async () => {
 };
 
 const Jobs = () => {
+  const [query, setQuery] = useState();
+
   const [bounties, setBounties] = useState([]);
   // useEffect(() => {
   //   fetchData().then(bounties => {
@@ -43,7 +47,7 @@ const Jobs = () => {
   //     // bounties[0]['payout'] = len;
   //     console.log(bounties);
   //   });
-    
+  console.log(query);
     
   // }, []);
   useEffect(() => {
@@ -51,6 +55,7 @@ const Jobs = () => {
       setBounties(bounties);
       console.log(bounties);
     });
+    
     
     
   }, []);
@@ -136,36 +141,80 @@ const Jobs = () => {
         }}
       >
         <Grid item xs={12} md={2}>
-          <FormControl variant="outlined" sx={{ borderRadius: 0, minWidth: 1 }}>
-            <InputLabel id="career-listing__jobs-role--label">Filters</InputLabel>
-            <Select sx={{ borderRadius: 0 }} labelId="career-listing__jobs-role--label" label="Roles">
-              <MenuItem value="">
-                <em>All roles</em>
-              </MenuItem>
-              <MenuItem value={'design'}>Design</MenuItem>
-              <MenuItem value={'engineering'}>Engineering</MenuItem>
-              <MenuItem value={'product'}>Product</MenuItem>
-              <MenuItem value={'support'} >Support</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} md={2}>
           <FormControl variant="outlined" sx={{ minWidth: 1 }}>
-            <InputLabel id="career-listing__jobs-role--label">Sort by</InputLabel>
+            <InputLabel id="bounty_listing">Sort by</InputLabel>
             <Select sx={{ borderRadius: 0 }} labelId="career-listing__jobs-role--label" label="Teams">
               <MenuItem value="" >
-                <em>All teams</em>
+                <em>All</em>
               </MenuItem>
-              <MenuItem value={'consumer'}>Consumer</MenuItem>
-              <MenuItem value={'consulting'}>Consulting</MenuItem>
-              <MenuItem value={'internal-tools'}>Internal tools</MenuItem>
+              <MenuItem value={'high'}>High to Low</MenuItem>
+              <MenuItem value={'low'}>Low to High</MenuItem>
             </Select>
           </FormControl>
 
         </Grid>
-        <Grid item xs={12} md={8} marginTop={-1}>
+        <Grid item xs={12} md={10} marginTop={-1}>
 
-          <Search />
+          <Box>
+            <Box
+              padding={1}
+              width={1}
+              // component={Card}
+              // boxShadow={1}
+              marginBottom={4}
+              sx={{borderRadius: 0}}
+            >
+              <form noValidate autoComplete="off"
+                onChange={q => setQuery(q.target.value)}
+              >
+                <Box display="flex" alignItems={'center'}>
+                  <Box width={1} marginRight={1} color='secondary' >
+                    <TextField
+                      // margin='1'
+                      
+                      sx={{ 
+                        // height: 54
+                        '& .MuiOutlinedInput-notchedOutline': {
+                          // border: '0 !important',
+                          borderRadius: 0,
+                          border: 1
+                        },
+                      }}
+                      variant="outlined"
+                      // color="secondary"
+                      size="medium"
+                      placeholder="Search bounties by name, description or amount"
+                      fullWidth
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment sx={{ borderRadius: 0}} position="start">
+                            <Box
+                              component={'svg'}
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              width={24}
+                              height={24}
+                              color={'primary.main'}
+                              sx={{ borderRadius: 0}}
+                            >
+                              <path
+                                // strokeLinecap="round"
+                                // strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                              />
+                            </Box>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  </Box>
+                </Box>
+              </form>
+            </Box>
+          </Box>
 
         </Grid>
       </Grid>
@@ -185,7 +234,7 @@ const Jobs = () => {
           borderRadius: 2,
         }}
       >
-        {bounties.map((item, i) => (
+        {bounties.filter(item=>item.title.toLowerCase().includes(query)).map((item, i) => (
           <Grid
             item
             xs={12}

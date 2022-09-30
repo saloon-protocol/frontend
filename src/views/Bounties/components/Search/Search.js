@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 // import { useTheme } from '@mui/material/styles';
 // import Divider from '@mui/material/Divider';
 // import Card from '@mui/material/Card';
@@ -8,8 +8,10 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-
 import InputAdornment from '@mui/material/InputAdornment';
+
+// const [query, setQuery] = useState();
+
 
 const Search = () => {
 //   const theme = useTheme();
@@ -28,6 +30,7 @@ const Search = () => {
             <Box width={1} marginRight={1} color='secondary' >
               <TextField
                 // margin='1'
+                // onChange={q => setQuery(q.target.value)}
                 sx={{ 
                   // height: 54
                   '& .MuiOutlinedInput-notchedOutline': {
@@ -39,7 +42,7 @@ const Search = () => {
                 variant="outlined"
                 // color="secondary"
                 size="medium"
-                placeholder="Search projects"
+                placeholder="Search bounties"
                 fullWidth
                 InputProps={{
                   startAdornment: (
@@ -77,7 +80,7 @@ const Search = () => {
               </Typography> */}
             </Box>
             <Box>
-              <Button
+              {/* <Button
                 sx={{borderRadius: 0, whiteSpace: 'nowrap' }}
                 variant="contained"
                 color="primary"
@@ -86,7 +89,7 @@ const Search = () => {
         
               >
                 Search
-              </Button>
+              </Button> */}
             </Box>
           </Box>
         </form>

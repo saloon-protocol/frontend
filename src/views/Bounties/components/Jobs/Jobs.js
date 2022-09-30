@@ -28,7 +28,7 @@ const fetchData = async () => {
 };
 
 const Jobs = () => {
-  const [query, setQuery] = useState();
+  const [query, setQuery] = useState('');
 
   const [bounties, setBounties] = useState([]);
   // useEffect(() => {
@@ -115,7 +115,6 @@ const Jobs = () => {
   //   console.log(bounties);
     
   // });
-
   const keys = ['title', 'description']; // include payout and apy once included in API
   const search = (data) => {
     return data.filter((item) =>

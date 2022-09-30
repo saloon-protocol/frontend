@@ -265,15 +265,16 @@ const Jobs = () => {
             >
               <Grid container item padding={4}
                 display={'flex'}
-                alignItems={'center'}
+                // alignItems={{xs:'left', sm:'center'}}
                 flexDirection={{ xs: 'column', sm: 'row' }}
                 // direction = "row"
                 justifyContent="space-between"
                 md={12}
+                xs={12}
                 // spacing={5}
 
               >
-                <Grid item >
+                <Grid item alignSelf={'center'}>
 
                   <Typography item
                     // marginRight={4} 
@@ -301,14 +302,14 @@ const Jobs = () => {
                   </Typography>
                 </Grid>
 
-                <Grid item md={2}>
+                <Grid item md={2} sm={5} xs={12}>
                   <Box
                     display={'flex'}
                     flexDirection={{ xs: 'column', sm: 'column' }}
                     // flex={'1 1 100%'}
                     justifyContent={{ sm: 'space-between' }}
-                    alignItems={{ sm: 'left' }}
-
+                    alignItems={{ xs: 'left' }}
+                    fullWidth
                   >
                     <Box>
                       <Typography variant='caption'>
@@ -348,7 +349,7 @@ const Jobs = () => {
                     </Button>
                   </Box>
                 </Grid>
-                <Grid item md={2}>
+                <Grid item md={2} sm={5} xs={12} >
                   <Box
                     display={'flex'}
                     flexDirection={{ xs: 'column', sm: 'column' }}
@@ -367,7 +368,7 @@ const Jobs = () => {
                       variant="outlined"
                       color="inherit"
                       size="medium"
-                      sx={{ borderRadius: 0 }}
+                      sx={{ borderRadius: 0}}
                       endIcon={
                         <Box
                           component={'svg'}

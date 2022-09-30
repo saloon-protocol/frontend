@@ -28,7 +28,7 @@ const fetchData = async () => {
 };
 
 const Jobs = () => {
-  const [query, setQuery] = useState();
+  const [query, setQuery] = useState("");
 
   const [bounties, setBounties] = useState([]);
   // useEffect(() => {

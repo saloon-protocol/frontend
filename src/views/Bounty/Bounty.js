@@ -21,14 +21,12 @@ import {
 import { ethers } from 'ethers';
 // eslint-disable-next-line
 import { useParams } from 'react-router-dom';
-import { isNonNullChain } from 'typescript';
 
 const Bounty = () => {
   const theme = useTheme();
 
   const {title} = useParams();
   
-
   const fetchData = async () => {
     // eslint-disable-next-line
     const res = await fetch(`https://0xdjango.pythonanywhere.com/api/v1/bounty?project=${title}`);
@@ -37,6 +35,7 @@ const Bounty = () => {
   
     return json;
   };
+
 
   const [bounty, setBounty] = useState([]);
   useEffect(() => {
@@ -57,7 +56,7 @@ const Bounty = () => {
   // for some reason I cant hide my alchemy key
   const mumbaiwss = 'wss://polygon-mumbai.g.alchemy.com/v2/MFd0LBZozOhdiLbJPopgwAMbqIxeZSC7';
 
-  var provider = new ethers.providers.Web3Provider(window.ethereum);
+  // let provider = new ethers.providers.Web3Provider(window.ethereum);
   if(window.ethereum){
     const provider = new ethers.providers.WebSocketProvider(mumbaiwss);
   }

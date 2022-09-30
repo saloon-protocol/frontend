@@ -6,7 +6,8 @@ import { light, dark } from './palette';
 const getTheme = (mode, themeToggler) =>
   responsiveFontSizes(
     createTheme({
-      palette: mode === 'light' ? light : dark,
+      // palette: mode === 'light' ? light : dark,
+      palette: dark,
       shadows: shadows(mode),
       typography: {
         // fontFamily: '"Inter", sans-serif',

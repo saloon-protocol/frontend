@@ -56,10 +56,10 @@ const Bounty = () => {
   // for some reason I cant hide my alchemy key
   const mumbaiwss = 'wss://polygon-mumbai.g.alchemy.com/v2/MFd0LBZozOhdiLbJPopgwAMbqIxeZSC7';
 
-  // let provider = new ethers.providers.Web3Provider(window.ethereum);
+  let provider;
   if(window.ethereum){
     const provider = new ethers.providers.WebSocketProvider(mumbaiwss);
-  }
+  } 
 
   const [provids, setProvider] = useState();
   const [library, setLibrary] = useState();

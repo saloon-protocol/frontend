@@ -53,5 +53,6 @@ module.exports = {
       'error',
       'only-multiline',
     ],
+
   },
 };

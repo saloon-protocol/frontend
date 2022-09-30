@@ -116,6 +116,13 @@ const Jobs = () => {
     
   // });
 
+  const keys = ['title', 'description']; // include payout and apy once included in API
+  const search = (data) => {
+    return data.filter((item) =>
+      keys.some((key) => item[key].toLowerCase().includes(query))
+    );
+  };
+
   return (
     <Box>
       <Box marginBottom={4}>
@@ -183,7 +190,9 @@ const Jobs = () => {
                       variant="outlined"
                       // color="secondary"
                       size="medium"
-                      placeholder="Search bounties by name, description or amount"
+                      // placeholder="Search bounties by name, description or amount"
+                      placeholder="Search bounties by name or description"
+
                       fullWidth
                       InputProps={{
                         startAdornment: (
@@ -234,7 +243,9 @@ const Jobs = () => {
           borderRadius: 2,
         }}
       >
-        {bounties.filter(item=>item.title.toLowerCase().includes(query)).map((item, i) => (
+        {/* {bounties.filter(item=>item.title.toLowerCase().includes(query)).map((item, i) => ( */}
+        {search(bounties).map((item, i) => (
+
           <Grid
             item
             xs={12}

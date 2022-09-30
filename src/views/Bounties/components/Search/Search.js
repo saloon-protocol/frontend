@@ -70,27 +70,6 @@ const Search = () => {
                 }}
               />
             </Box>
-            <Box display={{ xs: 'none', sm: 'block' }} marginRight={2} sx={{ borderRadius: 0}}>
-              {/* <Typography
-                color={'text.secondary'}
-                variant={'subtitle2'}
-                sx={{ whiteSpace: 'nowrap' }}
-              >
-                123 Results
-              </Typography> */}
-            </Box>
-            <Box>
-              {/* <Button
-                sx={{borderRadius: 0, whiteSpace: 'nowrap' }}
-                variant="contained"
-                color="primary"
-                size="medium"
-                fullWidth
-        
-              >
-                Search
-              </Button> */}
-            </Box>
           </Box>
         </form>
       </Box>

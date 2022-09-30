@@ -209,7 +209,7 @@ const Topbar = ({ onSidebarOpen, pages, colorInvert = false }) => {
         >
           Saloon
         </Link>
-        <Typography 
+        <Typography variant={'caption'}
           // align='center'
         >
           TESTNET 

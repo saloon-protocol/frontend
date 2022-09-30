@@ -45,21 +45,20 @@ const HeroCareer = () => {
             </Typography>
             <Typography
               variant="h1"
-              gutterBottom
               align={'center'}
               color={'white'}
+              gutterBottom
               sx={{ 
-                // text-shadow: `#FC0 1px 0 10px`,
-            
                 fontFamily: 'Diplomata',
                 // textShadowColor: 'rgba(#FC0, 1, 0, 0.75)',
-                textShadowColor: 'blue',
-                textShadowOffset: {width: 5, height: 5},
-                textShadowRadius: 10
+                // textShadowColor: 'blue',
+                // textShadowOffset: {width: 5, height: 5},
+                // textShadowRadius: 10
               }}
-              
-
-            >Saloon</Typography>
+            >
+              Saloon
+            </Typography>
+           
             <Typography
               variant="h5"
               component="p"
@@ -67,10 +66,10 @@ const HeroCareer = () => {
               align={'center'}
               sx={{ marginBottom: 1, fontWeight:900 }}
             >
+              Next-Gen Bug Bounty Platform
+              <br />
+              <br />
               Only for those who take web3 security seriously.
-              <br />
-              <br />
-              Very seriously.
             </Typography>
 
           </Box>

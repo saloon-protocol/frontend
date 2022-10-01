@@ -93,7 +93,7 @@ const Footer = () => {
               <Box marginTop={1}>
                 <Button
                   component="a"
-                  href="/docs/introduction"
+                  href="https://github.com/orgs/saloon-protocol/repositories"
                   color="inherit"
                   variant="outlined"
                   size="small"

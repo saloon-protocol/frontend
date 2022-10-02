@@ -265,7 +265,7 @@ const Jobs = () => {
             >
               <Grid container item padding={4}
                 display={'flex'}
-                // alignItems={{xs:'left', sm:'center'}}
+                alignItems={{xs:'left', sm:'center'}}
                 flexDirection={{ xs: 'column', sm: 'row' }}
                 // direction = "row"
                 justifyContent="space-between"
@@ -309,9 +309,10 @@ const Jobs = () => {
                     // flex={'1 1 100%'}
                     justifyContent={{ sm: 'space-between' }}
                     alignItems={{ xs: 'left' }}
+                  
                     fullWidth
                   >
-                    <Box>
+                    <Box >
                       <Typography variant='caption'>
                         Rewards up to
                       </Typography>

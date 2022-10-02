@@ -23,8 +23,6 @@ const Footer = () => {
           <Box
             display={'flex'}
             component="a"
-            // href="/"
-            // title="theFront"
             width={80}
           >
             <Link

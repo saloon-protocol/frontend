@@ -56,12 +56,13 @@ const Bounty = () => {
   // for some reason I cant hide my alchemy key
   const mumbaiwss = 'wss://polygon-mumbai.g.alchemy.com/v2/MFd0LBZozOhdiLbJPopgwAMbqIxeZSC7';
 
-  var provider = new ethers.providers.Web3Provider(window.ethereum);
-  if(window.ethereum){
-    const provider = new ethers.providers.WebSocketProvider(mumbaiwss);
-  } 
+  // var provider = new ethers.providers.WebSocketProvider(mumbaiwss);
+  // var provider;
+  // if(window.ethereum){
+  //   const provider = new ethers.providers.WebSocketProvider(mumbaiwss);
+  // } 
 
-  const [provids, setProvider] = useState();
+  const [provider, setProvider] = useState();
   const [library, setLibrary] = useState();
   const [account, setAccount] = useState();
   const [signature, setSignature] = useState("");
@@ -96,7 +97,6 @@ const Bounty = () => {
       setError(error);
     }
   };
-
   
 
   async function approveWETH(){
@@ -109,14 +109,20 @@ const Bounty = () => {
   }
 
   async function transferWETH(){
+
     const WETHAddress = '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889'; //mumbai
     const WETHabi = WETH;
-    const signer = await provider.getSigner();
+    // const signer = await provider.getSigner();
+    const message = 'Send 0.011 ETH';
     const manager = '0xbA2C02d5c59238d5607aDcbc277c80a51694e73F';
-    const defiPandaPool = '0x44bBCa2A3627544371B826C3300d0F7D1e68f9d3';
+    // const defiPandaPool = '0x44bBCa2A3627544371B826C3300d0F7D1e68f9d3';
+    const signer = await library.provider.request({
+      method: "personal_sign",
+      params: [message, account]
+    });
     const contract = new ethers.Contract(WETHAddress, WETHabi, signer);
     const sendVal = ethers.utils.parseEther("0.0011");
-    await contract.transfer(defiPandaPool, sendVal);
+    await contract.transfer(manager, 10000000);
   }
 
   const checkAllowance = async () => {
@@ -146,23 +152,44 @@ const Bounty = () => {
     setMessage(msg);
   };
 
+  // const switchNetwork = async () => {
+  //   await window.ethereum.request({
+  //     method: "wallet_switchEthereumChain",
+  //     params: [{
+  //       // chainId: "0x89", // Polygon Mainnet
+  //       chainId: "0x13881", // Mumbai Testnet
+  //       // rpcUrls: ["https://polygon-rpc.com/"],
+  //       // chainName: "Matic Mainnet",
+  //       // nativeCurrency: {
+  //       //   name: "MATIC",
+  //       //   symbol: "MATIC",
+  //       //   decimals: 18
+  //       // },
+  //       // blockExplorerUrls: ["https://polygonscan.com/"]
+  //     }]
+  //   });
+  //   window.location.reload();
+  // };
+
   const switchNetwork = async () => {
-    await window.ethereum.request({
-      method: "wallet_switchEthereumChain",
-      params: [{
-        // chainId: "0x89", // Polygon Mainnet
-        chainId: "0x13881", // Mumbai Testnet
-        // rpcUrls: ["https://polygon-rpc.com/"],
-        // chainName: "Matic Mainnet",
-        // nativeCurrency: {
-        //   name: "MATIC",
-        //   symbol: "MATIC",
-        //   decimals: 18
-        // },
-        // blockExplorerUrls: ["https://polygonscan.com/"]
-      }]
-    });
-    window.location.reload();
+    try {
+      await library.provider.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: "0x13881" }]
+      });
+      handleNetwork(network);
+    } catch (switchError) {
+      if (switchError.code === 4902) {
+        try {
+          await library.provider.request({
+            method: "wallet_addEthereumChain",
+            params: [networkParams[toHex(network)]]
+          });
+        } catch (error) {
+          setError(error);
+        }
+      }
+    }
   };
 
   const signMessage = async () => {
@@ -221,22 +248,22 @@ const Bounty = () => {
   //   }
   // }, []);
 
-  const[chain, setChain] = useState();
-  const checkChainId = async() => {
-    const signer = await provider.getSigner();
-    const chainId = await signer.getChainId();
-    const chain = chainId.toString();
-    return chain;
-  };
+  // const[chain, setChain] = useState();
+  // const checkChainId = async() => {
+  //   const signer = await provider.getSigner();
+  //   const chainId = await signer.getChainId();
+  //   const chain = chainId.toString();
+  //   return chain;
+  // };
 
-  useEffect(() => {
-    checkAllowance().then(allowance => {
-      setAllowance(allowance);
-    });
-    checkChainId().then(id => {
-      setChain(id);
-    });
-  });
+  // useEffect(() => {
+  //   checkAllowance().then(allowance => {
+  //     setAllowance(allowance);
+  //   });
+  //   // checkChainId().then(id => {
+  //   //   setChain(id);
+  //   // });
+  // });
  
  
   useEffect(() => {
@@ -248,6 +275,9 @@ const Bounty = () => {
         
       };
       
+      checkAllowance().then(allowance => {
+        setAllowance(allowance);
+      });
 
       const handleChainChanged = (_hexChainId) => {
         setChainId(_hexChainId);
@@ -423,7 +453,7 @@ const Bounty = () => {
                           // if chain is not polygon
                           // chain == 137 ? (
                           // if chain is not Mumbai
-                          chain == 80001 ? ( 
+                          chainId == 80001 ? ( 
                             <Box>
                               {
                                 // if staking hasnt been allowed

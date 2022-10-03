@@ -1,6 +1,9 @@
 ## TODOs:
 
-- BountyPool details
+- Ethers:
+  Keep persistent connection ethers
+  Connect wallet
+  Get account
 
 ---
 

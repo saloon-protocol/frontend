@@ -17,19 +17,21 @@ const hunters = [
       "On top of the usual bounty payments that a hunter strives to earn, Saloon is opening up other avenues to use your smart contract knowledge and auditing skills to earn money. If you've audited a project and believe it is bug-free and/or exploit-proof, you can stake your capital to earn payments directly from the project.",
     
     image: <Lever/>,
+    link: 'https://saloon-finance.gitbook.io/saloon-finance/hunter-manual/how-to-hunt',
   },
   {
     title: 'Fairness',
     description:
       "We will review every submission to determine validity and potential duplicate status to save your time. No need to wait on a response from a project when it's not necessary.",
     image: <Balance/>,
+    link: 'https://saloon-finance.gitbook.io/saloon-finance/hunter-manual/how-to-hunt',
   },
-  {
-    title: 'Responsive',
-    description:
-      'Protect your users and investors. Who better to assume the risk than the auditors who have poured hundreds of hours into pentesting?',
-    image: <Responsive/>,
-  },
+  // {
+  //   title: 'Responsive',
+  //   description:
+  //     'Protect your users and investors. Who better to assume the risk than the auditors who have poured hundreds of hours into pentesting?',
+  //   image: <Responsive/>,
+  // },
 ];
 
 const WorkH = () => {
@@ -103,6 +105,7 @@ const WorkH = () => {
                 <Button
                   size={'large'}
                   sx={{ marginTop: 2 }}
+                  href={item.link}
                   endIcon={
                     <Box
                       component={'svg'}

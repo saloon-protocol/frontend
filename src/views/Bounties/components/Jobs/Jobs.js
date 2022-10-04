@@ -276,13 +276,14 @@ const Jobs = () => {
               >
                 <Grid item alignSelf={'center'}>
 
-                  <Typography item
-                    // marginRight={4} 
-                    variant={'subtitle1'} fontWeight={700}
-                    paddingBottom={{ xs: 2 }}
-                  >
-                    LOGO
-                  </Typography>
+                  <img 
+                    src={item.logo_url}
+                    alt="new"
+                    style={{
+                      width: '20%',
+                      // witdh: 10,s
+                    }}
+                  />
                 </Grid>
                 <Grid item marginBottom={{ xs: 1, sm: 0 }}
                   paddingY={{ xs: 2 }}

@@ -321,12 +321,17 @@ const Bounty = () => {
         <Grid container spacing={4}>
           <Grid item xs={6} >
             <Box display={'flex'} flexDirection={{ xs: 'column', sm: 'row' }} alignItems='baseline'>
-              <Typography variant={'h5'} fontWeight={700} marginRight={1} >
-                LOGO
-              </Typography>
+              <img 
+                src={bounty.logo_url}
+                alt="new"
+                style={{
+                  width: '10%',
+                  // witdh: 10,
+                }}
+              />
               <Typography variant={'h3'} 
                 fontFamily={'Roboto Slab'}
-                fontWeight={700} marginBottom={4} >
+                fontWeight={700} marginBottom={4} marginLeft={2} >
                 {bounty.title}
               </Typography>
             </Box>

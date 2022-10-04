@@ -279,10 +279,6 @@ const Jobs = () => {
               >
                 <Grid item 
                   alignSelf={{xs:'center',sm:'center', md:'center'}} 
-                  // maxWidth={20}
-                  // component="img"
-                  // src={item.logo_url}
-                  // alt="logo"
                   md={1}
                   sm={3}
                   xs={4}
@@ -290,8 +286,6 @@ const Jobs = () => {
                   <CardMedia
                     component="img"
                     sx={{ backgroundImage:item.logo_url }}
-                    // maxWidth={20}
-                    // component="img"
                     src={item.logo_url}
                     alt="logo"
                   >

@@ -38,14 +38,14 @@ const InScope = (props) => {
       link: '/bounty',
       description: 'This should be a one-line short description',
       code: 'lalala'
-      
+
     },
-  
+
   ];
 
   const code = 'contract ERC20 is Context, IERC20, IERC20Metadata {  \n  mapping(address => uint256) private _balances;  \n  mapping(address => mapping(address => uint256)) private _allowances; \n   uint256 private _totalSupply; \n   string private _name; \n   string private _symbol;    /**  \n   * @dev Sets the values for {name} and {symbol}.     *  \n   * The default value of {decimals} is 18. To select a different value for  \n   * {decimals} you should overload it.     *  \n   * All two of these values are immutable: they can only be set once during     * construction.     */  \n  constructor(string memory name_, string memory symbol_) {        _name = name_;        _symbol = symbol_;    }';
   console.log(mock);
-  
+
   return (
 
     <Box>
@@ -64,57 +64,57 @@ const InScope = (props) => {
           >
 
 
-            <Accordion 
+            <Accordion
             >
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1d-content"
-                id="panel1a-header"  
+                id="panel1a-header"
                 sx={{
                   backgroundColor: theme.palette.oldwest.darkbrown
                 }}
               >
-                
-                <Box display='flex' 
-                  sx={{ width: 1}}
+
+                <Box display='flex'
+                  sx={{ width: 1 }}
                   alignItems={'center'}
                   padding={2}
                 >
-                  <Box 
-                    sx={{ width: '33%'}}                    
+                  <Box
+                    sx={{ width: '33%' }}
                   >
-                    <Typography 
+                    <Typography
                       variant='h6'
                       fontWeight={700}
-                      sx={{textTransform:'uppercase'}}
-                      
+                      sx={{ textTransform: 'uppercase' }}
+
                     >
-                      <Link underline='hover' href={'https://etherscan.io/'+item.address} target="_blank" color={'text.primary'}>
+                      <Link underline='hover' href={'https://mumbai.polygonscan.com/address/' + item.address} target="_blank" color={'text.primary'}>
                         {item.title}
                       </Link>
                     </Typography>
-                    <Typography variant= 'body1' gutterBottom color={'text.primary'} 
+                    <Typography variant='body1' gutterBottom color={'text.primary'}
                       fontWeight={500}>
                       LOC 1234
                     </Typography>
                   </Box>
-                  
-                  <Typography 
+
+                  <Typography
                     align='center' color={'text.primary'} fontSize='medium'>
                     {item.description}
                   </Typography>
                 </Box>
-                
+
 
               </AccordionSummary>
-              <AccordionDetails 
-               
+              <AccordionDetails
+
                 sx={{
                   backgroundColor: theme.palette.alternate.main
                 }}
               >
                 <SyntaxHighlighter language="javascript" style={gruvboxDark}
-                  padding={3} showLineNumbers 
+                  padding={3} showLineNumbers
                 >
                   {item.source_code}
                 </SyntaxHighlighter>
@@ -124,11 +124,11 @@ const InScope = (props) => {
 
 
           </Grid>
-        ))}    
+        ))}
       </Grid>
     </Box>
 
-    
+
   );
 };
 

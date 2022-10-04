@@ -30,7 +30,7 @@ module.exports = {
     //         "varsIgnorePattern": "^[A-Z]"
     //     }
     // ],
-    "react/jsx-uses-react": "error",   
+    "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
     'indent': [
       'error',

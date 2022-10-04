@@ -16,6 +16,7 @@ import { ethers } from 'ethers';
 
 // eslint-disable-next-line
 import { useParams } from 'react-router-dom';
+import { CardMedia } from '@mui/material';
 
 // eslint-disable-next-line
 
@@ -244,6 +245,7 @@ const Jobs = () => {
           background: theme.palette.background.paper,
           borderRadius: 2,
         }}
+
       >
         {/* {bounties.filter(item=>item.title.toLowerCase().includes(query)).map((item, i) => ( */}
         {search(bounties).map((item, i) => (
@@ -258,6 +260,7 @@ const Jobs = () => {
                 borderBottom: 0,
               },
             }}
+
 
           >
             <Grid
@@ -274,16 +277,26 @@ const Jobs = () => {
                 // spacing={5}
 
               >
-                <Grid item alignSelf={'center'}>
-
-                  <img 
+                <Grid item 
+                  alignSelf={{xs:'center',sm:'center', md:'center'}} 
+                  // maxWidth={20}
+                  // component="img"
+                  // src={item.logo_url}
+                  // alt="logo"
+                  md={1}
+                  sm={3}
+                  xs={4}
+                >
+                  <CardMedia
+                    component="img"
+                    sx={{ backgroundImage:item.logo_url }}
+                    // maxWidth={20}
+                    // component="img"
                     src={item.logo_url}
-                    alt="new"
-                    style={{
-                      width: '20%',
-                      // witdh: 10,s
-                    }}
-                  />
+                    alt="logo"
+                  >
+                  </CardMedia>
+
                 </Grid>
                 <Grid item marginBottom={{ xs: 1, sm: 0 }}
                   paddingY={{ xs: 2 }}

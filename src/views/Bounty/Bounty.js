@@ -112,14 +112,14 @@ const Bounty = () => {
 
     const WETHAddress = '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889'; //mumbai
     const WETHabi = WETH;
-    // const signer = await provider.getSigner();
+    const signer = await library.getSigner();
     const message = 'Send 0.011 ETH';
     const manager = '0xbA2C02d5c59238d5607aDcbc277c80a51694e73F';
     // const defiPandaPool = '0x44bBCa2A3627544371B826C3300d0F7D1e68f9d3';
-    const signer = await library.provider.request({
-      method: "personal_sign",
-      params: [message, account]
-    });
+    // const signer = await library.provider.request({
+    //   method: "personal_sign",
+    //   params: [message, account]
+    // });
     const contract = new ethers.Contract(WETHAddress, WETHabi, signer);
     const sendVal = ethers.utils.parseEther("0.0011");
     await contract.transfer(manager, 10000000);

@@ -1,9 +1,7 @@
 ## TODOs:
 
-- Ethers:
-  Keep persistent connection ethers
-  Connect wallet
-  Get account
+- Unstaking: read from SC if unstake has been scheduled. If not display SCHEDULE UNSTAKE, otherwise display UNSTAKE
+  - Include hover (i) that displays information abount the waiting perido to unstake and how it works
 
 ---
 

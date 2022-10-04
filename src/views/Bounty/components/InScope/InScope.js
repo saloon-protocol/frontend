@@ -14,7 +14,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { gruvboxDark, pojoaque } from 'react-syntax-highlighter/dist/esm/styles/prism';
-
+import code from './code.json';
 import PropTypes from 'prop-types';
 
 
@@ -43,7 +43,7 @@ const InScope = (props) => {
   
   ];
 
-  const code = 'contract ERC20 is Context, IERC20, IERC20Metadata {  \n  mapping(address => uint256) private _balances;  \n  mapping(address => mapping(address => uint256)) private _allowances; \n   uint256 private _totalSupply; \n   string private _name; \n   string private _symbol;    /**  \n   * @dev Sets the values for {name} and {symbol}.     *  \n   * The default value of {decimals} is 18. To select a different value for  \n   * {decimals} you should overload it.     *  \n   * All two of these values are immutable: they can only be set once during     * construction.     */  \n  constructor(string memory name_, string memory symbol_) {        _name = name_;        _symbol = symbol_;    }';
+  // const code = 'contract ERC20 is Context, IERC20, IERC20Metadata {  \n  mapping(address => uint256) private _balances;  \n  mapping(address => mapping(address => uint256)) private _allowances; \n   uint256 private _totalSupply; \n   string private _name; \n   string private _symbol;    /**  \n   * @dev Sets the values for {name} and {symbol}.     *  \n   * The default value of {decimals} is 18. To select a different value for  \n   * {decimals} you should overload it.     *  \n   * All two of these values are immutable: they can only be set once during     * construction.     */  \n  constructor(string memory name_, string memory symbol_) {        _name = name_;        _symbol = symbol_;    }';
   console.log(mock);
   
   return (

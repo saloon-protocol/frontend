@@ -324,17 +324,21 @@ const Bounty = () => {
           data-aos-delay={700}
           data-aos-offset={600}
           data-aos-duration={700}
+          
+          display={'flex'}
+          flexDirection={{ xs: 'column', sm: 'row' }}
         >
-          <Grid item xs={6} >
+          <Grid item xs={12} sm={6} >
             <Box display={'flex'} 
               // flexDirection={{ xs: 'row', sm: 'row' }} 
               flexDirection={'row'}
-              alignItems='baseline'
+              
               marginBottom={4}
             >
 
-              <Grid item xs={6} md={1} alignSelf={'center'}>
-                <CardMedia md={1}
+              <Grid item xs={1} md={1} alignSelf={'center'}>
+                <CardMedia 
+                  // xs={1} md={1}
                   component="img"
                   // sx={{ backgroundImage:item.logo_url }}
                   src={bounty.logo_url}
@@ -359,7 +363,7 @@ const Bounty = () => {
           </Grid>
 
       
-          <Grid item xs={6}>
+          <Grid item xs={12} sm={6}>
             <Rewards 
               data={bounty} 
               // chain_data={info}

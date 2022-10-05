@@ -175,7 +175,7 @@ const Topbar = ({ onSidebarOpen, pages, colorInvert = false }) => {
   const {
     // eslint-disable-next-line
 
-    testing: testPage,
+    docs: docsPage,
     about: aboutPage,
     // bounties: bountiesPage
   } = pages;
@@ -232,8 +232,8 @@ const Topbar = ({ onSidebarOpen, pages, colorInvert = false }) => {
         <Box marginLeft={4}>
           <SimpleNavItem
             title={'Docs'}
-            id={'test-page'}
-            items={testPage}
+            id={'docs-page'}
+            items={docsPage}
             colorInvert={colorInvert}
           />
         </Box>

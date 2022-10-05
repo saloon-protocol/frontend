@@ -12,10 +12,10 @@ const pages = {
       href: '/about',
     }
   ],
-  testing: [
+  docs: [
     {
-      title: 'Saloon',
-      href: '/saloonhome',
+      title: 'Docs',
+      href:'https://saloon-finance.gitbook.io/saloon-finance/howdy/introduction',
     }
   ],
   landings: [

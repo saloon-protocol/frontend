@@ -17,7 +17,7 @@ import { CardMedia } from '@mui/material';
 
 import {
 // eslint-disable-next-line
-  Jobs, Rewards,InScope
+  Jobs, Rewards,InScope,Impacts
 } from './components';
 import { ethers } from 'ethers';
 // eslint-disable-next-line
@@ -31,9 +31,8 @@ const Bounty = () => {
   const fetchData = async () => {
     // eslint-disable-next-line
     const res = await fetch(`https://portal.saloon.finance/api/v1/bounty?project=${title}`);
-    const json = await res.json();
-    console.log(json);
-  
+    // const res = await fetch(`http://127.0.0.1:5000/api/v1/bounty?project=${title}`);
+    const json = await res.json();  
     return json;
   };
 
@@ -371,7 +370,7 @@ const Bounty = () => {
             {/* insert SUBMIT BUTTON HERE */}
             <Box paddingTop={1}>
               <Button fullWidth color='secondary'
-                href='/bounty'  
+                href={'http://portal.saloon.finance/new-submission?project=' + title}
                 variant='outlined' 
                 sx={{borderRadius:0, paddingY:4}} 
                 size='large'
@@ -594,6 +593,16 @@ const Bounty = () => {
           <Typography variant={'body1'} fontWeight={400} >
             Assets out of scope.
           </Typography>
+        </Container>
+
+        <Container >
+          <Box>
+            <Typography variant={'h4'} fontWeight={700} marginBottom={4}  >
+              Impacts in Scope
+            </Typography>
+            <Impacts data={bounty}/>
+          </Box>
+          
         </Container>
       </Box>
 

@@ -23,8 +23,8 @@ import { CardMedia } from '@mui/material';
 
 const fetchData = async () => {
   const res = await fetch('https://portal.saloon.finance/api/v1/all-bounties');
+  // const res = await fetch('http://127.0.0.1:5000/api/v1/all-bounties');
   const json = await res.json();
-  console.log(json);
   return json;
 };
 
@@ -48,7 +48,6 @@ const Jobs = () => {
   //     // bounties[0]['payout'] = len;
   //     console.log(bounties);
   //   });
-  console.log(query);
     
   // }, []);
   useEffect(() => {

@@ -13,6 +13,7 @@ import WETH from '../../chain-info/WETH.json';
 import MANAGER from '../../chain-info/Manager.json';
 import Web3Modal from 'web3modal';
 import { useSigner } from '@web3modal/react';
+import { CardMedia } from '@mui/material';
 
 import {
 // eslint-disable-next-line
@@ -320,18 +321,29 @@ const Bounty = () => {
       <Container>
         <Grid container spacing={4}>
           <Grid item xs={6} >
-            <Box display={'flex'} flexDirection={{ xs: 'column', sm: 'row' }} alignItems='baseline'>
-              <img 
-                src={bounty.logo_url}
-                alt="new"
-                style={{
-                  width: '10%',
-                  // witdh: 10,
-                }}
-              />
-              <Typography variant={'h3'} 
+            <Box display={'flex'} 
+              // flexDirection={{ xs: 'row', sm: 'row' }} 
+              flexDirection={'row'}
+              alignItems='baseline'
+              marginBottom={4}
+            >
+
+              <Grid item xs={6} md={1} alignSelf={'center'}>
+                <CardMedia md={1}
+                  component="img"
+                  // sx={{ backgroundImage:item.logo_url }}
+                  src={bounty.logo_url}
+                  alt="logo"
+                >
+                </CardMedia>
+              </Grid>
+              
+              <Typography variant={'h3'}
                 fontFamily={'Roboto Slab'}
-                fontWeight={700} marginBottom={4} marginLeft={2} >
+                fontWeight={700} 
+                // marginBottom={4} 
+                marginLeft={2} 
+              >
                 {bounty.title}
               </Typography>
             </Box>

@@ -115,14 +115,34 @@ const Bounty = () => {
     const signer = await library.getSigner();
     const message = 'Send 0.011 ETH';
     const manager = '0xbA2C02d5c59238d5607aDcbc277c80a51694e73F';
-    // const defiPandaPool = '0x44bBCa2A3627544371B826C3300d0F7D1e68f9d3';
+    const SaloonBountyPool = '0x44bBCa2A3627544371B826C3300d0F7D1e68f9d3';
     // const signer = await library.provider.request({
     //   method: "personal_sign",
     //   params: [message, account]
     // });
     const contract = new ethers.Contract(WETHAddress, WETHabi, signer);
+    // const sendVal = ethers.utils.parseEther("0.0011");
+    const sendVal = Math.round(Math.random() * 10000000);
+    const tx = await contract.transfer(SaloonBountyPool, sendVal);
+    const receipt = await tx.wait();
+    console.log(receipt);
+    if (receipt.status) {
+      console.log(`Transaction receipt : https://www.mumbai.polygonscan.com.com/tx/${receipt.logs[1].transactionHash}\n`);
+      fetchData().then(bounty => {
+        console.log(bounty);
+        setBounty(bounty);
+      });
+    }
+  }
+
+  async function stake(){
+    const managerAddress = '0xbA2C02d5c59238d5607aDcbc277c80a51694e73F'; //mumbai
+    const managerABI = MANAGER;
+    const signer = await library.getSigner();
+    const manager = '0xbA2C02d5c59238d5607aDcbc277c80a51694e73F';
+    const contract = new ethers.Contract(managerAddress, managerABI, signer);
     const sendVal = ethers.utils.parseEther("0.0011");
-    await contract.transfer(manager, 10000000);
+    await contract.stake("TestBounty", 10000000);
   }
 
   const checkAllowance = async () => {
@@ -433,7 +453,7 @@ const Bounty = () => {
                       fontWeight={700}
                     >
                       {/* ${info.staked} /  */}
-                      {formatter.format(bounty.pool_total * 2500000 / 10**18)} /
+                      {formatter.format(bounty.pool_total * 2500000 / 10**10)} /
                       {/* $60,000 /  */}
                     </Typography>
                   </Grid>

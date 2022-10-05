@@ -13,7 +13,7 @@ const SidebarNav = ({ pages }) => {
   // const { mode } = theme.palette;
 
   const {
-    testing: testPage,
+    docs: docsPage,
     about: aboutPage,
   } = pages;
 
@@ -45,8 +45,8 @@ const SidebarNav = ({ pages }) => {
         <Box paddingY={1}>
           <SimpleNavItem
             title={'Docs'}
-            id={'test-page'}
-            items={testPage}
+            id={'docs-page'}
+            items={docsPage}
           />
         </Box>
         <Box>

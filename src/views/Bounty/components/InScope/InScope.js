@@ -107,10 +107,13 @@ const InScope = (props) => {
 
 
               </AccordionSummary>
-              <AccordionDetails
+              <AccordionDetails 
 
                 sx={{
-                  backgroundColor: theme.palette.alternate.main
+                  backgroundColor: theme.palette.alternate.main,
+                  maxHeight:750,
+                  // height:'100%',
+                  overflow: 'scroll'
                 }}
               >
                 <SyntaxHighlighter language="javascript" style={gruvboxDark}

@@ -322,7 +322,7 @@ const Bounty = () => {
         <Grid container spacing={4}
           data-aos="fade-up"
           data-aos-delay={700}
-          data-aos-offset={600}
+          // data-aos-offset={600}
           data-aos-duration={700}
           
           display={'flex'}

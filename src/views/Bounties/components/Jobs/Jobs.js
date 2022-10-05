@@ -146,6 +146,7 @@ const Jobs = () => {
             background: theme.palette.background.paper,
           },
         }}
+        
       >
         {/* <Grid item xs={12} md={2}>
           <FormControl variant="outlined" sx={{ minWidth: 1 }}>
@@ -161,10 +162,10 @@ const Jobs = () => {
 
         </Grid> */}
         <Grid item xs={12} 
-          // md={10} 
+          loading='lazy'
           md={12}
           marginTop={-1}>
-
+          
           <Box>
             <Box
               padding={1}
@@ -260,6 +261,10 @@ const Jobs = () => {
                 borderBottom: 0,
               },
             }}
+            data-aos="fade-down"
+            data-aos-delay={i * 300}
+            data-aos-offset={100}
+            data-aos-duration={300}
 
 
           >

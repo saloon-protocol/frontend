@@ -319,7 +319,12 @@ const Bounty = () => {
     <Main> 
       
       <Container>
-        <Grid container spacing={4}>
+        <Grid container spacing={4}
+          data-aos="fade-up"
+          data-aos-delay={700}
+          data-aos-offset={600}
+          data-aos-duration={700}
+        >
           <Grid item xs={6} >
             <Box display={'flex'} 
               // flexDirection={{ xs: 'row', sm: 'row' }} 

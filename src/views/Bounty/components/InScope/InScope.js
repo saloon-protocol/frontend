@@ -61,6 +61,10 @@ const InScope = (props) => {
               },
             }}
             xs={12}
+            data-aos="fade-up"
+            data-aos-delay={i * 20}
+            data-aos-offset={100}
+            data-aos-duration={400}
           >
 
 
@@ -108,7 +112,7 @@ const InScope = (props) => {
 
               </AccordionSummary>
               <AccordionDetails 
-
+                loading='lazy'
                 sx={{
                   backgroundColor: theme.palette.alternate.main,
                   maxHeight:750,

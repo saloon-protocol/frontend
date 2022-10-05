@@ -30,7 +30,7 @@ const Bounty = () => {
   
   const fetchData = async () => {
     // eslint-disable-next-line
-    const res = await fetch(`https://0xdjango.pythonanywhere.com/api/v1/bounty?project=${title}`);
+    const res = await fetch(`https://portal.saloon.finance/api/v1/bounty?project=${title}`);
     const json = await res.json();
     console.log(json);
   

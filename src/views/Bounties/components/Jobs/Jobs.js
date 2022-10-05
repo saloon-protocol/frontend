@@ -22,7 +22,7 @@ import { CardMedia } from '@mui/material';
 
 
 const fetchData = async () => {
-  const res = await fetch('https://0xdjango.pythonanywhere.com/api/v1/all-bounties');
+  const res = await fetch('https://portal.saloon.finance/api/v1/all-bounties');
   const json = await res.json();
   console.log(json);
   return json;

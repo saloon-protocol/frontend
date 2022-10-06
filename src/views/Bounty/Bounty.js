@@ -15,6 +15,7 @@ import Web3Modal from 'web3modal';
 import { useSigner } from '@web3modal/react';
 import { CardMedia } from '@mui/material';
 import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
 
 import {
 // eslint-disable-next-line
@@ -76,6 +77,8 @@ const Bounty = () => {
   const [signedMessage, setSignedMessage] = useState("");
   const [verified, setVerified] = useState();
   const [allowance, setAllowance] = useState(null);
+  const [stakeAmount, setStakeAmount] = useState();
+  const [userStaked, setUserStaked] = useState();
 
   const web3Modal = new Web3Modal({
     // network:"mumbai", // optional
@@ -141,15 +144,16 @@ const Bounty = () => {
     }
   }
 
-  async function stake(managerAddress, poolName){
+  async function stake(managerAddress, poolName, amount){
     // const managerAddress = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880'; //mumbai
     // const managerAddress = await fetch('https://portal.saloon.finance/api/v1/get-manager-address');
-    console.log(managerAddress, poolName);
+    console.log(managerAddress, poolName, amount);
     const managerABI = MANAGER;
     const signer = await library.getSigner();
     const contract = new ethers.Contract(managerAddress, managerABI, signer);
     const sendVal = Math.round(Math.random() * 10**16);
-    const tx = await contract.stake(poolName, sendVal);
+    const final_amount = amount * 10**12;
+    const tx = await contract.stake(poolName, final_amount);
     const receipt = await tx.wait();
     console.log(receipt);
     if (receipt.status) {
@@ -179,15 +183,30 @@ const Bounty = () => {
     return formattedAllowance;
   };
   
+  const getUserStaked = async (managerAddress, poolName) => {
+    console.log('Called getUserStaked');
+    // const managerAddress = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880'; //mumbai
+    // const managerAddress = await fetch('https://portal.saloon.finance/api/v1/get-manager-address');
+    // console.log(managerAddress, poolName, amount);
+    const managerABI = MANAGER;
+    const signer = await library.getSigner();
+    const contract = new ethers.Contract(managerAddress, managerABI, signer);
+    // const sendVal = Math.round(Math.random() * 10**16);
+    // const final_amount = amount * 10**13;
+    // (async() => {
+    //   const userStakedLocal = contract.viewUserStakingBalance(poolName);
+    //   console.log('User staked: ' + userStakedLocal.toString());
+    // })();
+  };
 
   const handleNetwork = (e) => {
     const id = e.target.value;
     setNetwork(Number(id));
   };
 
-  const handleInput = (e) => {
-    const msg = e.target.value;
-    setMessage(msg);
+  const handleInputChange = (e) => {
+    const stake_msg = e.target.value;
+    setStakeAmount(stake_msg);
   };
 
   // const switchNetwork = async () => {
@@ -316,6 +335,12 @@ const Bounty = () => {
       checkAllowance('0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880').then(allowance => {
         console.log(allowance);
         setAllowance(allowance);
+      });
+
+      getUserStaked('0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880', 'YEEHAW').then(userStakedLocal => {
+        console.log(userStakedLocal);
+        setUserStaked(userStakedLocal);
+        console.log(userStaked);
       });
 
       const handleChainChanged = (_hexChainId) => {
@@ -466,7 +491,19 @@ const Bounty = () => {
                 >
                   <Grid item alignItems="center">
                     <Typography color={'text.primary'} fontSize='small'>
-                       Staked
+                       Your Stake
+                    </Typography>
+                    <Typography color={'text.primary'} variant='h5'
+                      fontWeight={700}
+                    >
+                      {/* ${info.staked} /  */}
+                      {formatter.format(userStaked * 25 / 10**14)} /  
+                      {/* $60,000 /  */}
+                    </Typography>
+                  </Grid>
+                  <Grid item alignItems="center" marginLeft={1}>
+                    <Typography color={'text.primary'} fontSize='small'>
+                       Total Staked
                     </Typography>
                     <Typography color={'text.primary'} variant='h5'
                       fontWeight={700}
@@ -476,7 +513,7 @@ const Bounty = () => {
                       {/* $60,000 /  */}
                     </Typography>
                   </Grid>
-                  <Grid item marginLeft={1}>
+                  <Grid alignItems="center" item marginLeft={1}>
                     <Typography color={'text.primary'} fontSize='small'>
                       Pool Cap
                     </Typography>
@@ -524,8 +561,16 @@ const Bounty = () => {
                                 allowance > 0 ? (
                                   <Grid direction="column" alignItems="center">
                                     <Grid item color={'text.primary'} fontSize='medium' marginBottom={1}>
-                                      <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                                      <Button onClick={() => stake(bounty.manager_address, bounty.pool_name)} // CHANGE THIS TO STAKING FUNCTION
+                                      <TextField
+                                        id="stake-input"
+                                        label="USDC"
+                                        onChange={handleInputChange}
+                                        value={stakeAmount}
+                                      >
+                                      </TextField>
+                                    </Grid>
+                                    <Grid item color={'text.primary'} fontSize='medium' marginBottom={1}>
+                                      <Button onClick={() => stake(bounty.manager_address, bounty.pool_name, stakeAmount)} // CHANGE THIS TO STAKING FUNCTION
                                         color="secondary"
                                         variant="outlined"
                                         size="large"

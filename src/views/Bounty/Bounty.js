@@ -36,13 +36,13 @@ const Bounty = () => {
     return json;
   };
 
-
+  var temp = 0;
   const [bounty, setBounty] = useState([]);
   useEffect(() => {
     fetchData().then(bounty => {
       setBounty(bounty);
     });
-  }, []);
+  }, [temp]);
 
   
 
@@ -131,6 +131,7 @@ const Bounty = () => {
       fetchData().then(bounty => {
         console.log(bounty);
         setBounty(bounty);
+        temp+=1;
       });
     }
   }

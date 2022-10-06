@@ -14,6 +14,7 @@ import MANAGER from '../../chain-info/Manager.json';
 import Web3Modal from 'web3modal';
 import { useSigner } from '@web3modal/react';
 import { CardMedia } from '@mui/material';
+import TextField from '@mui/material/TextField';
 
 import {
 // eslint-disable-next-line
@@ -137,13 +138,23 @@ const Bounty = () => {
   }
 
   async function stake(){
-    const managerAddress = '0xbA2C02d5c59238d5607aDcbc277c80a51694e73F'; //mumbai
+    const managerAddress = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880'; //mumbai
+    // const managerAddress = await fetch('https://portal.saloon.finance/api/v1/get-manager-address');
     const managerABI = MANAGER;
     const signer = await library.getSigner();
-    const manager = '0xbA2C02d5c59238d5607aDcbc277c80a51694e73F';
     const contract = new ethers.Contract(managerAddress, managerABI, signer);
-    const sendVal = ethers.utils.parseEther("0.0011");
-    await contract.stake("TestBounty", 10000000);
+    const sendVal = Math.round(Math.random() * 10000000);
+    const tx = await contract.stake("YEEHAW", sendVal);
+    const receipt = await tx.wait();
+    console.log(receipt);
+    if (receipt.status) {
+      console.log(`Transaction receipt : https://www.mumbai.polygonscan.com.com/tx/${receipt.logs[1].transactionHash}\n`);
+      fetchData().then(bounty => {
+        console.log(bounty);
+        setBounty(bounty);
+        temp+=1;
+      });
+    }
   }
 
   const checkAllowance = async () => {
@@ -454,7 +465,7 @@ const Bounty = () => {
                       fontWeight={700}
                     >
                       {/* ${info.staked} /  */}
-                      {formatter.format(bounty.pool_total * 2500000 / 10**10)} /
+                      {formatter.format(bounty.pool_payout * 25 / 10**14)} /
                       {/* $60,000 /  */}
                     </Typography>
                   </Grid>
@@ -480,6 +491,7 @@ const Bounty = () => {
                   // xs={12} 
                   // md={6}
                 >   
+                  <TextField id="outlined-basic" label="Outlined" variant="outlined" />
                   {
                     // if wallet is not connected
                     account == null ? (
@@ -506,7 +518,7 @@ const Bounty = () => {
                                 allowance > 0 ? (
                                   <Grid direction="column" alignItems="center">
                                     <Grid item color={'text.primary'} fontSize='medium' marginBottom={1}>
-                                      <Button onClick={transferWETH} // CHANGE THIS TO STAKING FUNCTION
+                                      <Button onClick={stake} // CHANGE THIS TO STAKING FUNCTION
                                         color="secondary"
                                         variant="outlined"
                                         size="large"

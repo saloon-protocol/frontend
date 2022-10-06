@@ -32,8 +32,10 @@ const Bounty = () => {
   const fetchData = async () => {
     // eslint-disable-next-line
     const res = await fetch(`https://portal.saloon.finance/api/v1/bounty?project=${title}`);
-    // const res = await fetch(`http://127.0.0.1:5000/api/v1/bounty?project=${title}`);
-    const json = await res.json();  
+    const manager_return = await fetch(`https://portal.saloon.finance/api/v1/get-manager-address`);
+    var json = await res.json();  
+    const json_manager = await manager_return.json();
+    json['manager_address'] = json_manager['manager_address'];
     return json;
   };
 
@@ -100,13 +102,15 @@ const Bounty = () => {
   };
   
 
-  async function approveWETH(){
+  async function approveWETH(managerAddress){
+    const provider = await web3Modal.connect();
+    const library = new ethers.providers.Web3Provider(provider);
     const WETHAddress = '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889'; //mumbai
     const WETHabi = WETH;
-    const signer = await provider.getSigner();
-    const manager = '0xbA2C02d5c59238d5607aDcbc277c80a51694e73F';
+    const signer = await library.getSigner();
+    // const manager = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880';
     const contract = new ethers.Contract(WETHAddress, WETHabi, signer);
-    await contract.approve(manager,10000000);
+    await contract.approve(managerAddress,10000000);
   }
 
   async function transferWETH(){
@@ -137,14 +141,15 @@ const Bounty = () => {
     }
   }
 
-  async function stake(){
-    const managerAddress = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880'; //mumbai
+  async function stake(managerAddress, poolName){
+    // const managerAddress = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880'; //mumbai
     // const managerAddress = await fetch('https://portal.saloon.finance/api/v1/get-manager-address');
+    console.log(managerAddress, poolName);
     const managerABI = MANAGER;
     const signer = await library.getSigner();
     const contract = new ethers.Contract(managerAddress, managerABI, signer);
-    const sendVal = Math.round(Math.random() * 10000000);
-    const tx = await contract.stake("YEEHAW", sendVal);
+    const sendVal = Math.round(Math.random() * 10**16);
+    const tx = await contract.stake(poolName, sendVal);
     const receipt = await tx.wait();
     console.log(receipt);
     if (receipt.status) {
@@ -163,12 +168,13 @@ const Bounty = () => {
     const WETHAddress = '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889'; //mumbai
     const WETHabi = WETH;
 
-    const manager = '0xbA2C02d5c59238d5607aDcbc277c80a51694e73F';
+    const managerAddress = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880';
     // // my should be signers wallet
     const my = '0x0376e82258Ed00A9D7c6513eC9ddaEac015DEdFc';
     const contract = new ethers.Contract(WETHAddress, WETHabi, provider);
-    const bountyAddress = '0x5eAF3aFD1038853D285cf4b2fAf8Ef288915f408';
-    const allow = await contract.allowance(my,bountyAddress);
+    // const bountyAddress = '0x5eAF3aFD1038853D285cf4b2fAf8Ef288915f408';
+    const allow = await contract.allowance(my,managerAddress);
+    console.log(allow);
     let formattedAllowance = allow.toString();
     return formattedAllowance;
   };
@@ -307,7 +313,8 @@ const Bounty = () => {
         
       };
       
-      checkAllowance().then(allowance => {
+      checkAllowance('0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880').then(allowance => {
+        console.log(allowance);
         setAllowance(allowance);
       });
 
@@ -518,7 +525,7 @@ const Bounty = () => {
                                 allowance > 0 ? (
                                   <Grid direction="column" alignItems="center">
                                     <Grid item color={'text.primary'} fontSize='medium' marginBottom={1}>
-                                      <Button onClick={stake} // CHANGE THIS TO STAKING FUNCTION
+                                      <Button onClick={() => stake(bounty.manager_address, bounty.pool_name)} // CHANGE THIS TO STAKING FUNCTION
                                         color="secondary"
                                         variant="outlined"
                                         size="large"
@@ -548,7 +555,7 @@ const Bounty = () => {
                                 
                                 ) : (
                                   // if not approved show approve button
-                                  <Button onClick={approveWETH} // CHANGE THIS TO APPROVE FUNCTION
+                                  <Button onClick={() => approveWETH(bounty.manager_address)} // CHANGE THIS TO APPROVE FUNCTION
                                     color="inherit"
                                     variant="outlined"
                                     size="large"

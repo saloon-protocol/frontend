@@ -498,7 +498,6 @@ const Bounty = () => {
                   // xs={12} 
                   // md={6}
                 >   
-                  <TextField id="outlined-basic" label="Outlined" variant="outlined" />
                   {
                     // if wallet is not connected
                     account == null ? (
@@ -525,6 +524,7 @@ const Bounty = () => {
                                 allowance > 0 ? (
                                   <Grid direction="column" alignItems="center">
                                     <Grid item color={'text.primary'} fontSize='medium' marginBottom={1}>
+                                      <TextField id="outlined-basic" label="Outlined" variant="outlined" />
                                       <Button onClick={() => stake(bounty.manager_address, bounty.pool_name)} // CHANGE THIS TO STAKING FUNCTION
                                         color="secondary"
                                         variant="outlined"

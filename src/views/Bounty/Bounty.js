@@ -489,7 +489,7 @@ const Bounty = () => {
                   // xs={12} 
                   // md={6}
                 >
-                  <Grid item alignItems="center">
+                  <Grid item alignItems="right">
                     <Typography color={'text.primary'} fontSize='small'>
                        Your Stake
                     </Typography>
@@ -497,7 +497,8 @@ const Bounty = () => {
                       fontWeight={700}
                     >
                       {/* ${info.staked} /  */}
-                      {formatter.format(userStaked * 25 / 10**14)} /  
+                      {/* {formatter.format(userStaked * 25 / 10**14)} /   */}
+                      $0 / 
                       {/* $60,000 /  */}
                     </Typography>
                   </Grid>

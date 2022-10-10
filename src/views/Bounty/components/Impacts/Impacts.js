@@ -31,11 +31,12 @@ const InScope = (props) => {
         {data.impacts?.map((item, i) => (
           <Grid key={i} item
             sx={{
-              borderBottom: `4px solid ${theme.palette.wildwest.wine}`,
+              borderBottom: `3px solid ${theme.palette.wildwest.wine}`,
               '&:last-child': {
                 borderBottom: 0,
               },
             }}
+            padding={2}
             xs={12}
             data-aos="fade-up"
             data-aos-delay={i * 20}
@@ -46,17 +47,24 @@ const InScope = (props) => {
 
         
 
-            <Box display='flex'
-              sx={{ width: 1 }}
-              alignItems={'center'}
-              padding={2}
+            <Grid 
+              // container
+              display='flex'
+              alignItems={{ xs: 'left', md: 'center' }}
+              justifyContent={{ sm: 'space-around' }}
+              flexDirection={{ xs: 'column', md: 'row' }}
+              // sx={{ width: 1 }}
+              // padding={2}
             >
-              <Box
-                sx={{ width: '10%' }}
+              <Grid item
+                // sx={{ width: '10%' }}
+                xs={12}
+                md={2}
               >
                 <Typography
                   variant='h6'
                   fontWeight={700}
+                  align={'left'}
                   sx={{ textTransform: 'uppercase' }}
 
                 >
@@ -65,13 +73,15 @@ const InScope = (props) => {
                   </Link>
                 </Typography>
                 
-              </Box>
+              </Grid>
 
-              <Typography
-                align='center' color={'text.primary'} fontSize='large'>
-                {item.description}
-              </Typography>
-            </Box>
+              <Grid item md={12}>
+                <Typography
+                  align='left' color={'text.primary'} fontSize='large'>
+                  {item.description}
+                </Typography>
+              </Grid>
+            </Grid>
 
 
 

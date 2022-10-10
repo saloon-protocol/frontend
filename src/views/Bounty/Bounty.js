@@ -16,6 +16,7 @@ import { useSigner } from '@web3modal/react';
 import { CardMedia } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
+import Divider from '@mui/material/Divider';
 
 import {
 // eslint-disable-next-line
@@ -498,7 +499,7 @@ const Bounty = () => {
                     >
                       {/* ${info.staked} /  */}
                       {/* {formatter.format(userStaked * 25 / 10**14)} /   */}
-                      $0 / 
+                      $0 /
                       {/* $60,000 /  */}
                     </Typography>
                   </Grid>
@@ -665,6 +666,16 @@ const Bounty = () => {
         <Container >
           <Box>
             <Typography variant={'h4'} fontWeight={700} marginBottom={4}  >
+              Impacts in Scope
+            </Typography>
+            <Impacts data={bounty}/>
+          </Box>
+          
+        </Container>
+
+        <Container >
+          <Box>
+            <Typography variant={'h4'} fontWeight={700} marginBottom={4}  >
               Assets in Scope
             </Typography>
             <InScope data={bounty}/>
@@ -674,22 +685,38 @@ const Bounty = () => {
 
         <Container  sx={{backgroundColor: theme.palette.background.paper}} >
           <Typography variant={'h4'} fontWeight={700} marginBottom={4}  >
-            Assets Out of Scope
+            Out of Scope
           </Typography>
-          <Typography variant={'body1'} fontWeight={400} >
-            Assets out of scope.
-          </Typography>
+          <Box marginBottom={2}>
+            <Typography variant={'h5'} fontWeight={600} 
+              marginBottom={1}
+            >
+              Impacts out of scope
+            </Typography>
+            <Typography 
+              // variant={'h6'} 
+              fontWeight={400} 
+            >
+              - List with impacts out of scope
+            </Typography>
+          </Box>
+          <Divider/>
+          <Box >
+            <Typography variant={'h5'} fontWeight={600} 
+              marginBottom={1}
+              marginTop={2}
+            >
+              Assets out of scope
+            </Typography>
+            <Typography 
+              // variant={'h6'} 
+              fontWeight={400} 
+            >
+              - List with assets out of scope
+            </Typography>
+          </Box>
         </Container>
 
-        <Container >
-          <Box>
-            <Typography variant={'h4'} fontWeight={700} marginBottom={4}  >
-              Impacts in Scope
-            </Typography>
-            <Impacts data={bounty}/>
-          </Box>
-          
-        </Container>
       </Box>
 
     </Main>

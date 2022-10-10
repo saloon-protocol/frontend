@@ -43,11 +43,21 @@ const Bounty = () => {
 
   var temp = 0;
   const [bounty, setBounty] = useState([]);
+  const [userStaked, setUserStaked] = useState(0);
+  const [account, setAccount] = useState();
+
   useEffect(() => {
     fetchData().then(bounty => {
       setBounty(bounty);
     });
-  }, [temp]);
+    const walletAddress = window.localStorage.getItem('WALLET_ADDRESS');
+    console.log('Wallet Address: ' + walletAddress);
+    setAccount(walletAddress);
+    if (walletAddress !== null) {
+      // console.log('Coolio');
+      connectWallet(true);
+    }
+  }, [userStaked]);
 
   
 
@@ -69,7 +79,6 @@ const Bounty = () => {
 
   const [provider, setProvider] = useState();
   const [library, setLibrary] = useState();
-  const [account, setAccount] = useState();
   const [signature, setSignature] = useState("");
   const [error, setError] = useState("");
   const [chainId, setChainId] = useState();
@@ -78,8 +87,7 @@ const Bounty = () => {
   const [signedMessage, setSignedMessage] = useState("");
   const [verified, setVerified] = useState();
   const [allowance, setAllowance] = useState(null);
-  const [stakeAmount, setStakeAmount] = useState();
-  const [userStaked, setUserStaked] = useState();
+  const [stakeAmount, setStakeAmount] = useState("");
 
   const web3Modal = new Web3Modal({
     // network:"mumbai", // optional
@@ -87,7 +95,7 @@ const Bounty = () => {
     provider // required
   });
 
-  const connectWallet = async () => {
+  const connectWallet = async (existingWallet) => {
     try {
       const provider = await web3Modal.connect();
       // const provider = new ethers.providers.WebSocketProvider(mumbaiwss);
@@ -97,13 +105,35 @@ const Bounty = () => {
      
       setProvider(provider);
       setLibrary(library);
-      if (accounts) setAccount(accounts[0]);
-      
+      if (existingWallet == false) {
+        if (accounts) {
+          setAccount(accounts[0]);
+          window.localStorage.setItem('WALLET_ADDRESS', accounts[0]);
+        }
+      }
       setChainId(network.chainId);
     } catch (error) {
       setError(error);
     }
   };
+
+
+  // const changeNetwork = async () => {
+  //   try {
+  //     const provider = await web3Modal.connect();
+  //     // const provider = new ethers.providers.WebSocketProvider(mumbaiwss);
+  //     const library = new ethers.providers.Web3Provider(provider);
+  //     const accounts = await library.listAccounts();
+  //     const network = await library.getNetwork();
+     
+  //     setProvider(provider);
+  //     setLibrary(library);
+      
+  //     setChainId(network.chainId);
+  //   } catch (error) {
+  //     setError(error);
+  //   }
+  // };  
   
 
   async function approveWETH(managerAddress){
@@ -152,8 +182,8 @@ const Bounty = () => {
     const managerABI = MANAGER;
     const signer = await library.getSigner();
     const contract = new ethers.Contract(managerAddress, managerABI, signer);
-    const sendVal = Math.round(Math.random() * 10**16);
-    const final_amount = amount * 10**12;
+    const final_amount = amount  + '0'.repeat(12);
+    console.log('Final Amount: ' + final_amount);
     const tx = await contract.stake(poolName, final_amount);
     const receipt = await tx.wait();
     console.log(receipt);
@@ -163,6 +193,7 @@ const Bounty = () => {
         console.log(bounty);
         setBounty(bounty);
         temp+=1;
+        getUserStaked(managerAddress, poolName);
       });
     }
   }
@@ -179,7 +210,7 @@ const Bounty = () => {
     const contract = new ethers.Contract(WETHAddress, WETHabi, provider);
     // const bountyAddress = '0x5eAF3aFD1038853D285cf4b2fAf8Ef288915f408';
     const allow = await contract.allowance(my,managerAddress);
-    console.log(allow);
+    console.log('Allowance: ' + allow.toString());
     let formattedAllowance = allow.toString();
     return formattedAllowance;
   };
@@ -194,10 +225,17 @@ const Bounty = () => {
     const contract = new ethers.Contract(managerAddress, managerABI, signer);
     // const sendVal = Math.round(Math.random() * 10**16);
     // const final_amount = amount * 10**13;
-    // (async() => {
-    //   const userStakedLocal = contract.viewUserStakingBalance(poolName);
-    //   console.log('User staked: ' + userStakedLocal.toString());
-    // })();
+    (async() => {
+      const userStakedLocal = await contract.viewUserStakingBalance(poolName, '0x0376e82258Ed00A9D7c6513eC9ddaEac015DEdFc');
+      console.log('User staked: ' + userStakedLocal.toString());
+      setUserStaked(userStakedLocal);
+      // setUserStaked(old => {
+      //   return {
+      //     ...old,
+      //     userStaked: userStakedLocal
+      //   };
+      // });
+    })();
   };
 
   const handleNetwork = (e) => {
@@ -329,20 +367,22 @@ const Bounty = () => {
     if (provider?.on) {
       const handleAccountsChanged = (accounts) => {
         console.log("accountsChanged", accounts);
-        if (accounts) setAccount(accounts[0]);
+        if (accounts) {
+          setAccount(accounts[0]);
+          // console.log(accounts[0]);
+          window.localStorage.setItem('WALLET_ADDRESS', accounts[0]);
+          // var temp = window.localStorage.getItem('WALLET_ADDRESS');
+          // console.log('Wallet Address: ' + temp);
+        }
         
       };
       
-      checkAllowance('0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880').then(allowance => {
-        console.log(allowance);
+      checkAllowance('0x6f02087704240b1920eF93Bd0f529f52eB88e263').then(allowance => {
+        // console.log(allowance);
         setAllowance(allowance);
       });
 
-      getUserStaked('0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880', 'YEEHAW').then(userStakedLocal => {
-        console.log(userStakedLocal);
-        setUserStaked(userStakedLocal);
-        console.log(userStaked);
-      });
+      getUserStaked('0x6f02087704240b1920eF93Bd0f529f52eB88e263', 'YEEHAW');
 
       const handleChainChanged = (_hexChainId) => {
         setChainId(_hexChainId);
@@ -499,7 +539,7 @@ const Bounty = () => {
                     >
                       {/* ${info.staked} /  */}
                       {/* {formatter.format(userStaked * 25 / 10**14)} /   */}
-                      $0 /
+                      {formatter.format(userStaked * 25 / 10**14)} /
                       {/* $60,000 /  */}
                     </Typography>
                   </Grid>
@@ -511,7 +551,7 @@ const Bounty = () => {
                       fontWeight={700}
                     >
                       {/* ${info.staked} /  */}
-                      {formatter.format(bounty.pool_payout * 25 / 10**14)} /
+                      {formatter.format(bounty.pool_staked * 25 / 10**14)} /
                       {/* $60,000 /  */}
                     </Typography>
                   </Grid>
@@ -523,7 +563,7 @@ const Bounty = () => {
                       fontWeight={700}
                     >
                       {/* ${info.poolCap} */}
-                      $100,000
+                      {formatter.format(bounty.pool_cap * 25 / 10**16)}
                       {/* $100,000 */}
                     </Typography>
 
@@ -541,7 +581,7 @@ const Bounty = () => {
                     // if wallet is not connected
                     account == null ? (
                       // run if null
-                      <Button onClick={connectWallet} // CHANGE THIS TO STAKING FUNCTION
+                      <Button onClick={() => connectWallet(false)} // CHANGE THIS TO STAKING FUNCTION
                         color="secondary"
                         variant="outlined"
                         size="large"

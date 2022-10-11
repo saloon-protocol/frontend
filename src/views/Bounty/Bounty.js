@@ -18,6 +18,7 @@ import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Divider from '@mui/material/Divider';
 import Alert from '@mui/material/Alert';
+import Slide from '@mui/material/Slide';
 
 import {
 // eslint-disable-next-line
@@ -29,8 +30,8 @@ import { useParams } from 'react-router-dom';
 
 const Bounty = () => {
   const theme = useTheme();
-
   const {title} = useParams();
+  const containerRef = React.useRef(null);
   
   const fetchData = async () => {
     // eslint-disable-next-line
@@ -52,7 +53,6 @@ const Bounty = () => {
       setBounty(bounty);
     });
     const walletAddress = window.localStorage.getItem('WALLET_ADDRESS');
-    console.log('Wallet Address: ' + walletAddress);
     setAccount(walletAddress);
     if (walletAddress !== null) {
       // console.log('Coolio');
@@ -89,12 +89,16 @@ const Bounty = () => {
   const [verified, setVerified] = useState();
   const [allowance, setAllowance] = useState(null);
   const [stakeAmount, setStakeAmount] = useState("");
+  const [stakeAmountVisibility, setStakeAmountVisibility] = useState(false);
+  const [unstakeAmount, setUnstakeAmount] = useState("");
+  const [unstakeAmountVisibility, setUnstakeAmountVisibility] = useState(false);
 
   const web3Modal = new Web3Modal({
     // network:"mumbai", // optional
     cacheProvider: false, // optional
     provider // required
   });
+
 
   const connectWallet = async (existingWallet) => {
     try {
@@ -117,24 +121,6 @@ const Bounty = () => {
       setError(error);
     }
   };
-
-
-  // const changeNetwork = async () => {
-  //   try {
-  //     const provider = await web3Modal.connect();
-  //     // const provider = new ethers.providers.WebSocketProvider(mumbaiwss);
-  //     const library = new ethers.providers.Web3Provider(provider);
-  //     const accounts = await library.listAccounts();
-  //     const network = await library.getNetwork();
-     
-  //     setProvider(provider);
-  //     setLibrary(library);
-      
-  //     setChainId(network.chainId);
-  //   } catch (error) {
-  //     setError(error);
-  //   }
-  // };  
   
 
   async function approveWETH(managerAddress){
@@ -165,9 +151,8 @@ const Bounty = () => {
     const sendVal = Math.round(Math.random() * 10000000);
     const tx = await contract.transfer(SaloonBountyPool, sendVal);
     const receipt = await tx.wait();
-    console.log(receipt);
     if (receipt.status) {
-      console.log(`Transaction receipt : https://www.mumbai.polygonscan.com.com/tx/${receipt.logs[1].transactionHash}\n`);
+      console.log(`Transaction receipt : https://mumbai.polygonscan.com/tx/${receipt.logs[1].transactionHash}\n`);
       fetchData().then(bounty => {
         console.log(bounty);
         setBounty(bounty);
@@ -175,6 +160,29 @@ const Bounty = () => {
       });
     }
   }
+
+
+  const showValueOrStake = async (action, managerAddress='', poolName='', amount=0) => {
+    if (action == 'stake') {
+      stake(managerAddress, poolName, amount);
+      return;
+    }
+    if (action == 'showValue') {
+      console.log('Should show value');
+      return;
+    }
+  };
+
+  const setAmountVisibilities = async (stake, unstake) => {
+    setStakeAmountVisibility(stake);
+    setUnstakeAmountVisibility(unstake);
+  };
+
+  const setAmounts = async (stake, unstake) => {
+    setStakeAmount(stake);
+    setUnstakeAmount(unstake);
+  };
+
 
   async function stake(managerAddress, poolName, amount){
     // const managerAddress = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880'; //mumbai
@@ -184,12 +192,12 @@ const Bounty = () => {
     const signer = await library.getSigner();
     const contract = new ethers.Contract(managerAddress, managerABI, signer);
     const final_amount = amount  + '0'.repeat(12);
-    console.log('Final Amount: ' + final_amount);
     const tx = await contract.stake(poolName, final_amount);
+    setAmountVisibilities(false, false);
+    setAmounts("","");
     const receipt = await tx.wait();
-    console.log(receipt);
     if (receipt.status) {
-      console.log(`Transaction receipt : https://www.mumbai.polygonscan.com.com/tx/${receipt.logs[1].transactionHash}\n`);
+      console.log(`Transaction receipt : https://mumbai.polygonscan.com/tx/${receipt.logs[1].transactionHash}\n`);
       fetchData().then(bounty => {
         console.log(bounty);
         setBounty(bounty);
@@ -211,13 +219,11 @@ const Bounty = () => {
     const contract = new ethers.Contract(WETHAddress, WETHabi, provider);
     // const bountyAddress = '0x5eAF3aFD1038853D285cf4b2fAf8Ef288915f408';
     const allow = await contract.allowance(my,managerAddress);
-    console.log('Allowance: ' + allow.toString());
     let formattedAllowance = allow.toString();
     return formattedAllowance;
   };
   
   const getUserStaked = async (managerAddress, poolName) => {
-    console.log('Called getUserStaked');
     // const managerAddress = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880'; //mumbai
     // const managerAddress = await fetch('https://portal.saloon.finance/api/v1/get-manager-address');
     // console.log(managerAddress, poolName, amount);
@@ -228,7 +234,7 @@ const Bounty = () => {
     // const final_amount = amount * 10**13;
     (async() => {
       const userStakedLocal = await contract.viewUserStakingBalance(poolName, '0x0376e82258Ed00A9D7c6513eC9ddaEac015DEdFc');
-      console.log('User staked: ' + userStakedLocal.toString());
+      // console.log('User staked: ' + userStakedLocal.toString());
       setUserStaked(userStakedLocal);
       // setUserStaked(old => {
       //   return {
@@ -244,9 +250,14 @@ const Bounty = () => {
     setNetwork(Number(id));
   };
 
-  const handleInputChange = (e) => {
+  const handleStakeInputChange = (e) => {
     const stake_msg = e.target.value;
     setStakeAmount(stake_msg);
+  };
+
+  const handleUnstakeInputChange = (e) => {
+    const unstake_msg = e.target.value;
+    setUnstakeAmount(unstake_msg);
   };
 
   // const switchNetwork = async () => {
@@ -367,19 +378,14 @@ const Bounty = () => {
 
     if (provider?.on) {
       const handleAccountsChanged = (accounts) => {
-        console.log("accountsChanged", accounts);
         if (accounts) {
           setAccount(accounts[0]);
-          // console.log(accounts[0]);
           window.localStorage.setItem('WALLET_ADDRESS', accounts[0]);
-          // var temp = window.localStorage.getItem('WALLET_ADDRESS');
-          // console.log('Wallet Address: ' + temp);
         }
         
       };
       
       checkAllowance('0x6f02087704240b1920eF93Bd0f529f52eB88e263').then(allowance => {
-        // console.log(allowance);
         setAllowance(allowance);
       });
 
@@ -522,8 +528,7 @@ const Bounty = () => {
                 alignItems='center'
 
               >
-                <Grid item marginLeft={2}
-                  // xs={12} 
+                <Grid item marginLeft={2} xs={3} alignItems="left"
                   // md={6}
                 >
                   <Typography 
@@ -536,7 +541,7 @@ const Bounty = () => {
                   </Typography>
                   
                 </Grid>
-                <Grid item direction="row" display={'flex'} alignItems="center"
+                <Grid item direction="row" display={'flex'} alignItems="center" xs={4} 
                   // xs={12} 
                   // md={6}
                 >
@@ -582,8 +587,31 @@ const Bounty = () => {
                   
                 
                 </Grid>
+                <Grid item marginRight={2} xs={0.5}>
+                </Grid>
 
-                <Grid item marginRight={2}
+                <Grid item direction="row" fontSize='medium' marginRight={2} xs={1.5} ref={containerRef}>
+                  {stakeAmountVisibility == true ? <Slide direction="left" in={stakeAmountVisibility} container={containerRef.current}><TextField
+                    id="stake-input"
+                    label="USDC"
+                    onChange={handleStakeInputChange}
+                    value={stakeAmount}
+                    color="secondary"
+                  >
+                  </TextField></Slide> : <div><br></br><br></br></div>}
+
+                  {unstakeAmountVisibility == true ? <Slide direction="left" in={unstakeAmountVisibility} container={containerRef.current}><TextField
+                    id="stake-input"
+                    label="USDC"
+                    // onChange={handleUnstakeInputChange}
+                    // value={unstakeAmount}
+                    // color='warning'
+                    inputProps={{ style: { color: 'white'}}}
+                  >
+                  </TextField></Slide> : <div><br></br><br></br></div>}
+                </Grid>
+
+                <Grid item marginRight={2} xs={2}
                   // xs={12} 
                   // md={6}
                 >   
@@ -613,16 +641,7 @@ const Bounty = () => {
                                 allowance > 0 ? (
                                   <Grid direction="column" alignItems="center">
                                     <Grid item color={'text.primary'} fontSize='medium' marginBottom={1}>
-                                      <TextField
-                                        id="stake-input"
-                                        label="USDC"
-                                        onChange={handleInputChange}
-                                        value={stakeAmount}
-                                      >
-                                      </TextField>
-                                    </Grid>
-                                    <Grid item color={'text.primary'} fontSize='medium' marginBottom={1}>
-                                      <Button onClick={() => stake(bounty.manager_address, bounty.pool_name, stakeAmount)} // CHANGE THIS TO STAKING FUNCTION
+                                      <Button onClick={() => {stakeAmount>0 ? stake(bounty.manager_address, bounty.pool_name, stakeAmount) : setAmountVisibilities(true, false);}} // CHANGE THIS TO STAKING FUNCTION
                                         color="secondary"
                                         variant="outlined"
                                         size="large"
@@ -634,7 +653,7 @@ const Bounty = () => {
                                     </Grid>
 
                                     <Grid item xs={6}>
-                                      <Button
+                                      <Button onClick={() => {unstakeAmount>0 ? stake(bounty.manager_address, bounty.pool_name, unstakeAmount) : setAmountVisibilities(false, true);}}
                                         color="inherit"
                                         variant="outlined"
                                         size="large"

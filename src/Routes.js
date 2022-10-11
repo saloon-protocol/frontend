@@ -30,7 +30,7 @@ const Routes = () => {
       <Route path="/bounties" element={<Bounties/>}>
         
       </Route>
-      <Route path="/bounties/:title" element={<Bounty/>} />
+      <Route path="/bounty/:title" element={<Bounty/>} />
       <Route path="/about" element={<About/>} />
       <Route path="/bounty" element={<Bounty/>} />
       

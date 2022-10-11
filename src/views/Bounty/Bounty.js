@@ -17,6 +17,7 @@ import { CardMedia } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Divider from '@mui/material/Divider';
+import Alert from '@mui/material/Alert';
 
 import {
 // eslint-disable-next-line
@@ -423,6 +424,15 @@ const Bounty = () => {
     <Main> 
       
       <Container>
+        <Alert 
+          severity="warning" 
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          The contracts are not yet finalized. Please don't audit just yet :)
+        </Alert>
         <Grid container spacing={4}
           data-aos="fade-up"
           data-aos-delay={700}

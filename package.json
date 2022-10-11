@@ -54,6 +54,7 @@
     "jarallax": "^2.0.3",
     "prop-types": "^15.7.2",
     "react": "^18.1.0",
+    "react-countdown": "^2.3.2",
     "react-countup": "^6.1.0",
     "react-dom": "^18.1.0",
     "react-image-lightbox": "^5.1.4",

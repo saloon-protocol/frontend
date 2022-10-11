@@ -22,6 +22,7 @@ import Slide from '@mui/material/Slide';
 import InfoIcon from '@mui/icons-material/Info';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
+import Countdown from 'react-countdown';
 
 import {
 // eslint-disable-next-line
@@ -35,6 +36,15 @@ const Bounty = () => {
   const theme = useTheme();
   const {title} = useParams();
   const containerRef = React.useRef(null);
+
+  const countdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
+    if (completed) {
+      // Render a completed state
+    } else {
+      // Render a countdown
+      return <span style={{color: '#BB9725'}}>{days}d, {hours}h, {minutes}m, {seconds}s</span>;
+    }
+  };
 
   const delay = ms => new Promise(res => setTimeout(res, ms));
 
@@ -563,52 +573,58 @@ const Bounty = () => {
                   </Typography>
                   
                 </Grid>
-                <Grid item direction="row" display={'flex'} alignItems="center" xs={4} 
-                  // xs={12} 
-                  // md={6}
-                >
-                  <Grid item alignItems="right">
-                    <Typography color={'text.primary'} fontSize='small'>
-                       Your Stake
-                    </Typography>
-                    <Typography color={'text.primary'} variant='h5'
-                      fontWeight={700}
-                    >
-                      {/* ${info.staked} /  */}
-                      {/* {formatter.format(userStaked * 25 / 10**14)} /   */}
-                      {formatter.format(userStaked * 25 / 10**14)} /
-                      {/* $60,000 /  */}
-                    </Typography>
-                  </Grid>
-                  <Grid item alignItems="center" marginLeft={1}>
-                    <Typography color={'text.primary'} fontSize='small'>
-                       Total Staked
-                    </Typography>
-                    <Typography color={'text.primary'} variant='h5'
-                      fontWeight={700}
-                    >
-                      {/* ${info.staked} /  */}
-                      {formatter.format(bounty.pool_staked * 25 / 10**14)} /
-                      {/* $60,000 /  */}
-                    </Typography>
-                  </Grid>
-                  <Grid alignItems="center" item marginLeft={1}>
-                    <Typography color={'text.primary'} fontSize='small'>
-                      Pool Cap
-                    </Typography>
-                    <Typography color={'text.primary'} variant='h5' 
-                      fontWeight={700}
-                    >
-                      {/* ${info.poolCap} */}
-                      {formatter.format(bounty.pool_cap * 25 / 10**16)}
-                      {/* $100,000 */}
-                    </Typography>
+                <Grid direction="column" alignItems="center">
+                  <Grid item direction="row" display={'flex'} alignItems="center" xs={4} 
+                    // xs={12} 
+                    // md={6}
+                  >
+                    <Grid item alignItems="right">
+                      <Typography color={'text.primary'} fontSize='small'>
+                        Your Stake
+                      </Typography>
+                      <Typography color={'text.primary'} variant='h5'
+                        fontWeight={700}
+                      >
+                        {/* ${info.staked} /  */}
+                        {/* {formatter.format(userStaked * 25 / 10**14)} /   */}
+                        {formatter.format(userStaked * 25 / 10**14)} /
+                        {/* $60,000 /  */}
+                      </Typography>
+                    </Grid>
+                    <Grid item alignItems="center" marginLeft={1}>
+                      <Typography color={'text.primary'} fontSize='small'>
+                        Total Staked
+                      </Typography>
+                      <Typography color={'text.primary'} variant='h5'
+                        fontWeight={700}
+                      >
+                        {/* ${info.staked} /  */}
+                        {formatter.format(bounty.pool_staked * 25 / 10**14)} /
+                        {/* $60,000 /  */}
+                      </Typography>
+                    </Grid>
+                    <Grid alignItems="center" item marginLeft={1}>
+                      <Typography color={'text.primary'} fontSize='small'>
+                        Pool Cap
+                      </Typography>
+                      <Typography color={'text.primary'} variant='h5' 
+                        fontWeight={700}
+                      >
+                        {/* ${info.poolCap} */}
+                        {formatter.format(bounty.pool_cap * 25 / 10**16)}
+                        {/* $100,000 */}
+                      </Typography>
 
+                    </Grid>
+                    
+                  </Grid>
+
+                  <Grid item direction="row" display={'flex'} alignItems="center" marginTop={2} xs={4}>
+                    You have <span style={{color: '#BB9725'}}>&nbsp;$300 USDC&nbsp;</span> to unstake in&nbsp;<Countdown date={1666109429000} renderer={countdownRenderer} />
                   </Grid>
                   
-                  
-                
                 </Grid>
+                
                 <Grid item marginRight={2} xs={0.5}>
                 </Grid>
 

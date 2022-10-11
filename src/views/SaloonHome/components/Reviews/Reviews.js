@@ -15,10 +15,10 @@ const mock = [
     subtitle:
       "Leverage your auditing skills like never before.\nFind bugs. Get Paid. Didn't find anything? Stake for crazy returns.",
     // button: 'Sign up for Launch Updates',
-    button: 'Sign up for Launch Updates',
+    button: 'Go Hunt',
 
     // image: cowboy,
-    link: 'https://mailchi.mp/47ae7c35bae0/saloon-finance-pre-launch'
+    link: '/bounties'
   },
   {
     title: 'Projects',

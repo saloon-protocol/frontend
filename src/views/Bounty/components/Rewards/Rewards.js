@@ -10,6 +10,9 @@ import Grid from '@mui/material/Grid';
 // import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 
 
 const Rewards = (props) => {
@@ -146,6 +149,11 @@ const Rewards = (props) => {
               <Grid item xs={12} md={6}>
                 <Typography color={'text.primary'} fontSize='small'>
                   Reward up to
+                  {item.title == 'Critical' ? <Tooltip title="Total payout amount is 90% of funds in vault * severity multiplier." placement="top-start">
+                    <IconButton>
+                      <InfoOutlinedIcon fontSize="small"/>
+                    </IconButton>
+                  </Tooltip> : null}
                 </Typography>
                 <Typography variant={item.font} gutterBottom color={item.color}>
                   <Box fontWeight={600}>
@@ -166,6 +174,7 @@ const Rewards = (props) => {
                     </VisibilitySensor>
                   </Box>
                 </Typography>
+                
               </Grid>
             </Grid>
           </Grid>

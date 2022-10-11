@@ -331,7 +331,7 @@ const Jobs = () => {
                     </Box>
                     <Button
                       // eslint-disable-next-line
-                      href={`/bounties/${item.title}`}
+                      href={`/bounty/${item.title}`}
                       // href="/bounty"
                       variant="outlined"
                       color="secondary"
@@ -377,7 +377,7 @@ const Jobs = () => {
                       </Typography>
                     </Box>
                     <Button
-                      href={`/bounties/${item.title}`}
+                      href={`/bounty/${item.title}`}
                       variant="outlined"
                       color="inherit"
                       size="medium"

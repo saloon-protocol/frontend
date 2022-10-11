@@ -32,6 +32,8 @@ const Bounty = () => {
   const theme = useTheme();
   const {title} = useParams();
   const containerRef = React.useRef(null);
+
+  const delay = ms => new Promise(res => setTimeout(res, ms));
   
   const fetchData = async () => {
     // eslint-disable-next-line
@@ -52,13 +54,16 @@ const Bounty = () => {
     fetchData().then(bounty => {
       setBounty(bounty);
     });
-    const walletAddress = window.localStorage.getItem('WALLET_ADDRESS');
-    setAccount(walletAddress);
-    if (walletAddress !== null) {
-      // console.log('Coolio');
-      connectWallet(true);
-    }
+    console.log('Bounty set.');
   }, [userStaked]);
+
+  useEffect(() => {
+    const walletAddress = window.localStorage.getItem('WALLET_ADDRESS');
+    if (walletAddress !== null) {
+      setAccount(walletAddress);
+      connectWallet(true).then(console.log('Connect wallet done.'));
+    }
+  }, []);
 
   
 
@@ -107,9 +112,9 @@ const Bounty = () => {
       const library = new ethers.providers.Web3Provider(provider);
       const accounts = await library.listAccounts();
       const network = await library.getNetwork();
-     
       setProvider(provider);
       setLibrary(library);
+      
       if (existingWallet == false) {
         if (accounts) {
           setAccount(accounts[0]);
@@ -224,6 +229,7 @@ const Bounty = () => {
   };
   
   const getUserStaked = async (managerAddress, poolName) => {
+    await delay(3000);
     // const managerAddress = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880'; //mumbai
     // const managerAddress = await fetch('https://portal.saloon.finance/api/v1/get-manager-address');
     // console.log(managerAddress, poolName, amount);
@@ -280,6 +286,11 @@ const Bounty = () => {
   // };
 
   const switchNetwork = async () => {
+    console.log('Attempting switch...');
+    const provider = await web3Modal.connect();
+    const library = new ethers.providers.Web3Provider(provider);
+    const network = await library.getNetwork();
+
     try {
       await library.provider.request({
         method: "wallet_switchEthereumChain",
@@ -772,7 +783,7 @@ const Bounty = () => {
           <Divider/>
           <Box >
             <Typography variant={'h5'} fontWeight={600} 
-              marginBottom={1}
+              marginBottom={2}
               marginTop={2}
             >
               Assets out of scope
@@ -783,6 +794,23 @@ const Bounty = () => {
             >
               - List with assets out of scope
             </Typography>
+            
+          </Box>
+          <Divider/>
+          <Box >
+            <Typography variant={'h5'} fontWeight={600} 
+              marginBottom={1}
+              marginTop={2}
+            >
+              Known vulnerabilities
+            </Typography>
+            <Typography 
+              // variant={'h6'} 
+              fontWeight={400} 
+            >
+              - List of known vulnerabilities that will not be considered
+            </Typography>
+            
           </Box>
         </Container>
 

@@ -22,29 +22,8 @@ const InScope = (props) => {
   const { data } = props;
   const theme = useTheme();
 
-  const mock = [
-    {
-      title: 'Smart Contract Name',
-      loc: 1290,
-      prefix: 'LOC ',
-      link: '/bounty',
-      description: 'This should be a one-line short description',
-      code: 'lalala'
-    },
-    {
-      title: 'Smart Contract Name 2',
-      loc: 874,
-      prefix: 'LOC ',
-      link: '/bounty',
-      description: 'This should be a one-line short description',
-      code: 'lalala'
-
-    },
-
-  ];
-
   const code = 'contract ERC20 is Context, IERC20, IERC20Metadata {  \n  mapping(address => uint256) private _balances;  \n  mapping(address => mapping(address => uint256)) private _allowances; \n   uint256 private _totalSupply; \n   string private _name; \n   string private _symbol;    /**  \n   * @dev Sets the values for {name} and {symbol}.     *  \n   * The default value of {decimals} is 18. To select a different value for  \n   * {decimals} you should overload it.     *  \n   * All two of these values are immutable: they can only be set once during     * construction.     */  \n  constructor(string memory name_, string memory symbol_) {        _name = name_;        _symbol = symbol_;    }';
-  console.log(mock);
+  console.log('Called InScope.js');
 
   return (
 

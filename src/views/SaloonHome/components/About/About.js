@@ -23,6 +23,23 @@ const About = () => {
         >
           About
         </Typography>
+        <Box marginBottom={4}>
+          <Typography fontWeight={700} variant={'h4'} align={'center'}
+            marginBottom={2}
+          >
+            What is the Saloon?
+          </Typography>
+          <Typography color={theme.palette.wildwest.grey}>
+              Saloon Finance (aka The Saloon) is a next-gen bug bounty platform. 
+              A bug bounty platform (BBP) is a necessary tool in order to facilitate 
+              the hosting of bug bounties on a codebase. Bug bounties allow hackers to 
+              responsibly disclose code vulnerabilities to the project team for a monetary reward, instead of performing the exploit. 
+              BBPs have been around for some time and serve as a crucial last line of defense for many protocols.           
+            <br />
+            <br />
+              Most importantly, the Saloon is a fair and transparent BBP that custodies all funds for bounty payouts.            <br />
+          </Typography>
+        </Box>
         <Typography fontWeight={700} variant={'h4'} align={'center'}>
           Why was the Saloon built?
         </Typography>
@@ -36,19 +53,27 @@ const About = () => {
           md={6}
         >
           <Typography color={theme.palette.wildwest.grey}>
-            After hunting for bugs on different bug bounty platforms many times we realised the security provided by them is, at the very least, questionable. This frustration with the State of the Art of web3 security led the to the creation of the Saloon. A new concept for a Bug Bounty Platform to perpetually enhance the Web3 security landscape.
+            Millions keep getting hacked week after week in Web3. Inverstors and users keep shying away 
+            from the industry fearing they will lose their money to hackers.
+            After hunting for bugs on different bug bounty platforms many times it became obvious the security provided by them is, at the very least, questionable and judging by the ongoing number of hacks, definitely not enough.
             <br />
             <br />
-            First and foremost, we aim to secure the web3 space. We strongly believe that current Bug Bounty platforms are mostly a PR stunt and many times actually doing a disservice to the security of protocols, and by extension, investor and user funds.
+            This frustration with the State of the Art of web3 security led to the creation of the 
+            Saloon. A new concept for a Bug Bounty Platform to perpetually enhance the Web3 security landscape.
+            <br />
             <br />
           </Typography>
         </Grid>
         <Grid item container xs={12} md={6}>
           <Typography color={theme.palette.wildwest.grey}>
-            Our plan consists of offering the protocols that are really serious about security a way to actually show their commitment.
+            First and foremost, we aim to secure the web3 space. We strongly believe that current Bug Bounty platforms are 
+            mostly a PR stunt and many times actually do a disservice to the security of protocols, and by extension, investor and user funds.
             <br />
             <br />
-            We want to raise the bar so security can't be faked. 
+            Our plan consists of offering the protocols that are actually serious about security a way to show their commitment.
+            <br />
+            <br />
+            We want to raise the bar so security can`t be faked. 
             We want to make it as clear as a Caribbean lagoon who is serious and can be trusted in this industry.
             <br />
             <br />

@@ -13,3 +13,5 @@ export { default as Support } from './Support';
 export { default as Process } from './Process';
 export { default as Work } from './Work';
 export { default as WorkH } from './WorkH';
+export { default as SignUpLetter } from './SignUpLetter';
+

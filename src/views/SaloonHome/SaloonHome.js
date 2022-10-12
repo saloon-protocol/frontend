@@ -7,7 +7,7 @@ import Divider from '@mui/material/Divider';
 
 import {
 // eslint-disable-next-line
-  Work, WorkH, Hero, Newsletter, About, CompanyValues, Reviews, HeroCareer, Process
+  SignUpLetter,Work, WorkH, Hero, Newsletter, About, CompanyValues, Reviews, HeroCareer, Process
 } from './components';
 
 const SaloonHome = () => {
@@ -40,13 +40,14 @@ const SaloonHome = () => {
         </Container>
       </Box>
       <Box>
-        
+
         <Container>
-          <Divider />
+          <SignUpLetter/>
         </Container>
         <Container>
           <About/>
         </Container>
+
       </Box>
     </Main>
   );

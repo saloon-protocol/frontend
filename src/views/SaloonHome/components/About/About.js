@@ -11,7 +11,7 @@ const About = () => {
 
   const theme = useTheme();
   return (
-    <Box>
+    <Box marginTop={-4}>
       <Box marginBottom={4}>
         <Typography
           align={'center'}
@@ -19,6 +19,7 @@ const About = () => {
           sx={{ textTransform: 'uppercase' }}
           variant={'subtitle2'}
           fontWeight={600}
+          marginBottom={2}
         >
           About
         </Typography>

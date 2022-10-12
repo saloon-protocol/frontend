@@ -469,7 +469,7 @@ const Bounty = () => {
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          The contracts are not yet finalized. Please don't audit just yet :)
+          Please don't audit just yet! The contracts are still being finalized  :)
         </Alert>
         <Grid container spacing={4}
           data-aos="fade-up"
@@ -808,10 +808,11 @@ const Bounty = () => {
             </Typography>
           </Box>
           <Divider/>
-          <Box >
+          <Box marginBottom={2}>
             <Typography variant={'h5'} fontWeight={600} 
               marginBottom={2}
               marginTop={2}
+              
             >
               Assets out of scope
             </Typography>

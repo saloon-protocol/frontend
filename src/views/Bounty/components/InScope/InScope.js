@@ -12,6 +12,8 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import ArticleIcon from '@mui/icons-material/Article';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { gruvboxDark, pojoaque } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
@@ -72,13 +74,17 @@ const InScope = (props) => {
                       sx={{ textTransform: 'uppercase' }}
 
                     >
-                      <Link underline='hover' href={'https://mumbai.polygonscan.com/address/' + item.address} target="_blank" color={'text.primary'}>
-                        {item.title}
+                      {item.title}
+                      <Link href={item.github_url} target="_blank" color={'text.primary'} marginLeft={1} marginRight={0.5}>
+                        <GitHubIcon />
+                      </Link>
+                      <Link href={item.explorer_url} target="_blank" color={'text.primary'}>
+                        <ArticleIcon />
                       </Link>
                     </Typography>
                     <Typography variant='body1' gutterBottom color={'text.primary'}
                       fontWeight={500}>
-                      LOC 1234
+                      {item.loc} LOC
                     </Typography>
                   </Box>
 

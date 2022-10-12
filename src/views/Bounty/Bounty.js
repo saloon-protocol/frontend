@@ -55,6 +55,8 @@ const Bounty = () => {
       executed: false,
     }
   ];
+
+  const [manager, setManager] = useState('');
   
   const fetchData = async () => {
     // eslint-disable-next-line
@@ -63,6 +65,7 @@ const Bounty = () => {
     var json = await res.json();  
     const json_manager = await manager_return.json();
     json['manager_address'] = json_manager['manager_address'];
+    setManager(json_manager['manager_address']);
     return json;
   };
 
@@ -217,7 +220,7 @@ const Bounty = () => {
     const managerABI = MANAGER;
     const signer = await library.getSigner();
     const contract = new ethers.Contract(managerAddress, managerABI, signer);
-    const final_amount = amount  + '0'.repeat(12);
+    const final_amount = amount  + '0'.repeat(6);
     const tx = await contract.stake(poolName, final_amount);
     setAmountVisibilities(false, false);
     setAmounts("","");
@@ -417,11 +420,12 @@ const Bounty = () => {
         
       };
       
-      checkAllowance('0x6f02087704240b1920eF93Bd0f529f52eB88e263').then(allowance => {
+      checkAllowance(manager).then(allowance => {
         setAllowance(allowance);
       });
 
-      getUserStaked('0x6f02087704240b1920eF93Bd0f529f52eB88e263', 'YEEHAW');
+      console.log('Manager Address: ' + manager);
+      getUserStaked(manager, 'YEEHAW');
 
       const handleChainChanged = (_hexChainId) => {
         setChainId(_hexChainId);
@@ -445,7 +449,7 @@ const Bounty = () => {
         }
       };
     }
-  }, [provider]);
+  }, [provider, manager]);
 
   const test = 1;
   // async function trackEvent(){
@@ -586,8 +590,8 @@ const Bounty = () => {
                         fontWeight={700}
                       >
                         {/* ${info.staked} /  */}
-                        {/* {formatter.format(userStaked * 25 / 10**14)} /   */}
-                        {formatter.format(userStaked * 25 / 10**14)} /
+                        {/* {formatter.format(userStaked * 10**6)} /   */}
+                        {formatter.format(userStaked / 10**6)} /
                         {/* $60,000 /  */}
                       </Typography>
                     </Grid>
@@ -599,7 +603,7 @@ const Bounty = () => {
                         fontWeight={700}
                       >
                         {/* ${info.staked} /  */}
-                        {formatter.format(bounty.pool_staked * 25 / 10**14)} /
+                        {formatter.format(bounty.pool_staked / 10**6)} /
                         {/* $60,000 /  */}
                       </Typography>
                     </Grid>
@@ -611,7 +615,7 @@ const Bounty = () => {
                         fontWeight={700}
                       >
                         {/* ${info.poolCap} */}
-                        {formatter.format(bounty.pool_cap * 25 / 10**16)}
+                        {formatter.format(bounty.pool_cap / 10**6)}
                         {/* $100,000 */}
                       </Typography>
 

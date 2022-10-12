@@ -23,6 +23,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Countdown from 'react-countdown';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import {
 // eslint-disable-next-line
@@ -40,9 +41,10 @@ const Bounty = () => {
   const countdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) {
       // Render a completed state
+      return <span style={{color: '#BB9725'}}>NOW!</span>;
     } else {
       // Render a countdown
-      return <span style={{color: '#BB9725'}}>{days}d, {hours}h, {minutes}m, {seconds}s</span>;
+      return <Typography>in&nbsp;<span style={{color: '#BB9725'}}>{days}d, {hours}h, {minutes}m, {seconds}s</span></Typography>;
     }
   };
 
@@ -72,6 +74,8 @@ const Bounty = () => {
   var temp = 0;
   const [bounty, setBounty] = useState([]);
   const [userStaked, setUserStaked] = useState(0);
+  const [userTimelockTimestamp, setUserTimelockTimestamp] = useState(0);
+  const [userTimelockAmount, setUserTimelockAmount] = useState(0);
   const [account, setAccount] = useState();
 
   useEffect(() => {
@@ -79,7 +83,7 @@ const Bounty = () => {
       setBounty(bounty);
     });
     console.log('Bounty set.');
-  }, [userStaked]);
+  }, [userStaked, userTimelockTimestamp]);
 
   useEffect(() => {
     const walletAddress = window.localStorage.getItem('WALLET_ADDRESS');
@@ -121,6 +125,7 @@ const Bounty = () => {
   const [stakeAmountVisibility, setStakeAmountVisibility] = useState(false);
   const [unstakeAmount, setUnstakeAmount] = useState("");
   const [unstakeAmountVisibility, setUnstakeAmountVisibility] = useState(false);
+  const [transactionPending, setTransactionPending] = useState(false);
 
   const web3Modal = new Web3Modal({
     // network:"mumbai", // optional
@@ -191,20 +196,10 @@ const Bounty = () => {
   }
 
 
-  const showValueOrStake = async (action, managerAddress='', poolName='', amount=0) => {
-    if (action == 'stake') {
-      stake(managerAddress, poolName, amount);
-      return;
-    }
-    if (action == 'showValue') {
-      console.log('Should show value');
-      return;
-    }
-  };
-
   const setAmountVisibilities = async (stake, unstake) => {
     setStakeAmountVisibility(stake);
     setUnstakeAmountVisibility(unstake);
+    setAmounts("","");
   };
 
   const setAmounts = async (stake, unstake) => {
@@ -223,18 +218,75 @@ const Bounty = () => {
     const final_amount = amount  + '0'.repeat(6);
     const tx = await contract.stake(poolName, final_amount);
     setAmountVisibilities(false, false);
+    setTransactionPending(true);
     setAmounts("","");
     const receipt = await tx.wait();
     if (receipt.status) {
       console.log(`Transaction receipt : https://mumbai.polygonscan.com/tx/${receipt.logs[1].transactionHash}\n`);
+      setTransactionPending(false);
       fetchData().then(bounty => {
         console.log(bounty);
         setBounty(bounty);
         temp+=1;
         getUserStaked(managerAddress, poolName);
+        getUserTimelock(managerAddress, poolName);
       });
     }
   }
+
+
+  async function scheduleUnstake(managerAddress, poolName, amount){
+    // const managerAddress = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880'; //mumbai
+    // const managerAddress = await fetch('https://portal.saloon.finance/api/v1/get-manager-address');
+    console.log(managerAddress, poolName, amount);
+    const managerABI = MANAGER;
+    const signer = await library.getSigner();
+    const contract = new ethers.Contract(managerAddress, managerABI, signer);
+    const final_amount = amount  + '0'.repeat(6);
+    const tx = await contract.scheduleUnstake(poolName, final_amount);
+    setAmountVisibilities(false, false);
+    setTransactionPending(true);
+    setAmounts("","");
+    const receipt = await tx.wait();
+    if (receipt.status) {
+      console.log(`Transaction receipt : https://mumbai.polygonscan.com/tx/${receipt.logs[1].transactionHash}\n`);
+      setTransactionPending(false);
+      fetchData().then(bounty => {
+        console.log(bounty);
+        setBounty(bounty);
+        temp+=1;
+        getUserStaked(managerAddress, poolName);
+        getUserTimelock(managerAddress, poolName);
+      });
+    }
+  }
+
+  async function unstake(managerAddress, poolName, amount){
+    // const managerAddress = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880'; //mumbai
+    // const managerAddress = await fetch('https://portal.saloon.finance/api/v1/get-manager-address');
+    console.log(managerAddress, poolName, amount);
+    const managerABI = MANAGER;
+    const signer = await library.getSigner();
+    const contract = new ethers.Contract(managerAddress, managerABI, signer);
+    const final_amount = amount  + '0'.repeat(6);
+    const tx = await contract.unstake(poolName, final_amount);
+    setAmountVisibilities(false, false);
+    setTransactionPending(true);
+    setAmounts("","");
+    const receipt = await tx.wait();
+    if (receipt.status) {
+      console.log(`Transaction receipt : https://mumbai.polygonscan.com/tx/${receipt.logs[1].transactionHash}\n`);
+      setTransactionPending(false);
+      fetchData().then(bounty => {
+        console.log(bounty);
+        setBounty(bounty);
+        temp+=1;
+        getUserStaked(managerAddress, poolName);
+        getUserTimelock(managerAddress, poolName);
+      });
+    }
+  }
+
 
   const checkAllowance = async () => {
     const provider = new ethers.providers.WebSocketProvider(mumbaiwss);
@@ -266,6 +318,33 @@ const Bounty = () => {
       const userStakedLocal = await contract.viewUserStakingBalance(poolName, '0x0376e82258Ed00A9D7c6513eC9ddaEac015DEdFc');
       // console.log('User staked: ' + userStakedLocal.toString());
       setUserStaked(userStakedLocal);
+      // setUserStaked(old => {
+      //   return {
+      //     ...old,
+      //     userStaked: userStakedLocal
+      //   };
+      // });
+    })();
+  };
+
+  const getUserTimelock = async (managerAddress, poolName) => {
+    await delay(3000);
+    // const managerAddress = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880'; //mumbai
+    // const managerAddress = await fetch('https://portal.saloon.finance/api/v1/get-manager-address');
+    // console.log(managerAddress, poolName, amount);
+    const managerABI = MANAGER;
+    const signer = await library.getSigner();
+    const contract = new ethers.Contract(managerAddress, managerABI, signer);
+    (async() => {
+      const userTimelockLocal = await contract.viewUserTimelock(poolName, '0x0376e82258Ed00A9D7c6513eC9ddaEac015DEdFc');
+      console.log('User Timelock Local: ' + userTimelockLocal);
+      if (userTimelockLocal[2] == false && userTimelockLocal[0] > 0) {
+        setUserTimelockTimestamp(userTimelockLocal[0] * 1000);
+        setUserTimelockAmount(userTimelockLocal[1]);
+      } else {
+        setUserTimelockTimestamp(0);
+        setUserTimelockAmount(0);
+      }
       // setUserStaked(old => {
       //   return {
       //     ...old,
@@ -426,6 +505,7 @@ const Bounty = () => {
 
       console.log('Manager Address: ' + manager);
       getUserStaked(manager, 'YEEHAW');
+      getUserTimelock(manager, 'YEEHAW');
 
       const handleChainChanged = (_hexChainId) => {
         setChainId(_hexChainId);
@@ -622,10 +702,11 @@ const Bounty = () => {
                     </Grid>
                     
                   </Grid>
-
-                  <Grid item direction="row" display={'flex'} alignItems="center" marginTop={2} xs={4}>
-                    You have <span style={{color: '#BB9725'}}>&nbsp;$300 USDC&nbsp;</span> to unstake in&nbsp;<Countdown date={1666109429000} renderer={countdownRenderer} />
-                  </Grid>
+                  {userTimelockTimestamp > 0 ?
+                    <Grid item direction="row" display={'flex'} alignItems="center" marginTop={2} xs={4}>
+                      You have <span style={{color: '#BB9725'}}>&nbsp;${userTimelockAmount/10**6} USDC&nbsp;</span> to unstake&nbsp;<Countdown date={userTimelockTimestamp} renderer={countdownRenderer} />
+                    </Grid> : null
+                  }
                   
                 </Grid>
                 
@@ -643,10 +724,10 @@ const Bounty = () => {
                   </TextField></Slide> : <div><br></br><br></br></div>}
 
                   {unstakeAmountVisibility == true ? <Slide direction="left" in={unstakeAmountVisibility} container={containerRef.current}><TextField
-                    id="stake-input"
+                    id="unstake-input"
                     label="USDC"
-                    // onChange={handleUnstakeInputChange}
-                    // value={unstakeAmount}
+                    onChange={handleUnstakeInputChange}
+                    value={unstakeAmount}
                     // color='warning'
                     inputProps={{ style: { color: 'white'}}}
                   >
@@ -680,51 +761,68 @@ const Bounty = () => {
                             <Box>
                               {
                                 // if staking hasnt been allowed
-                                allowance > 0 ? (
-                                  <Grid direction="column" alignItems="center">
-                                    <Grid item color={'text.primary'} fontSize='medium' marginBottom={1}>
-                                      <Button onClick={() => {stakeAmount>0 ? stake(bounty.manager_address, bounty.pool_name, stakeAmount) : setAmountVisibilities(true, false);}} // CHANGE THIS TO STAKING FUNCTION
-                                        color="secondary"
-                                        variant="outlined"
-                                        size="large"
-                                        sx={{ borderRadius: 0 }}
-                                        fullWidth
-                                      >
-                                        STAKE
-                                      </Button>
-                                    </Grid>
+                                transactionPending ? <CircularProgress color="secondary" style={{ marginLeft: "auto" }}/> :
+                                  allowance > 0 ? (
+                                    <Grid direction="column" alignItems="center">
+                                      <Grid item color={'text.primary'} fontSize='medium' marginBottom={1}>
+                                        <Button onClick={() => {stakeAmount>0 ? stake(bounty.manager_address, bounty.pool_name, stakeAmount) : setAmountVisibilities(true, false);}} // CHANGE THIS TO STAKING FUNCTION
+                                          color="secondary"
+                                          variant="outlined"
+                                          size="large"
+                                          sx={{ borderRadius: 0 }}
+                                          fullWidth
+                                        >
+                                          STAKE
+                                        </Button>
+                                      </Grid>
 
-                                    <Grid item xs={6}>
-                                      <Button onClick={() => {unstakeAmount>0 ? stake(bounty.manager_address, bounty.pool_name, unstakeAmount) : setAmountVisibilities(false, true);}}
-                                        color="inherit"
-                                        variant="outlined"
-                                        size="large"
-                                        sx={{ borderRadius: 0 }}
-                                        fullWidth
-                                        // onClick={}  IMPLEMENT THIS FUNCTION
-                                      >
-                                        <Typography marginX={2}>
-                                          UNSTAKE
-                                        </Typography>
-                                            
-                                      </Button>
+                                      {userTimelockTimestamp > 0 && userTimelockTimestamp <= Math.floor(Date.now() / 1000) ?
+                                        <Grid item xs={6}>
+                                          <Button onClick={() => {unstakeAmount>0 ? unstake(bounty.manager_address, bounty.pool_name, unstakeAmount) : setAmountVisibilities(false, true);}}
+                                            color="inherit"
+                                            variant="outlined"
+                                            size="large"
+                                            sx={{ borderRadius: 0 }}
+                                            fullWidth
+                                            // onClick={}  IMPLEMENT THIS FUNCTION
+                                          >
+                                            <Typography marginX={2}>
+                                              UNSTAKE
+                                            </Typography>
+                                                
+                                          </Button>
+                                        </Grid>
+                                        :
+                                        <Grid item xs={6}>
+                                          <Button onClick={() => {unstakeAmount>0 ? scheduleUnstake(bounty.manager_address, bounty.pool_name, unstakeAmount) : setAmountVisibilities(false, true);}}
+                                            color="inherit"
+                                            variant="outlined"
+                                            size="large"
+                                            sx={{ borderRadius: 0 }}
+                                            fullWidth
+                                            // onClick={}  IMPLEMENT THIS FUNCTION
+                                          >
+                                            <Typography marginX={2}>
+                                              SCHEDULE UNSTAKE
+                                            </Typography>
+                                                
+                                          </Button>
+                                        </Grid>}
                                     </Grid>
-                                  </Grid>
+                                  
+                                  ) : (
+                                    // if not approved show approve button
+                                    <Button onClick={() => approveWETH(bounty.manager_address)} // CHANGE THIS TO APPROVE FUNCTION
+                                      color="inherit"
+                                      variant="outlined"
+                                      size="large"
+                                      sx={{ borderRadius: 0 }}
+                                      fullWidth
+                                    >
+                                      APPROVE STAKING
+                                    </Button>
                                 
-                                ) : (
-                                  // if not approved show approve button
-                                  <Button onClick={() => approveWETH(bounty.manager_address)} // CHANGE THIS TO APPROVE FUNCTION
-                                    color="inherit"
-                                    variant="outlined"
-                                    size="large"
-                                    sx={{ borderRadius: 0 }}
-                                    fullWidth
-                                  >
-                                    APPROVE STAKING
-                                  </Button>
-                                  
-                                  
-                                )
+                                  )
                               }
                             </Box> 
                           ) : (

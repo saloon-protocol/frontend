@@ -357,7 +357,7 @@ const Jobs = () => {
                     >
                       <Typography variant='h6'>
                         {/* {viewBounty(item.title)} */}
-                        {formatter.format(item.pool_payout * 25 / 10**14)}
+                        {formatter.format(item.pool_payout / 10**6)}
                       </Typography>
                     </Button>
                   </Box>

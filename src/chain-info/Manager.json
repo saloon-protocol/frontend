@@ -39,6 +39,31 @@
         "internalType": "string",
         "name": "projectName",
         "type": "string"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "oldAmount",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "newAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "BountyBalanceChanged",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "string",
+        "name": "projectName",
+        "type": "string"
       }
     ],
     "name": "BountyKilled",
@@ -111,31 +136,6 @@
       }
     ],
     "name": "DeployNewBounty",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "string",
-        "name": "projectName",
-        "type": "string"
-      },
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "oldAmount",
-        "type": "uint256"
-      },
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "newAmount",
-        "type": "uint256"
-      }
-    ],
-    "name": "HackerPayoutChanged",
     "type": "event"
   },
   {
@@ -1253,6 +1253,40 @@
         "internalType": "uint256",
         "name": "",
         "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_projectName",
+        "type": "string"
+      },
+      {
+        "internalType": "address",
+        "name": "_staker",
+        "type": "address"
+      }
+    ],
+    "name": "viewUserTimelock",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "timelock",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "executed",
+        "type": "bool"
       }
     ],
     "stateMutability": "view",

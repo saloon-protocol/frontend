@@ -218,32 +218,36 @@ const Topbar = ({ onSidebarOpen, pages, colorInvert = false }) => {
       
       <Box sx={{ display: { xs: 'none', md: 'flex' } }} alignItems={'center'}>
 
-        <Box marginLeft={4}>
-          {/* <SimpleNavItem
-            title={'Bounties'}
-            id={'bounties-page'}
-            items={bountiesPage}
-            colorInvert={colorInvert}
-          /> */}
-          <Button href='/bounties' color='secondary' variant='outlined' sx={{borderRadius:0}} size='large'>
+        <Box marginLeft={2}>
+          <Button href='/bounties' color='secondary' variant='outlined' 
+            sx={{borderRadius:0}} size='large'
+          >
             BOUNTIES
           </Button>
         </Box>
         <Box marginLeft={4}>
-          <SimpleNavItem
-            title={'Docs'}
-            id={'docs-page'}
-            items={docsPage}
-            colorInvert={colorInvert}
-          />
+          <Link href='https://saloon-finance.gitbook.io/saloon-finance/howdy/introduction' 
+            color='inherit' 
+            sx={{borderRadius:0}} 
+            // size='large'
+            underline="hover"
+            fontWeight={500}
+            target='blank'
+          >
+            DOCS
+          </Link>
         </Box>
         <Box marginLeft={4}>
-          <SimpleNavItem
-            title={'About'}
-            id={'about-page'}
-            items={aboutPage}
-            colorInvert={colorInvert}
-          />
+          <Link href='/about' 
+            color='inherit' 
+            sx={{borderRadius:0}} 
+            // size='large'
+            underline="hover"
+            fontWeight={500}
+          >
+            ABOUT
+          </Link>
+      
         </Box>
         
         {

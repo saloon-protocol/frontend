@@ -14,6 +14,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import ArticleIcon from '@mui/icons-material/Article';
+import IconButton from '@mui/material/IconButton';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { gruvboxDark, pojoaque } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
@@ -60,7 +61,7 @@ const InScope = (props) => {
                 }}
               >
 
-                <Box display='flex'
+                {/* <Box display='flex'
                   sx={{ width: 1 }}
                   alignItems={'center'}
                   padding={2}
@@ -75,13 +76,18 @@ const InScope = (props) => {
 
                     >
                       {item.title}
-                      <Link href={item.github_url} target="_blank" color={'text.primary'} marginLeft={1} marginRight={0.5}>
-                        <GitHubIcon />
-                      </Link>
-                      <Link href={item.explorer_url} target="_blank" color={'text.primary'}>
-                        <ArticleIcon />
-                      </Link>
                     </Typography>
+                    <IconButton 
+                      href={item.github_url} 
+                      target="_blank" 
+                      // color={'text.primary'} marginLeft={1} marginRight={0.5}
+                    >
+                      <GitHubIcon />
+                    </IconButton>
+                    <Link href={item.explorer_url} target="_blank" color={'text.primary'}>
+                      <ArticleIcon />
+                    </Link>
+                    
                     <Typography variant='body1' gutterBottom color={'text.primary'}
                       fontWeight={500}>
                       {item.loc} LOC
@@ -92,7 +98,72 @@ const InScope = (props) => {
                     align='center' color={'text.primary'} fontSize='medium'>
                     {item.description}
                   </Typography>
-                </Box>
+                </Box> */}
+                <Grid 
+                  container
+                  display='flex'
+                  // sx={{ width: 1 }}
+                  flexDirection={'row'}
+                  alignItems={'center'}
+                  justifyContent={'flex-start'}
+                  padding={2}
+                  
+                >
+                  <Grid item
+                    // sx={{ width: '33%' }}
+                    md={3}
+                  >
+                    <Grid 
+                      container
+                      display='flex'
+                      // sx={{ width: 1 }}
+                      flexDirection={'row'}
+                      alignItems={'center'}
+                      justifyContent={'flex-start'}
+                    >
+                      <Grid item 
+                      >
+                        <Typography
+                          variant='h6'
+                          fontWeight={700}
+                          sx={{ textTransform: 'uppercase' }}
+                        >
+                          {item.title}
+                        </Typography>
+                      </Grid>
+                      <Grid item>
+                        <IconButton 
+                          href={item.github_url} 
+                          target="_blank" 
+                        >
+                          <GitHubIcon />
+                        </IconButton>
+                      </Grid>
+                      <Grid item marginLeft={-1}>
+                        <IconButton href={item.explorer_url} 
+                          target="_blank" 
+                        >
+                          <ArticleIcon />
+                        </IconButton>
+                      </Grid>
+                    </Grid>
+                    
+                    <Typography variant='body1' gutterBottom color={'text.primary'}
+                      fontWeight={500}>
+                      {item.loc} LOC
+                    </Typography>
+                  </Grid>
+
+                  <Grid item 
+                    sm={8}
+                  >
+                    <Typography
+                      align='left' color={'text.primary'} fontSize='medium'
+                    >
+                      {item.description}
+                    </Typography>
+                  </Grid>
+                </Grid>
 
 
               </AccordionSummary>

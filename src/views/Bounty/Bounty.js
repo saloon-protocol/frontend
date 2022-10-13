@@ -36,6 +36,10 @@ import { useParams } from 'react-router-dom';
 const Bounty = () => {
   const theme = useTheme();
   const {title} = useParams();
+  useEffect(() => {
+    document.title = "Bounty";
+  }, []);
+
   const containerRef = React.useRef(null);
 
   const countdownRenderer = ({ days, hours, minutes, seconds, completed }) => {

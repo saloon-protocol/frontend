@@ -27,9 +27,7 @@ const Routes = () => {
       <Route path="*" element={<Navigate replace to="/" />} /> */}
       
       <Route path="/" element={<SaloonHome/>} />
-      <Route path="/bounties" element={<Bounties/>}>
-        
-      </Route>
+      <Route path="/bounties" element={<Bounties/>} title="Bounties"/>
       <Route path="/bounty/:title" element={<Bounty/>} />
       <Route path="/about" element={<About/>} />
       <Route path="/bounty" element={<Bounty/>} />

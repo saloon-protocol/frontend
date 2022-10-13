@@ -14,14 +14,14 @@ const projects = [
     description:
       "Want to post a $1,000,000 bounty but don't have the funds?",
     description2:'Open up a crowd-sourced bounty pool at the Saloon.',
-    link: 'https://saloon-finance.gitbook.io/saloon-finance/project-manual/how-to-post-a-bounty/decide-the-source-of-funds',
+    link: 'https://docs.saloon.finance/saloon-finance/project-manual/how-to-post-a-bounty/decide-the-source-of-funds',
     image: <Spring/>,
   },
   {
     title: 'Fair and integrated triaging at the core',
     description:
       "We will filter out the invalid bugs as to not waste the project team's time.",
-    link: 'https://saloon-finance.gitbook.io/saloon-finance/project-manual/bounty-lifecycle/submissions-resolutions',
+    link: 'https://docs.saloon.finance/saloon-finance/project-manual/bounty-lifecycle/submissions-resolutions',
     image: <Hourglass/>,
   },
   {

@@ -226,7 +226,7 @@ const Topbar = ({ onSidebarOpen, pages, colorInvert = false }) => {
           </Button>
         </Box>
         <Box marginLeft={4}>
-          <Link href='https://saloon-finance.gitbook.io/saloon-finance/howdy/introduction' 
+          <Link href='https://docs.saloon.finance/saloon-finance/howdy/introduction' 
             color='inherit' 
             sx={{borderRadius:0}} 
             // size='large'

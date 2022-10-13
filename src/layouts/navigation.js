@@ -15,7 +15,7 @@ const pages = {
   docs: [
     {
       title: 'Docs',
-      href:'https://saloon-finance.gitbook.io/saloon-finance/howdy/introduction',
+      href:'https://docs.saloon.finance/saloon-finance/howdy/introduction',
     }
   ],
   landings: [

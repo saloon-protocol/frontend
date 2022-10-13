@@ -636,30 +636,36 @@ const Bounty = () => {
               // display={'flex'} 
               // alignItems={'center'}
             >
-              <Grid container 
-                // display={'space-between'}
-                // flexDirection={{ xs: 'column', sm: 'row' }}
+              <Grid 
+                container 
+                display='flex'
+                flexDirection={{ xs: 'column', lg: 'row' }}
                 // flex={'1 1 50%'}
                 justifyContent='space-between'
                 alignItems='center'
+                // spacing={4}
 
               >
-                <Grid item marginLeft={2} xs={3} alignItems="left"
-                  // md={6}
+                <Grid item marginLeft={2} lg={3} xs={12} alignItems="left"
+                  marginBottom={{xs: 6, lg:0}}
                 >
                   <Typography 
-                    variant='h5'
+                    // variant={{lg:'h5', xs:'h5'}}
+                    fontSize={{lg:30, xs:35}}
                     fontWeight={700}
                     sx={{textTransform:'uppercase'}}
+                    
                   >
                     {/* {info.apy}% APY */}
                     {bounty.pool_apy}% APY
                   </Typography>
                   
                 </Grid>
-                <Grid direction="column" alignItems="center">
-                  <Grid item direction="row" display={'flex'} alignItems="center" xs={4} 
-                    // xs={12} 
+                <Grid direction="column" 
+                  justifyContent={'center'}
+                  alignItems="center" marginBottom={{xs:-6, lg:0}}>
+                  <Grid item direction="row" display={'flex'} alignItems="center" xs={12} 
+                    lg={4} 
                     // md={6}
                   >
                     <Grid item alignItems="right">
@@ -710,10 +716,14 @@ const Bounty = () => {
                   
                 </Grid>
                 
-                <Grid item marginRight={2} xs={0.5}>
-                </Grid>
+                {/* <Grid item marginRight={2} xs={12} lg={0.5}>
+                </Grid> */}
 
-                <Grid item direction="row" fontSize='medium' marginRight={2} xs={1.5} ref={containerRef}>
+                <Grid item direction="row" fontSize='medium' marginRight={2} lg={1.5} 
+                  marginBottom={1}
+                  xs={12} 
+                  ref={containerRef}
+                >
                   {stakeAmountVisibility == true ? <Slide direction="left" in={stakeAmountVisibility} container={containerRef.current}><TextField
                     id="stake-input"
                     label="USDC"
@@ -734,7 +744,7 @@ const Bounty = () => {
                   </TextField></Slide> : <div><br></br><br></br></div>}
                 </Grid>
 
-                <Grid item marginRight={2} xs={2}
+                <Grid item marginRight={2} xs={12} lg={2}
                   // xs={12} 
                   // md={6}
                 >   
@@ -772,7 +782,12 @@ const Bounty = () => {
                                           sx={{ borderRadius: 0 }}
                                           fullWidth
                                         >
-                                          STAKE
+                                          <Typography marginX={2}
+                                            fontWeight={700}
+                                            marginY={1}
+                                          >
+                                            STAKE
+                                          </Typography>
                                         </Button>
                                       </Grid>
 
@@ -802,7 +817,10 @@ const Bounty = () => {
                                             fullWidth
                                             // onClick={}  IMPLEMENT THIS FUNCTION
                                           >
-                                            <Typography marginX={2}>
+                                            <Typography marginX={2} 
+                                              variant='body2'
+                                              fontWeight={10}
+                                            >
                                               SCHEDULE UNSTAKE
                                             </Typography>
                                                 

@@ -32,6 +32,7 @@ import {
 import { ethers } from 'ethers';
 // eslint-disable-next-line
 import { useParams } from 'react-router-dom';
+import { constants } from 'buffer';
 
 const Bounty = () => {
   const theme = useTheme();
@@ -63,6 +64,8 @@ const Bounty = () => {
   ];
 
   const [manager, setManager] = useState('');
+  const [poolAddress, setPoolAddress] = useState('');
+  const [poolName, setPoolName] = useState('');
   
   const fetchData = async () => {
     // eslint-disable-next-line
@@ -72,6 +75,8 @@ const Bounty = () => {
     const json_manager = await manager_return.json();
     json['manager_address'] = json_manager['manager_address'];
     setManager(json_manager['manager_address']);
+    setPoolAddress(json['pool_address']);
+    setPoolName(json['pool_name']);
     return json;
   };
 
@@ -81,13 +86,27 @@ const Bounty = () => {
   const [userTimelockTimestamp, setUserTimelockTimestamp] = useState(0);
   const [userTimelockAmount, setUserTimelockAmount] = useState(0);
   const [account, setAccount] = useState();
+  const [provider, setProvider] = useState();
+  const [library, setLibrary] = useState();
+  const [signature, setSignature] = useState("");
+  const [error, setError] = useState("");
+  const [chainId, setChainId] = useState();
+  const [network, setNetwork] = useState();
+  const [message, setMessage] = useState("");
+  const [signedMessage, setSignedMessage] = useState("");
+  const [verified, setVerified] = useState();
+  const [allowance, setAllowance] = useState(null);
+  const [stakeAmount, setStakeAmount] = useState("");
+  const [stakeAmountVisibility, setStakeAmountVisibility] = useState(false);
+  const [unstakeAmount, setUnstakeAmount] = useState("");
+  const [unstakeAmountVisibility, setUnstakeAmountVisibility] = useState(false);
+  const [transactionPending, setTransactionPending] = useState(false);
 
   useEffect(() => {
     fetchData().then(bounty => {
       setBounty(bounty);
     });
-    console.log('Bounty set.');
-  }, [userStaked, userTimelockTimestamp]);
+  }, [userStaked, userTimelockTimestamp, poolName, allowance]);
 
   useEffect(() => {
     const walletAddress = window.localStorage.getItem('WALLET_ADDRESS');
@@ -114,22 +133,6 @@ const Bounty = () => {
   // if(window.ethereum){
   //   const provider = new ethers.providers.WebSocketProvider(mumbaiwss);
   // } 
-
-  const [provider, setProvider] = useState();
-  const [library, setLibrary] = useState();
-  const [signature, setSignature] = useState("");
-  const [error, setError] = useState("");
-  const [chainId, setChainId] = useState();
-  const [network, setNetwork] = useState();
-  const [message, setMessage] = useState("");
-  const [signedMessage, setSignedMessage] = useState("");
-  const [verified, setVerified] = useState();
-  const [allowance, setAllowance] = useState(null);
-  const [stakeAmount, setStakeAmount] = useState("");
-  const [stakeAmountVisibility, setStakeAmountVisibility] = useState(false);
-  const [unstakeAmount, setUnstakeAmount] = useState("");
-  const [unstakeAmountVisibility, setUnstakeAmountVisibility] = useState(false);
-  const [transactionPending, setTransactionPending] = useState(false);
 
   const web3Modal = new Web3Modal({
     // network:"mumbai", // optional
@@ -161,44 +164,30 @@ const Bounty = () => {
   };
   
 
-  async function approveWETH(managerAddress){
+  async function approveUSDC(){
     const provider = await web3Modal.connect();
     const library = new ethers.providers.Web3Provider(provider);
-    const WETHAddress = '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889'; //mumbai
+    const WETHAddress = '0x302dE6226DDc73dF0C3d9c55C9910dEBDdd8AFE6'; //mumbai SUSDC
     const WETHabi = WETH;
+    const maxInt = ethers.constants.MaxUint256; // Will pass into solidity as uint 2**256 - 1
     const signer = await library.getSigner();
     // const manager = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880';
     const contract = new ethers.Contract(WETHAddress, WETHabi, signer);
-    await contract.approve(managerAddress,10000000);
-  }
-
-  async function transferWETH(){
-
-    const WETHAddress = '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889'; //mumbai
-    const WETHabi = WETH;
-    const signer = await library.getSigner();
-    const message = 'Send 0.011 ETH';
-    const manager = '0xbA2C02d5c59238d5607aDcbc277c80a51694e73F';
-    const SaloonBountyPool = '0x44bBCa2A3627544371B826C3300d0F7D1e68f9d3';
-    // const signer = await library.provider.request({
-    //   method: "personal_sign",
-    //   params: [message, account]
-    // });
-    const contract = new ethers.Contract(WETHAddress, WETHabi, signer);
-    // const sendVal = ethers.utils.parseEther("0.0011");
-    const sendVal = Math.round(Math.random() * 10000000);
-    const tx = await contract.transfer(SaloonBountyPool, sendVal);
+    const tx = await contract.approve(poolAddress, maxInt);
+    setAmountVisibilities(false, false);
+    setTransactionPending(true);
+    setAmounts("","");
     const receipt = await tx.wait();
     if (receipt.status) {
       console.log(`Transaction receipt : https://mumbai.polygonscan.com/tx/${receipt.logs[1].transactionHash}\n`);
+      setAllowance(maxInt);
+      setTransactionPending(false);
       fetchData().then(bounty => {
-        console.log(bounty);
         setBounty(bounty);
         temp+=1;
       });
     }
   }
-
 
   const setAmountVisibilities = async (stake, unstake) => {
     setStakeAmountVisibility(stake);
@@ -212,15 +201,14 @@ const Bounty = () => {
   };
 
 
-  async function stake(managerAddress, poolName, amount){
-    // const managerAddress = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880'; //mumbai
-    // const managerAddress = await fetch('https://portal.saloon.finance/api/v1/get-manager-address');
-    console.log(managerAddress, poolName, amount);
+  async function stake(amount){
+    // const manager = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880'; //mumbai
+    // const manager = await fetch('https://portal.saloon.finance/api/v1/get-manager-address');
+    console.log(manager, poolName, amount);
     const managerABI = MANAGER;
     const signer = await library.getSigner();
-    const contract = new ethers.Contract(managerAddress, managerABI, signer);
-    const final_amount = amount  + '0'.repeat(6);
-    const tx = await contract.stake(poolName, final_amount);
+    const contract = new ethers.Contract(manager, managerABI, signer);
+    const tx = await contract.stake(poolName, amount);
     setAmountVisibilities(false, false);
     setTransactionPending(true);
     setAmounts("","");
@@ -229,25 +217,24 @@ const Bounty = () => {
       console.log(`Transaction receipt : https://mumbai.polygonscan.com/tx/${receipt.logs[1].transactionHash}\n`);
       setTransactionPending(false);
       fetchData().then(bounty => {
-        console.log(bounty);
+        // console.log(bounty);
         setBounty(bounty);
         temp+=1;
-        getUserStaked(managerAddress, poolName);
-        getUserTimelock(managerAddress, poolName);
+        getUserStaked(manager, poolName);
+        getUserTimelock(manager, poolName);
       });
     }
   }
 
 
-  async function scheduleUnstake(managerAddress, poolName, amount){
-    // const managerAddress = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880'; //mumbai
-    // const managerAddress = await fetch('https://portal.saloon.finance/api/v1/get-manager-address');
-    console.log(managerAddress, poolName, amount);
+  async function scheduleUnstake(amount){
+    // const manager = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880'; //mumbai
+    // const manager = await fetch('https://portal.saloon.finance/api/v1/get-manager-address');
+    console.log(manager, poolName, amount);
     const managerABI = MANAGER;
     const signer = await library.getSigner();
-    const contract = new ethers.Contract(managerAddress, managerABI, signer);
-    const final_amount = amount  + '0'.repeat(6);
-    const tx = await contract.scheduleUnstake(poolName, final_amount);
+    const contract = new ethers.Contract(manager, managerABI, signer);
+    const tx = await contract.scheduleUnstake(poolName, amount);
     setAmountVisibilities(false, false);
     setTransactionPending(true);
     setAmounts("","");
@@ -256,24 +243,23 @@ const Bounty = () => {
       console.log(`Transaction receipt : https://mumbai.polygonscan.com/tx/${receipt.logs[1].transactionHash}\n`);
       setTransactionPending(false);
       fetchData().then(bounty => {
-        console.log(bounty);
+        // console.log(bounty);
         setBounty(bounty);
         temp+=1;
-        getUserStaked(managerAddress, poolName);
-        getUserTimelock(managerAddress, poolName);
+        getUserStaked(manager, poolName);
+        getUserTimelock(manager, poolName);
       });
     }
   }
 
-  async function unstake(managerAddress, poolName, amount){
-    // const managerAddress = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880'; //mumbai
-    // const managerAddress = await fetch('https://portal.saloon.finance/api/v1/get-manager-address');
-    console.log(managerAddress, poolName, amount);
+  async function unstake(amount){
+    // const manager = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880'; //mumbai
+    // const manager = await fetch('https://portal.saloon.finance/api/v1/get-manager-address');
+    console.log(manager, poolName, amount);
     const managerABI = MANAGER;
     const signer = await library.getSigner();
-    const contract = new ethers.Contract(managerAddress, managerABI, signer);
-    const final_amount = amount  + '0'.repeat(6);
-    const tx = await contract.unstake(poolName, final_amount);
+    const contract = new ethers.Contract(manager, managerABI, signer);
+    const tx = await contract.unstake(poolName, amount);
     setAmountVisibilities(false, false);
     setTransactionPending(true);
     setAmounts("","");
@@ -282,40 +268,35 @@ const Bounty = () => {
       console.log(`Transaction receipt : https://mumbai.polygonscan.com/tx/${receipt.logs[1].transactionHash}\n`);
       setTransactionPending(false);
       fetchData().then(bounty => {
-        console.log(bounty);
+        // console.log(bounty);
         setBounty(bounty);
         temp+=1;
-        getUserStaked(managerAddress, poolName);
-        getUserTimelock(managerAddress, poolName);
+        getUserStaked(manager, poolName);
+        getUserTimelock(manager, poolName);
       });
     }
   }
 
 
   const checkAllowance = async () => {
-    const provider = new ethers.providers.WebSocketProvider(mumbaiwss);
     // // Should be token address used by bounty
-    const WETHAddress = '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889'; //mumbai
+    const WETHAddress = '0x302dE6226DDc73dF0C3d9c55C9910dEBDdd8AFE6'; //mumbai SUSDC
     const WETHabi = WETH;
-
-    const managerAddress = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880';
-    // // my should be signers wallet
-    const my = '0x0376e82258Ed00A9D7c6513eC9ddaEac015DEdFc';
-    const contract = new ethers.Contract(WETHAddress, WETHabi, provider);
-    // const bountyAddress = '0x5eAF3aFD1038853D285cf4b2fAf8Ef288915f408';
-    const allow = await contract.allowance(my,managerAddress);
-    let formattedAllowance = allow.toString();
-    return formattedAllowance;
+    const signer = await library.getSigner();
+    const contract = new ethers.Contract(WETHAddress, WETHabi, signer);
+    const allow = await contract.allowance(account, poolAddress);
+    // console.log('Allowance Local:' + allow);
+    setAllowance(allow);
   };
   
-  const getUserStaked = async (managerAddress, poolName) => {
+  const getUserStaked = async (manager, poolName) => {
     await delay(3000);
-    // const managerAddress = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880'; //mumbai
-    // const managerAddress = await fetch('https://portal.saloon.finance/api/v1/get-manager-address');
-    // console.log(managerAddress, poolName, amount);
+    // const manager = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880'; //mumbai
+    // const manager = await fetch('https://portal.saloon.finance/api/v1/get-manager-address');
+    // console.log(manager, poolName, amount);
     const managerABI = MANAGER;
     const signer = await library.getSigner();
-    const contract = new ethers.Contract(managerAddress, managerABI, signer);
+    const contract = new ethers.Contract(manager, managerABI, signer);
     // const sendVal = Math.round(Math.random() * 10**16);
     // const final_amount = amount * 10**13;
     (async() => {
@@ -331,17 +312,17 @@ const Bounty = () => {
     })();
   };
 
-  const getUserTimelock = async (managerAddress, poolName) => {
+  const getUserTimelock = async (manager, poolName) => {
     await delay(3000);
-    // const managerAddress = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880'; //mumbai
-    // const managerAddress = await fetch('https://portal.saloon.finance/api/v1/get-manager-address');
-    // console.log(managerAddress, poolName, amount);
+    // const manager = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880'; //mumbai
+    // const manager = await fetch('https://portal.saloon.finance/api/v1/get-manager-address');
+    // console.log(manager, poolName, amount);
     const managerABI = MANAGER;
     const signer = await library.getSigner();
-    const contract = new ethers.Contract(managerAddress, managerABI, signer);
+    const contract = new ethers.Contract(manager, managerABI, signer);
     (async() => {
       const userTimelockLocal = await contract.viewUserTimelock(poolName, '0x0376e82258Ed00A9D7c6513eC9ddaEac015DEdFc');
-      console.log('User Timelock Local: ' + userTimelockLocal);
+      // console.log('User Timelock Local: ' + userTimelockLocal);
       if (userTimelockLocal[2] == false && userTimelockLocal[0] > 0) {
         setUserTimelockTimestamp(userTimelockLocal[0] * 1000);
         setUserTimelockAmount(userTimelockLocal[1]);
@@ -503,13 +484,10 @@ const Bounty = () => {
         
       };
       
-      checkAllowance(manager).then(allowance => {
-        setAllowance(allowance);
-      });
+      checkAllowance();
 
-      console.log('Manager Address: ' + manager);
-      getUserStaked(manager, 'YEEHAW');
-      getUserTimelock(manager, 'YEEHAW');
+      getUserStaked(manager, poolName);
+      getUserTimelock(manager, poolName);
 
       const handleChainChanged = (_hexChainId) => {
         setChainId(_hexChainId);
@@ -533,7 +511,7 @@ const Bounty = () => {
         }
       };
     }
-  }, [provider, manager]);
+  }, [provider, manager, poolName, account]);
 
   const test = 1;
   // async function trackEvent(){
@@ -720,10 +698,10 @@ const Bounty = () => {
                   
                 </Grid>
                 
-                {/* <Grid item marginRight={2} xs={12} lg={0.5}>
-                </Grid> */}
+                <Grid item marginRight={2} xs={12} lg={0.5}>
+                </Grid>
 
-                <Grid item direction="row" fontSize='medium' marginRight={2} lg={1.5} 
+                <Grid item direction="row" fontSize='medium' marginRight={-2} lg={1.5} 
                   marginBottom={1}
                   xs={12} 
                   ref={containerRef}
@@ -735,7 +713,7 @@ const Bounty = () => {
                     value={stakeAmount}
                     color="secondary"
                   >
-                  </TextField></Slide> : <div><br></br><br></br></div>}
+                  </TextField></Slide> : <div><br></br><br></br><br></br></div>}
 
                   {unstakeAmountVisibility == true ? <Slide direction="left" in={unstakeAmountVisibility} container={containerRef.current}><TextField
                     id="unstake-input"
@@ -779,7 +757,7 @@ const Bounty = () => {
                                   allowance > 0 ? (
                                     <Grid direction="column" alignItems="center">
                                       <Grid item color={'text.primary'} fontSize='medium' marginBottom={1}>
-                                        <Button onClick={() => {stakeAmount>0 ? stake(bounty.manager_address, bounty.pool_name, stakeAmount) : setAmountVisibilities(true, false);}} // CHANGE THIS TO STAKING FUNCTION
+                                        <Button onClick={() => {stakeAmount>0 ? stake(stakeAmount) : setAmountVisibilities(true, false);}} // CHANGE THIS TO STAKING FUNCTION
                                           color="secondary"
                                           variant="outlined"
                                           size="large"
@@ -797,7 +775,7 @@ const Bounty = () => {
 
                                       {userTimelockTimestamp > 0 && userTimelockTimestamp <= Math.floor(Date.now() / 1000) ?
                                         <Grid item xs={6}>
-                                          <Button onClick={() => {unstakeAmount>0 ? unstake(bounty.manager_address, bounty.pool_name, unstakeAmount) : setAmountVisibilities(false, true);}}
+                                          <Button onClick={() => {unstakeAmount>0 ? unstake(unstakeAmount) : setAmountVisibilities(false, true);}}
                                             color="inherit"
                                             variant="outlined"
                                             size="large"
@@ -813,7 +791,7 @@ const Bounty = () => {
                                         </Grid>
                                         :
                                         <Grid item xs={6}>
-                                          <Button onClick={() => {unstakeAmount>0 ? scheduleUnstake(bounty.manager_address, bounty.pool_name, unstakeAmount) : setAmountVisibilities(false, true);}}
+                                          <Button onClick={() => {unstakeAmount>0 ? scheduleUnstake(unstakeAmount) : setAmountVisibilities(false, true);}}
                                             color="inherit"
                                             variant="outlined"
                                             size="large"
@@ -834,7 +812,7 @@ const Bounty = () => {
                                   
                                   ) : (
                                     // if not approved show approve button
-                                    <Button onClick={() => approveWETH(bounty.manager_address)} // CHANGE THIS TO APPROVE FUNCTION
+                                    <Button onClick={() => approveUSDC()} // CHANGE THIS TO APPROVE FUNCTION
                                       color="inherit"
                                       variant="outlined"
                                       size="large"

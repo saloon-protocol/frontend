@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import shop from './shop.jpg';
 import Main from 'layouts/Main';
 import Container from 'components/Container';
+import Link from '@mui/material/Link';
 
 const About = () => {
 
@@ -15,39 +16,123 @@ const About = () => {
   return (
     <Main>
       <Container>
+        <Typography
+          align={'center'}
+          color={'text.secondary'}
+          sx={{ textTransform: 'uppercase' }}
+          variant={'subtitle2'}
+          fontWeight={600}
+          marginBottom={2}
+        >
+          About
+        </Typography>
         <Box marginBottom={4}>
-          <Typography
-            align={'center'}
-            color={'text.secondary'}
-            sx={{ textTransform: 'uppercase' }}
-            variant={'subtitle2'}
-            fontWeight={600}
-            marginBottom={2}
-          >
-            About
-          </Typography>
-          <Box marginBottom={2}>
+          <Link 
+            // underline='hover' 
+            color='inherit' href='https://docs.saloon.finance/saloon-finance/howdy/introduction#what-is-the-saloon'>
             <Typography fontWeight={700} variant={'h4'} align={'center'}
               marginBottom={2}
             >
               What is the Saloon?
             </Typography>
-            <Typography color={theme.palette.wildwest.grey}>
-                Saloon Finance (aka The Saloon) is a next-gen bug bounty platform. 
-                A bug bounty platform (BBP) is a necessary tool in order to facilitate 
-                the hosting of bug bounties on a codebase. Bug bounties allow hackers to 
-                responsibly disclose code vulnerabilities to the project team for a monetary reward, instead of performing the exploit. 
-                BBPs have been around for some time and serve as a crucial last line of defense for many protocols.           
-              <br />
-              <br />
-                Most importantly, the Saloon is a fair and transparent BBP that custodies all funds for bounty payouts.            <br />
-            </Typography>
-          </Box>
-          
-          <Typography fontWeight={700} variant={'h4'} align={'center'}>
-            Why was the Saloon built?
+          </Link>
+          <Typography color={theme.palette.wildwest.grey}>
+              The Saloon is a next-gen bug bounty platform. 
+              A bug bounty platform (BBP) is a necessary tool in order to facilitate 
+              the hosting of bug bounties on a codebase. Bug bounties allow hackers to 
+              responsibly disclose code vulnerabilities to the project team for a monetary reward, instead of performing the exploit. 
+              BBPs have been around for some time and serve as a crucial last line of defence for many protocols.           
+            <br />
+            <br />
+              Most importantly, the Saloon is a fair and transparent BBP that custodies all funds for bounty payouts.            <br />
           </Typography>
         </Box>
+
+        <Box marginBottom={4}>
+          <Link 
+            // underline='hover' 
+            color='inherit' href='https://app.gitbook.com/o/3D1RtG7E2pcRMEUbfZNx/s/5pVnwl1CKzk77DYBLICG/howdy/introduction#undefined'>
+            <Typography fontWeight={700} variant={'h4'} align={'center'}
+              marginBottom={2}
+            >
+              What is a bug bounty?
+            </Typography>
+          </Link>
+          <Typography color={theme.palette.wildwest.grey}>
+            A bug bounty works just like a regular wild-west bounty. 
+            Except we are hunting for bugs in code instead of human heads .          
+            <br />
+            <br />
+            Basically you (the company) put a prize for anyone (hunters) who finds a bug in your code.
+          </Typography>
+        </Box>
+
+        <Box marginBottom={4}>
+          <Link 
+            // underline='hover' 
+            color='inherit' href='https://app.gitbook.com/o/3D1RtG7E2pcRMEUbfZNx/s/5pVnwl1CKzk77DYBLICG/howdy/introduction#how-does-the-saloon-work'>
+            <Typography fontWeight={700} variant={'h4'} align={'center'}
+              marginBottom={2}
+            >
+              How does The Saloon work? 
+            </Typography>
+          </Link>
+          <Typography color={theme.palette.wildwest.grey}>
+            The Saloon is comprised of Bounty Pools. 
+            <br />
+            <br />
+            Bounty pools are created by a 
+            project when they join the Saloon to post a bounty. 
+            <br />
+            <br />
+            Upon creation, 
+            the project will deposit funds to entice hunters to review the codebase.
+            <br />
+            <br /> 
+            Those who deem the code as "bug-free" will decide to stake collateral in 
+            the bounty pool. In return, they will receive juicy premium payments for 
+            assuming the risk of valid submission payouts.
+            <br />
+            <br /> 
+            An example:
+            <br />
+            <br />
+            1. A project decides they want to post a bounty. 
+            <br />
+            <br />
+            2. The project sets the bounty pool cap and APY. 
+            <br />
+            <br />
+            - E.g. Project wants to host a $1million bounty with a 20% Staker APY. This means that every year, the project will pay a max $200,000 to the stakers in the bounty pool. 
+            <br />
+            <br />
+            3. The project is required to deposit a "seed" amount in order to make hunting worthwhile before the bounty pool fills up. Recommended 10% minimum ($100,000 in above example).
+            <br />
+            <br />
+            4. Early auditors hunt for bugs on the protocol.
+            <br />
+            <br />
+            5. The Saloon sifts invalid bugs out.
+            <br />
+            <br />
+            6. If a valid bug is found, the auditor gets paid.
+            <br />
+            <br />
+            7. If no bugs are present, they can decide to stake their collateral and start earning the premium payments.
+            <br />
+            <br />
+            8. Each week, the project pays their premium and the funds are claimable by the stakers.
+            <br />
+            <br />
+            9.Top performing stake strategies will be shown publicly, ensuring that anyone can make an informed decision on where to stake.
+          </Typography>
+        </Box>
+        
+        <Typography fontWeight={700} variant={'h4'} align={'center'}
+          marginBottom={2}>
+          Why was the Saloon built?
+        </Typography>
+        
         <Grid container spacing={4}>
           <Grid
             item

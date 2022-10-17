@@ -19,11 +19,12 @@ import MenuItem from '@mui/material/MenuItem';
 import Divider from '@mui/material/Divider';
 import Alert from '@mui/material/Alert';
 import Slide from '@mui/material/Slide';
-import InfoIcon from '@mui/icons-material/Info';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
 import Countdown from 'react-countdown';
 import CircularProgress from '@mui/material/CircularProgress';
+import CountUp from 'react-countup';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 
 import {
 // eslint-disable-next-line
@@ -101,6 +102,7 @@ const Bounty = () => {
   const [unstakeAmount, setUnstakeAmount] = useState("");
   const [unstakeAmountVisibility, setUnstakeAmountVisibility] = useState(false);
   const [transactionPending, setTransactionPending] = useState(false);
+  const [claimPending, setClaimPending] = useState(false);
 
   useEffect(() => {
     fetchData().then(bounty => {
@@ -223,6 +225,24 @@ const Bounty = () => {
         getUserStaked(manager, poolName);
         getUserTimelock(manager, poolName);
       });
+    }
+  }
+
+  async function claimPremium(){
+    // const manager = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880'; //mumbai
+    // const manager = await fetch('https://portal.saloon.finance/api/v1/get-manager-address');
+    console.log('Claim Premium', manager, poolName);
+    const managerABI = MANAGER;
+    const signer = await library.getSigner();
+    const contract = new ethers.Contract(manager, managerABI, signer);
+    const tx = await contract.claimPremium(poolName);
+    setAmountVisibilities(false, false);
+    setClaimPending(true);
+    setAmounts("","");
+    const receipt = await tx.wait();
+    if (receipt.status) {
+      setClaimPending(false);
+      alert(`[Success] Txn receipt: https://mumbai.polygonscan.com/tx/${receipt.logs[1].transactionHash}\n`);
     }
   }
 
@@ -650,6 +670,21 @@ const Bounty = () => {
                     lg={4} 
                     // md={6}
                   >
+                    {claimPending ? <CircularProgress color="secondary" style={{marginLeft: '6%', maxWidth: '20px', maxHeight: '20px', minWidth: '20px', minHeight: '20px', marginTop: '-15%'}}/> :
+                      <Button onClick={() => {claimPremium();}} // CHANGE THIS TO STAKING FUNCTION
+                        color="secondary"
+                        variant="outlined"
+                        size="small"
+                        style={{maxWidth: '60px', maxHeight: '30px', minWidth: '60px', minHeight: '30px', marginTop: '-15%'}}
+                        sx={{ borderRadius: 0 }}
+                      >Claim!
+                      </Button>
+                    }
+                  </Grid>
+                  <Grid item direction="row" display={'flex'} alignItems="center" xs={12} 
+                    lg={4} 
+                    // md={6}
+                  >
                     <Grid item alignItems="right">
                       <Typography color={'text.primary'} fontSize='small'>
                         Your Stake
@@ -659,7 +694,14 @@ const Bounty = () => {
                       >
                         {/* ${info.staked} /  */}
                         {/* {formatter.format(userStaked * 10**6)} /   */}
-                        {formatter.format(userStaked / 10**6)} /
+                        <CountUp
+                          duration={2}
+                          separator=','
+                          end={userStaked / 10**6}
+                          start={0}
+                          prefix= {'$'}
+                        // decimals = {3}
+                        /> /
                         {/* $60,000 /  */}
                       </Typography>
                     </Grid>
@@ -671,7 +713,14 @@ const Bounty = () => {
                         fontWeight={700}
                       >
                         {/* ${info.staked} /  */}
-                        {formatter.format(bounty.pool_staked / 10**6)} /
+                        <CountUp
+                          duration={2}
+                          separator=','
+                          end={bounty.pool_staked / 10**6}
+                          start={0}
+                          prefix= {'$'}
+                        // decimals = {3}
+                        /> /
                         {/* $60,000 /  */}
                       </Typography>
                     </Grid>
@@ -933,12 +982,19 @@ const Bounty = () => {
               marginTop={2}
             >
               Known vulnerabilities
+              <Tooltip title="Number represents UTC timestamp of which the vunerability was disclosed." placement="top-start">
+                <IconButton>
+                  <InfoOutlinedIcon fontSize="small"/>
+                </IconButton>
+              </Tooltip>
             </Typography>
             <Typography 
               // variant={'h6'} 
               fontWeight={400} 
             >
-              - List of known vulnerabilities that will not be considered
+              {bounty.known_vulns?.map((item, i) => (
+                "- (" + item.timestamp + ") " + item.description
+              ))}
             </Typography>
             
           </Box>

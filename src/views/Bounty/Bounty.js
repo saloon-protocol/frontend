@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 // import VisibilitySensor from 'react-visibility-sensor';
 // import CountUp from 'react-countup';
 import { useTheme } from '@mui/material/styles';
@@ -27,8 +27,8 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 
 import {
-// eslint-disable-next-line
-  Jobs, Rewards,InScope,Impacts
+  // eslint-disable-next-line
+  Jobs, Rewards, InScope, Impacts
 } from './components';
 import { ethers } from 'ethers';
 // eslint-disable-next-line
@@ -37,7 +37,7 @@ import { constants } from 'buffer';
 
 const Bounty = () => {
   const theme = useTheme();
-  const {title} = useParams();
+  const { title } = useParams();
   useEffect(() => {
     document.title = "Bounty";
   }, []);
@@ -47,10 +47,10 @@ const Bounty = () => {
   const countdownRenderer = ({ days, hours, minutes, seconds, completed }) => {
     if (completed) {
       // Render a completed state
-      return <span style={{color: '#BB9725'}}>NOW!</span>;
+      return <span style={{ color: '#BB9725' }}>NOW!</span>;
     } else {
       // Render a countdown
-      return <Typography>in&nbsp;<span style={{color: '#BB9725'}}>{days}d, {hours}h, {minutes}m, {seconds}s</span></Typography>;
+      return <Typography>in&nbsp;<span style={{ color: '#BB9725' }}>{days}d, {hours}h, {minutes}m, {seconds}s</span></Typography>;
     }
   };
 
@@ -67,12 +67,12 @@ const Bounty = () => {
   const [manager, setManager] = useState('');
   const [poolAddress, setPoolAddress] = useState('');
   const [poolName, setPoolName] = useState('');
-  
+
   const fetchData = async () => {
     // eslint-disable-next-line
     const res = await fetch(`https://portal.saloon.finance/api/v1/bounty?project=${title}`);
     const manager_return = await fetch(`https://portal.saloon.finance/api/v1/get-manager-address`);
-    var json = await res.json();  
+    var json = await res.json();
     const json_manager = await manager_return.json();
     json['manager_address'] = json_manager['manager_address'];
     setManager(json_manager['manager_address']);
@@ -118,14 +118,14 @@ const Bounty = () => {
     }
   }, []);
 
-  
+
 
   var formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
     maximumFractionDigits: 0,
   });
-  
+
   // const polywss = 'wss://polygon-mainnet.g.alchemy.com/v2/QvRTaIZE9c0e1g_KlKSukPkBPFSKo4Du'
   // for some reason I cant hide my alchemy key
   const mumbaiwss = 'wss://polygon-mumbai.g.alchemy.com/v2/MFd0LBZozOhdiLbJPopgwAMbqIxeZSC7';
@@ -152,7 +152,7 @@ const Bounty = () => {
       const network = await library.getNetwork();
       setProvider(provider);
       setLibrary(library);
-      
+
       if (existingWallet == false) {
         if (accounts) {
           setAccount(accounts[0]);
@@ -164,9 +164,9 @@ const Bounty = () => {
       setError(error);
     }
   };
-  
 
-  async function approveUSDC(){
+
+  async function approveUSDC() {
     const provider = await web3Modal.connect();
     const library = new ethers.providers.Web3Provider(provider);
     const WETHAddress = '0x302dE6226DDc73dF0C3d9c55C9910dEBDdd8AFE6'; //mumbai SUSDC
@@ -178,7 +178,7 @@ const Bounty = () => {
     const tx = await contract.approve(poolAddress, maxInt);
     setAmountVisibilities(false, false);
     setTransactionPending(true);
-    setAmounts("","");
+    setAmounts("", "");
     const receipt = await tx.wait();
     if (receipt.status) {
       console.log(`Transaction receipt : https://mumbai.polygonscan.com/tx/${receipt.logs[1].transactionHash}\n`);
@@ -186,7 +186,7 @@ const Bounty = () => {
       setTransactionPending(false);
       fetchData().then(bounty => {
         setBounty(bounty);
-        temp+=1;
+        temp += 1;
       });
     }
   }
@@ -194,7 +194,7 @@ const Bounty = () => {
   const setAmountVisibilities = async (stake, unstake) => {
     setStakeAmountVisibility(stake);
     setUnstakeAmountVisibility(unstake);
-    setAmounts("","");
+    setAmounts("", "");
   };
 
   const setAmounts = async (stake, unstake) => {
@@ -203,7 +203,7 @@ const Bounty = () => {
   };
 
 
-  async function stake(amount){
+  async function stake(amount) {
     // const manager = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880'; //mumbai
     // const manager = await fetch('https://portal.saloon.finance/api/v1/get-manager-address');
     console.log(manager, poolName, amount);
@@ -213,7 +213,7 @@ const Bounty = () => {
     const tx = await contract.stake(poolName, amount);
     setAmountVisibilities(false, false);
     setTransactionPending(true);
-    setAmounts("","");
+    setAmounts("", "");
     const receipt = await tx.wait();
     if (receipt.status) {
       console.log(`Transaction receipt : https://mumbai.polygonscan.com/tx/${receipt.logs[1].transactionHash}\n`);
@@ -221,14 +221,14 @@ const Bounty = () => {
       fetchData().then(bounty => {
         // console.log(bounty);
         setBounty(bounty);
-        temp+=1;
+        temp += 1;
         getUserStaked(manager, poolName);
         getUserTimelock(manager, poolName);
       });
     }
   }
 
-  async function claimPremium(){
+  async function claimPremium() {
     // const manager = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880'; //mumbai
     // const manager = await fetch('https://portal.saloon.finance/api/v1/get-manager-address');
     console.log('Claim Premium', manager, poolName);
@@ -238,7 +238,7 @@ const Bounty = () => {
     const tx = await contract.claimPremium(poolName);
     setAmountVisibilities(false, false);
     setClaimPending(true);
-    setAmounts("","");
+    setAmounts("", "");
     const receipt = await tx.wait();
     if (receipt.status) {
       setClaimPending(false);
@@ -247,7 +247,7 @@ const Bounty = () => {
   }
 
 
-  async function scheduleUnstake(amount){
+  async function scheduleUnstake(amount) {
     // const manager = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880'; //mumbai
     // const manager = await fetch('https://portal.saloon.finance/api/v1/get-manager-address');
     console.log(manager, poolName, amount);
@@ -257,7 +257,7 @@ const Bounty = () => {
     const tx = await contract.scheduleUnstake(poolName, amount);
     setAmountVisibilities(false, false);
     setTransactionPending(true);
-    setAmounts("","");
+    setAmounts("", "");
     const receipt = await tx.wait();
     if (receipt.status) {
       console.log(`Transaction receipt : https://mumbai.polygonscan.com/tx/${receipt.logs[1].transactionHash}\n`);
@@ -265,14 +265,14 @@ const Bounty = () => {
       fetchData().then(bounty => {
         // console.log(bounty);
         setBounty(bounty);
-        temp+=1;
+        temp += 1;
         getUserStaked(manager, poolName);
         getUserTimelock(manager, poolName);
       });
     }
   }
 
-  async function unstake(amount){
+  async function unstake(amount) {
     // const manager = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880'; //mumbai
     // const manager = await fetch('https://portal.saloon.finance/api/v1/get-manager-address');
     console.log(manager, poolName, amount);
@@ -282,7 +282,7 @@ const Bounty = () => {
     const tx = await contract.unstake(poolName, amount);
     setAmountVisibilities(false, false);
     setTransactionPending(true);
-    setAmounts("","");
+    setAmounts("", "");
     const receipt = await tx.wait();
     if (receipt.status) {
       console.log(`Transaction receipt : https://mumbai.polygonscan.com/tx/${receipt.logs[1].transactionHash}\n`);
@@ -290,7 +290,7 @@ const Bounty = () => {
       fetchData().then(bounty => {
         // console.log(bounty);
         setBounty(bounty);
-        temp+=1;
+        temp += 1;
         getUserStaked(manager, poolName);
         getUserTimelock(manager, poolName);
       });
@@ -308,7 +308,7 @@ const Bounty = () => {
     // console.log('Allowance Local:' + allow);
     setAllowance(allow);
   };
-  
+
   const getUserStaked = async (manager, poolName) => {
     await delay(3000);
     // const manager = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880'; //mumbai
@@ -319,7 +319,7 @@ const Bounty = () => {
     const contract = new ethers.Contract(manager, managerABI, signer);
     // const sendVal = Math.round(Math.random() * 10**16);
     // const final_amount = amount * 10**13;
-    (async() => {
+    (async () => {
       const userStakedLocal = await contract.viewUserStakingBalance(poolName, '0x0376e82258Ed00A9D7c6513eC9ddaEac015DEdFc');
       // console.log('User staked: ' + userStakedLocal.toString());
       setUserStaked(userStakedLocal);
@@ -340,7 +340,7 @@ const Bounty = () => {
     const managerABI = MANAGER;
     const signer = await library.getSigner();
     const contract = new ethers.Contract(manager, managerABI, signer);
-    (async() => {
+    (async () => {
       const userTimelockLocal = await contract.viewUserTimelock(poolName, '0x0376e82258Ed00A9D7c6513eC9ddaEac015DEdFc');
       // console.log('User Timelock Local: ' + userTimelockLocal);
       if (userTimelockLocal[2] == false && userTimelockLocal[0] > 0) {
@@ -491,8 +491,8 @@ const Bounty = () => {
   //   //   setChain(id);
   //   // });
   // });
- 
- 
+
+
   useEffect(() => {
 
     if (provider?.on) {
@@ -501,9 +501,9 @@ const Bounty = () => {
           setAccount(accounts[0]);
           window.localStorage.setItem('WALLET_ADDRESS', accounts[0]);
         }
-        
+
       };
-      
+
       checkAllowance();
 
       getUserStaked(manager, poolName);
@@ -522,7 +522,7 @@ const Bounty = () => {
       provider.on("chainChanged", handleChainChanged);
       provider.on("disconnect", handleDisconnect);
 
-     
+
       return () => {
         if (provider.removeListener) {
           provider.removeListener("accountsChanged", handleAccountsChanged);
@@ -545,37 +545,37 @@ const Bounty = () => {
   // }
   return (
     // pass wallet data to MAIN so wallet address shows when connected
-    <Main> 
-      
+    <Main>
+
       <Container>
-        <Alert 
-          severity="warning" 
+        <Alert
+          severity="warning"
           style={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          Please don't audit just yet! The contracts are still being finalized  :)
+          Pre-Bounty is live! Please note that the reward $ amounts are for demo purposes only. Rewards for findings can be found here: https://discord.gg/CFSkjaKwbq
         </Alert>
         <Grid container spacing={4}
           data-aos="fade-up"
           data-aos-delay={700}
           // data-aos-offset={600}
           data-aos-duration={700}
-          
+
           display={'flex'}
           flexDirection={{ xs: 'column', sm: 'row' }}
         >
           <Grid item xs={12} sm={6} >
-            <Box display={'flex'} 
+            <Box display={'flex'}
               // flexDirection={{ xs: 'row', sm: 'row' }} 
               flexDirection={'row'}
-              
+
               marginBottom={4}
             >
 
               <Grid item xs={1} md={1} alignSelf={'center'}>
-                <CardMedia 
+                <CardMedia
                   // xs={1} md={1}
                   component="img"
                   // sx={{ backgroundImage:item.logo_url }}
@@ -584,12 +584,12 @@ const Bounty = () => {
                 >
                 </CardMedia>
               </Grid>
-              
+
               <Typography variant={'h3'}
                 fontFamily={'Roboto Slab'}
-                fontWeight={700} 
+                fontWeight={700}
                 // marginBottom={4} 
-                marginLeft={2} 
+                marginLeft={2}
               >
                 {bounty.title}
               </Typography>
@@ -600,20 +600,20 @@ const Bounty = () => {
             </Typography>
           </Grid>
 
-      
+
           <Grid item xs={12} sm={6}>
-            <Rewards 
-              data={bounty} 
-              // chain_data={info}
+            <Rewards
+              data={bounty}
+            // chain_data={info}
             />
             {/* insert SUBMIT BUTTON HERE */}
             <Box paddingTop={1}>
               <Button fullWidth color='secondary'
                 href={'http://portal.saloon.finance/new-submission?project=' + title}
-                variant='outlined' 
-                sx={{borderRadius:0, paddingY:4}} 
+                variant='outlined'
+                sx={{ borderRadius: 0, paddingY: 4 }}
                 size='large'
-                
+
               >
                 SUBMIT BUG
               </Button>
@@ -628,18 +628,18 @@ const Bounty = () => {
           </Typography>
           <Box
             container
-            sx={{backgroundColor: theme.palette.alternate.main}}
+            sx={{ backgroundColor: theme.palette.alternate.main }}
             // justifyContent={{ sm: 'space-between', md:'space-between' }}
             // xs={12} 
             // md={12}
 
-          > 
-            <Box padding={2} 
-              // display={'flex'} 
-              // alignItems={'center'}
+          >
+            <Box padding={2}
+            // display={'flex'} 
+            // alignItems={'center'}
             >
-              <Grid 
-                container 
+              <Grid
+                container
                 display='flex'
                 flexDirection={{ xs: 'column', lg: 'row' }}
                 // flex={'1 1 50%'}
@@ -649,41 +649,41 @@ const Bounty = () => {
 
               >
                 <Grid item marginLeft={2} lg={3} xs={12} alignItems="left"
-                  marginBottom={{xs: 6, lg:0}}
+                  marginBottom={{ xs: 6, lg: 0 }}
                 >
-                  <Typography 
+                  <Typography
                     // variant={{lg:'h5', xs:'h5'}}
-                    fontSize={{lg:30, xs:35}}
+                    fontSize={{ lg: 30, xs: 35 }}
                     fontWeight={700}
-                    sx={{textTransform:'uppercase'}}
-                    
+                    sx={{ textTransform: 'uppercase' }}
+
                   >
                     {/* {info.apy}% APY */}
                     {bounty.pool_apy}% APY
                   </Typography>
-                  
+
                 </Grid>
-                <Grid direction="column" 
+                <Grid direction="column"
                   justifyContent={'center'}
-                  alignItems="center" marginBottom={{xs:-6, lg:0}}>
-                  <Grid item direction="row" display={'flex'} alignItems="center" xs={12} 
-                    lg={4} 
-                    // md={6}
+                  alignItems="center" marginBottom={{ xs: -6, lg: 0 }}>
+                  <Grid item direction="row" display={'flex'} alignItems="center" xs={12}
+                    lg={4}
+                  // md={6}
                   >
-                    {claimPending ? <CircularProgress color="secondary" style={{marginLeft: '6%', maxWidth: '20px', maxHeight: '20px', minWidth: '20px', minHeight: '20px', marginTop: '-15%'}}/> :
-                      <Button onClick={() => {claimPremium();}} // CHANGE THIS TO STAKING FUNCTION
+                    {claimPending ? <CircularProgress color="secondary" style={{ marginLeft: '6%', maxWidth: '20px', maxHeight: '20px', minWidth: '20px', minHeight: '20px', marginTop: '-15%' }} /> :
+                      <Button onClick={() => { claimPremium(); }} // CHANGE THIS TO STAKING FUNCTION
                         color="secondary"
                         variant="outlined"
                         size="small"
-                        style={{maxWidth: '60px', maxHeight: '30px', minWidth: '60px', minHeight: '30px', marginTop: '-15%'}}
+                        style={{ maxWidth: '60px', maxHeight: '30px', minWidth: '60px', minHeight: '30px', marginTop: '-15%' }}
                         sx={{ borderRadius: 0 }}
                       >Claim!
                       </Button>
                     }
                   </Grid>
-                  <Grid item direction="row" display={'flex'} alignItems="center" xs={12} 
-                    lg={4} 
-                    // md={6}
+                  <Grid item direction="row" display={'flex'} alignItems="center" xs={12}
+                    lg={4}
+                  // md={6}
                   >
                     <Grid item alignItems="right">
                       <Typography color={'text.primary'} fontSize='small'>
@@ -697,9 +697,9 @@ const Bounty = () => {
                         <CountUp
                           duration={2}
                           separator=','
-                          end={userStaked / 10**6}
+                          end={userStaked / 10 ** 6}
                           start={0}
-                          prefix= {'$'}
+                          prefix={'$'}
                         // decimals = {3}
                         /> /
                         {/* $60,000 /  */}
@@ -716,9 +716,9 @@ const Bounty = () => {
                         <CountUp
                           duration={2}
                           separator=','
-                          end={bounty.pool_staked / 10**6}
+                          end={bounty.pool_staked / 10 ** 6}
                           start={0}
-                          prefix= {'$'}
+                          prefix={'$'}
                         // decimals = {3}
                         /> /
                         {/* $60,000 /  */}
@@ -728,31 +728,31 @@ const Bounty = () => {
                       <Typography color={'text.primary'} fontSize='small'>
                         Pool Cap
                       </Typography>
-                      <Typography color={'text.primary'} variant='h5' 
+                      <Typography color={'text.primary'} variant='h5'
                         fontWeight={700}
                       >
                         {/* ${info.poolCap} */}
-                        {formatter.format(bounty.pool_cap / 10**6)}
+                        {formatter.format(bounty.pool_cap / 10 ** 6)}
                         {/* $100,000 */}
                       </Typography>
 
                     </Grid>
-                    
+
                   </Grid>
                   {userTimelockTimestamp > 0 ?
                     <Grid item direction="row" display={'flex'} alignItems="center" marginTop={2} xs={4}>
-                      You have <span style={{color: '#BB9725'}}>&nbsp;${userTimelockAmount/10**6} USDC&nbsp;</span> to unstake&nbsp;<Countdown date={userTimelockTimestamp} renderer={countdownRenderer} />
+                      You have <span style={{ color: '#BB9725' }}>&nbsp;${userTimelockAmount / 10 ** 6} USDC&nbsp;</span> to unstake&nbsp;<Countdown date={userTimelockTimestamp} renderer={countdownRenderer} />
                     </Grid> : null
                   }
-                  
+
                 </Grid>
-                
+
                 <Grid item marginRight={2} xs={12} lg={0.5}>
                 </Grid>
 
-                <Grid item direction="row" fontSize='medium' marginRight={-2} lg={1.5} 
+                <Grid item direction="row" fontSize='medium' marginRight={-2} lg={1.5}
                   marginBottom={1}
-                  xs={12} 
+                  xs={12}
                   ref={containerRef}
                 >
                   {stakeAmountVisibility == true ? <Slide direction="left" in={stakeAmountVisibility} container={containerRef.current}><TextField
@@ -770,15 +770,15 @@ const Bounty = () => {
                     onChange={handleUnstakeInputChange}
                     value={unstakeAmount}
                     // color='warning'
-                    inputProps={{ style: { color: 'white'}}}
+                    inputProps={{ style: { color: 'white' } }}
                   >
                   </TextField></Slide> : <div><br></br><br></br></div>}
                 </Grid>
 
                 <Grid item marginRight={2} xs={12} lg={2}
-                  // xs={12} 
-                  // md={6}
-                >   
+                // xs={12} 
+                // md={6}
+                >
                   {
                     // if wallet is not connected
                     account == null ? (
@@ -798,15 +798,15 @@ const Bounty = () => {
                           // if chain is not polygon
                           // chain == 137 ? (
                           // if chain is not Mumbai
-                          chainId == 80001 ? ( 
+                          chainId == 80001 ? (
                             <Box>
                               {
                                 // if staking hasnt been allowed
-                                transactionPending ? <CircularProgress color="secondary" style={{ marginLeft: "auto" }}/> :
+                                transactionPending ? <CircularProgress color="secondary" style={{ marginLeft: "auto" }} /> :
                                   allowance > 0 ? (
                                     <Grid direction="column" alignItems="center">
                                       <Grid item color={'text.primary'} fontSize='medium' marginBottom={1}>
-                                        <Button onClick={() => {stakeAmount>0 ? stake(stakeAmount) : setAmountVisibilities(true, false);}} // CHANGE THIS TO STAKING FUNCTION
+                                        <Button onClick={() => { stakeAmount > 0 ? stake(stakeAmount) : setAmountVisibilities(true, false); }} // CHANGE THIS TO STAKING FUNCTION
                                           color="secondary"
                                           variant="outlined"
                                           size="large"
@@ -824,41 +824,41 @@ const Bounty = () => {
 
                                       {userTimelockTimestamp > 0 && userTimelockTimestamp <= Math.floor(Date.now() / 1000) ?
                                         <Grid item xs={6}>
-                                          <Button onClick={() => {unstakeAmount>0 ? unstake(unstakeAmount) : setAmountVisibilities(false, true);}}
+                                          <Button onClick={() => { unstakeAmount > 0 ? unstake(unstakeAmount) : setAmountVisibilities(false, true); }}
                                             color="inherit"
                                             variant="outlined"
                                             size="large"
                                             sx={{ borderRadius: 0 }}
                                             fullWidth
-                                            // onClick={}  IMPLEMENT THIS FUNCTION
+                                          // onClick={}  IMPLEMENT THIS FUNCTION
                                           >
                                             <Typography marginX={2}>
                                               UNSTAKE
                                             </Typography>
-                                                
+
                                           </Button>
                                         </Grid>
                                         :
                                         <Grid item xs={6}>
-                                          <Button onClick={() => {unstakeAmount>0 ? scheduleUnstake(unstakeAmount) : setAmountVisibilities(false, true);}}
+                                          <Button onClick={() => { unstakeAmount > 0 ? scheduleUnstake(unstakeAmount) : setAmountVisibilities(false, true); }}
                                             color="inherit"
                                             variant="outlined"
                                             size="large"
                                             sx={{ borderRadius: 0 }}
                                             fullWidth
-                                            // onClick={}  IMPLEMENT THIS FUNCTION
+                                          // onClick={}  IMPLEMENT THIS FUNCTION
                                           >
-                                            <Typography marginX={2} 
+                                            <Typography marginX={2}
                                               variant='body2'
                                               fontWeight={10}
                                             >
                                               SCHEDULE UNSTAKE
                                             </Typography>
-                                                
+
                                           </Button>
                                         </Grid>}
                                     </Grid>
-                                  
+
                                   ) : (
                                     // if not approved show approve button
                                     <Button onClick={() => approveUSDC()} // CHANGE THIS TO APPROVE FUNCTION
@@ -870,10 +870,10 @@ const Bounty = () => {
                                     >
                                       APPROVE STAKING
                                     </Button>
-                                
+
                                   )
                               }
-                            </Box> 
+                            </Box>
                           ) : (
                             <Button onClick={switchNetwork} // CHANGE THIS TO APPROVE FUNCTION
                               color="inherit"
@@ -887,32 +887,32 @@ const Bounty = () => {
 
                           )
                         }
-                      </Box>       
-                    
+                      </Box>
+
                     )
                   }
 
-                
+
                 </Grid>
               </Grid>
-              
+
             </Box>
-          
-              
+
+
           </Box>
         </Box>
         {/* <Button onClick={trackEvent}>
           Test
         </Button> */}
-          
+
       </Container>
 
       <Box sx={{
         // backgroundImage
         // backgroundImage: `linear-gradient(180deg, ${theme.palette.background.paper} 0%, ${theme.palette.alternate.main} 100%)`
       }}>
-        
-        <Container sx={{backgroundColor: theme.palette.background.paper}} >
+
+        <Container sx={{ backgroundColor: theme.palette.background.paper }} >
           <Typography variant={'h4'} fontWeight={700} marginBottom={4}  >
             Project Overview
           </Typography>
@@ -926,9 +926,9 @@ const Bounty = () => {
             <Typography variant={'h4'} fontWeight={700} marginBottom={4}  >
               Impacts in Scope
             </Typography>
-            <Impacts data={bounty}/>
+            <Impacts data={bounty} />
           </Box>
-          
+
         </Container>
 
         <Container >
@@ -936,67 +936,67 @@ const Bounty = () => {
             <Typography variant={'h4'} fontWeight={700} marginBottom={4}  >
               Assets in Scope
             </Typography>
-            <InScope data={bounty}/>
+            <InScope data={bounty} />
           </Box>
-          
+
         </Container>
 
-        <Container  sx={{backgroundColor: theme.palette.background.paper}} >
+        <Container sx={{ backgroundColor: theme.palette.background.paper }} >
           <Typography variant={'h4'} fontWeight={700} marginBottom={4}  >
             Out of Scope
           </Typography>
           <Box marginBottom={2}>
-            <Typography variant={'h5'} fontWeight={600} 
+            <Typography variant={'h5'} fontWeight={600}
               marginBottom={1}
             >
               Impacts out of scope
             </Typography>
-            <Typography 
+            <Typography
               // variant={'h6'} 
-              fontWeight={400} 
+              fontWeight={400}
             >
               - List with impacts out of scope
             </Typography>
           </Box>
-          <Divider/>
+          <Divider />
           <Box marginBottom={2}>
-            <Typography variant={'h5'} fontWeight={600} 
+            <Typography variant={'h5'} fontWeight={600}
               marginBottom={2}
               marginTop={2}
-              
+
             >
               Assets out of scope
             </Typography>
-            <Typography 
+            <Typography
               // variant={'h6'} 
-              fontWeight={400} 
+              fontWeight={400}
             >
               - List with assets out of scope
             </Typography>
-            
+
           </Box>
-          <Divider/>
+          <Divider />
           <Box >
-            <Typography variant={'h5'} fontWeight={600} 
+            <Typography variant={'h5'} fontWeight={600}
               marginBottom={1}
               marginTop={2}
             >
               Known vulnerabilities
               <Tooltip title="Number represents UTC timestamp of which the vunerability was disclosed." placement="top-start">
                 <IconButton>
-                  <InfoOutlinedIcon fontSize="small"/>
+                  <InfoOutlinedIcon fontSize="small" />
                 </IconButton>
               </Tooltip>
             </Typography>
-            <Typography 
+            <Typography
               // variant={'h6'} 
-              fontWeight={400} 
+              fontWeight={400}
             >
               {bounty.known_vulns?.map((item, i) => (
                 "- (" + item.timestamp + ") " + item.description
               ))}
             </Typography>
-            
+
           </Box>
         </Container>
 

@@ -110,6 +110,7 @@ const Work = () => {
                   size={'large'}
                   sx={{ marginTop: 2 }}
                   href={item.link}
+                  target='_blank'
                   endIcon={
                     <Box
                       component={'svg'}

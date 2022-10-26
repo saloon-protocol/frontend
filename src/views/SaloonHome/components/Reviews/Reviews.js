@@ -11,6 +11,13 @@ import Button from '@mui/material/Button';
 import { CardContent } from '@mui/material';
 const mock = [
   {
+    title: 'Projects',
+    subtitle:
+    "Show how serious you are about security. Get top tier auditors reviewing your code and pay a fraction of the cost.", 
+    button: 'Put up a Bounty',
+    link: 'https://share.hsforms.com/1HYlSPJAmRiGYbe0PDV6hpwdk5fo'
+  },
+  {
     title: 'Hunters',
     subtitle:
       "Leverage your auditing skills like never before.\nFind bugs. Get Paid. Didn't find anything? Stake for crazy returns.",
@@ -19,13 +26,6 @@ const mock = [
 
     // image: cowboy,
     link: '/bounties'
-  },
-  {
-    title: 'Projects',
-    subtitle:
-      "Post a big bounty for a fraction of the price and get more auditors looking at your code. Don't get hacked, don't lose investor's money and don't lose your business. Stop worrying. Be happy.",
-    button: 'Put up a Bounty',
-    link: 'https://share.hsforms.com/1HYlSPJAmRiGYbe0PDV6hpwdk5fo'
   },
 ];
 
@@ -105,44 +105,139 @@ const Reviews = () => {
 
               </Box> */}
               <Grid item>
+                {
+                  i == 1 ? (
+                
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      size="large"
+                      sx={{ borderRadius: 0, borderColor: 'white', borderWidth: 2 }}
+                      href={item.link}
+                      fullWidth
+                      endIcon={
+                        <svg
+                          width={16}
+                          height={16}
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          color='white'
 
-                <Button
-                  variant="contained"
-                  color="primary"
-                  size="large"
-                  sx={{ borderRadius: 0, borderColor: 'white', borderWidth: 2 }}
-                  href={item.link}
-                  fullWidth
-                  endIcon={
-                    <svg
-                      width={16}
-                      height={16}
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      color='white'
 
-
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M17 8l4 4m0 0l-4 4m4-4H3"
+                          />
+                        </svg>
+                      }
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M17 8l4 4m0 0l-4 4m4-4H3"
-                      />
-                    </svg>
-                  }
-                >
-                  <Typography paddingY={2}
-                    fontWeight={900}
+                      <Typography paddingY={2}
+                        fontWeight={900}
 
-                    color={theme.palette.wildwest.grey}
-                    sx={{ textTransform: 'uppercase' }}
-                  >
-                    {item.button}
-                  </Typography>
-                </Button>
+                        color={theme.palette.wildwest.grey}
+                        sx={{ textTransform: 'uppercase' }}
+                      >
+                        {item.button}
+                      </Typography>
+                    </Button>
+                  ):(
+                    <Grid container 
+                      display='flex'
+                      // flexDirection={{ xs: 'column', lg: 'row' }}
+                      // flex={'1 1 50%'}
+                      flexDirection='row'
+                      justifyContent='space-between'
+                      alignItems='center'
+                      spacing={1}
+                    >
+
+                      <Grid item xs={6}>
+                        
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          size="large"
+                          sx={{ borderRadius: 0, borderColor: 'white', borderWidth: 2 }}
+                          href={item.link}
+                          fullWidth
+                          endIcon={
+                            <svg
+                              width={16}
+                              height={16}
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              color='white'
+
+
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M17 8l4 4m0 0l-4 4m4-4H3"
+                              />
+                            </svg>
+                          }
+                        >
+                          <Typography paddingY={2}
+                            fontWeight={900}
+
+                            color={theme.palette.wildwest.grey}
+                            sx={{ textTransform: 'uppercase' }}
+                          >
+                            TELEGRAM
+                          </Typography>
+                        </Button>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          size="large"
+                          sx={{ borderRadius: 0, borderColor: 'white', borderWidth: 2 }}
+                          href={item.link}
+                          fullWidth
+                          endIcon={
+                            <svg
+                              width={16}
+                              height={16}
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              color='white'
+
+
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M17 8l4 4m0 0l-4 4m4-4H3"
+                              />
+                            </svg>
+                          }
+                        >
+                          <Typography paddingY={2}
+                            fontWeight={900}
+
+                            color={theme.palette.wildwest.grey}
+                            sx={{ textTransform: 'uppercase' }}
+                          >
+                            DISCORD
+                          </Typography>
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  )
+                }
               </Grid>
             </Grid>
             {/* </Box> */}

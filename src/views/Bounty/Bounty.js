@@ -19,6 +19,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Divider from '@mui/material/Divider';
 import Alert from '@mui/material/Alert';
 import Slide from '@mui/material/Slide';
+import Zoom from '@mui/material/Zoom';
 import Countdown from 'react-countdown';
 import CircularProgress from '@mui/material/CircularProgress';
 import CountUp from 'react-countup';
@@ -67,6 +68,7 @@ const Bounty = () => {
   const [manager, setManager] = useState('');
   const [poolAddress, setPoolAddress] = useState('');
   const [poolName, setPoolName] = useState('');
+  const [dataReturned, setDataReturned] = useState(false);
 
   const fetchData = async () => {
     // eslint-disable-next-line
@@ -78,6 +80,7 @@ const Bounty = () => {
     setManager(json_manager['manager_address']);
     setPoolAddress(json['pool_address']);
     setPoolName(json['pool_name']);
+    setDataReturned(true);
     return json;
   };
 
@@ -169,7 +172,7 @@ const Bounty = () => {
   async function approveUSDC() {
     const provider = await web3Modal.connect();
     const library = new ethers.providers.Web3Provider(provider);
-    const WETHAddress = '0x302dE6226DDc73dF0C3d9c55C9910dEBDdd8AFE6'; //mumbai SUSDC
+    const WETHAddress = '0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d'; //mumbai SUSDC
     const WETHabi = WETH;
     const maxInt = ethers.constants.MaxUint256; // Will pass into solidity as uint 2**256 - 1
     const signer = await library.getSigner();
@@ -181,7 +184,7 @@ const Bounty = () => {
     setAmounts("", "");
     const receipt = await tx.wait();
     if (receipt.status) {
-      console.log(`Transaction receipt : https://mumbai.polygonscan.com/tx/${receipt.logs[1].transactionHash}\n`);
+      console.log(`Transaction receipt : https://bscscan.com/tx/${receipt.logs[1].transactionHash}\n`);
       setAllowance(maxInt);
       setTransactionPending(false);
       fetchData().then(bounty => {
@@ -216,7 +219,7 @@ const Bounty = () => {
     setAmounts("", "");
     const receipt = await tx.wait();
     if (receipt.status) {
-      console.log(`Transaction receipt : https://mumbai.polygonscan.com/tx/${receipt.logs[1].transactionHash}\n`);
+      console.log(`Transaction receipt : https://bscscan.com/tx/${receipt.logs[1].transactionHash}\n`);
       setTransactionPending(false);
       fetchData().then(bounty => {
         // console.log(bounty);
@@ -242,7 +245,7 @@ const Bounty = () => {
     const receipt = await tx.wait();
     if (receipt.status) {
       setClaimPending(false);
-      alert(`[Success] Txn receipt: https://mumbai.polygonscan.com/tx/${receipt.logs[1].transactionHash}\n`);
+      alert(`[Success] Txn receipt: https://bscscan.com/tx/${receipt.logs[1].transactionHash}\n`);
     }
   }
 
@@ -260,7 +263,7 @@ const Bounty = () => {
     setAmounts("", "");
     const receipt = await tx.wait();
     if (receipt.status) {
-      console.log(`Transaction receipt : https://mumbai.polygonscan.com/tx/${receipt.logs[1].transactionHash}\n`);
+      console.log(`Transaction receipt : https://bscscan.com/tx/${receipt.logs[1].transactionHash}\n`);
       setTransactionPending(false);
       fetchData().then(bounty => {
         // console.log(bounty);
@@ -285,7 +288,7 @@ const Bounty = () => {
     setAmounts("", "");
     const receipt = await tx.wait();
     if (receipt.status) {
-      console.log(`Transaction receipt : https://mumbai.polygonscan.com/tx/${receipt.logs[1].transactionHash}\n`);
+      console.log(`Transaction receipt : https://bscscan.com/tx/${receipt.logs[1].transactionHash}\n`);
       setTransactionPending(false);
       fetchData().then(bounty => {
         // console.log(bounty);
@@ -300,7 +303,7 @@ const Bounty = () => {
 
   const checkAllowance = async () => {
     // // Should be token address used by bounty
-    const WETHAddress = '0x302dE6226DDc73dF0C3d9c55C9910dEBDdd8AFE6'; //mumbai SUSDC
+    const WETHAddress = '0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d'; //mumbai SUSDC
     const WETHabi = WETH;
     const signer = await library.getSigner();
     const contract = new ethers.Contract(WETHAddress, WETHabi, signer);
@@ -402,7 +405,7 @@ const Bounty = () => {
     try {
       await library.provider.request({
         method: "wallet_switchEthereumChain",
-        params: [{ chainId: "0x13881" }]
+        params: [{ chainId: "0x38" }]
       });
       handleNetwork(network);
     } catch (switchError) {
@@ -548,7 +551,7 @@ const Bounty = () => {
     <Main>
 
       <Container>
-        <Alert
+        {/* <Alert
           severity="warning"
           style={{
             display: 'flex',
@@ -556,7 +559,7 @@ const Bounty = () => {
             justifyContent: 'center',
           }}>
           Pre-Bounty is live! Please note that the reward $ amounts are for demo purposes only. Rewards for findings can be found here: https://discord.gg/CFSkjaKwbq
-        </Alert>
+        </Alert> */}
         <Grid container spacing={4}
           data-aos="fade-up"
           data-aos-delay={700}
@@ -635,8 +638,8 @@ const Bounty = () => {
 
           >
             <Box padding={2}
-            // display={'flex'} 
-            // alignItems={'center'}
+              // display={'flex'} 
+              // alignItems={'center'}
             >
               <Grid
                 container
@@ -693,11 +696,11 @@ const Bounty = () => {
                         fontWeight={700}
                       >
                         {/* ${info.staked} /  */}
-                        {/* {formatter.format(userStaked * 10**6)} /   */}
+                        {/* {formatter.format(userStaked * 10 ** 18)} /   */}
                         <CountUp
                           duration={2}
                           separator=','
-                          end={userStaked / 10 ** 6}
+                          end={userStaked}
                           start={0}
                           prefix={'$'}
                         // decimals = {3}
@@ -716,7 +719,7 @@ const Bounty = () => {
                         <CountUp
                           duration={2}
                           separator=','
-                          end={bounty.pool_staked / 10 ** 6}
+                          end={bounty.pool_staked}
                           start={0}
                           prefix={'$'}
                         // decimals = {3}
@@ -732,7 +735,7 @@ const Bounty = () => {
                         fontWeight={700}
                       >
                         {/* ${info.poolCap} */}
-                        {formatter.format(bounty.pool_cap / 10 ** 6)}
+                        {formatter.format(bounty.pool_cap)}
                         {/* $100,000 */}
                       </Typography>
 
@@ -741,7 +744,7 @@ const Bounty = () => {
                   </Grid>
                   {userTimelockTimestamp > 0 ?
                     <Grid item direction="row" display={'flex'} alignItems="center" marginTop={2} xs={4}>
-                      You have <span style={{ color: '#BB9725' }}>&nbsp;${userTimelockAmount / 10 ** 6} USDC&nbsp;</span> to unstake&nbsp;<Countdown date={userTimelockTimestamp} renderer={countdownRenderer} />
+                      You have <span style={{ color: '#BB9725' }}>&nbsp;${userTimelockAmount} USDC&nbsp;</span> to unstake&nbsp;<Countdown date={userTimelockTimestamp} renderer={countdownRenderer} />
                     </Grid> : null
                   }
 
@@ -798,7 +801,9 @@ const Bounty = () => {
                           // if chain is not polygon
                           // chain == 137 ? (
                           // if chain is not Mumbai
-                          chainId == 80001 ? (
+                          // BNB TEST 97
+                          // BNB MAIN 56
+                          chainId == 56 ? ( 
                             <Box>
                               {
                                 // if staking hasnt been allowed
@@ -882,7 +887,7 @@ const Bounty = () => {
                               sx={{ borderRadius: 0 }}
                               fullWidth
                             >
-                              SWITCH TO POLYGON
+                              SWITCH TO BSC
                             </Button>
 
                           )

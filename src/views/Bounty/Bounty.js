@@ -9,8 +9,8 @@ import Container from 'components/Container';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import WETH from '../../chain-info/WETH.json';
-import MANAGER from '../../chain-info/Manager.json';
+import USDCABI from '../../chain-info/USDC.json';
+import SALOONCHEFABI from '../../chain-info/Saloon.json';
 import Web3Modal from 'web3modal';
 import { useSigner } from '@web3modal/react';
 import { CardMedia } from '@mui/material';
@@ -57,29 +57,16 @@ const Bounty = () => {
 
   const delay = ms => new Promise(res => setTimeout(res, ms));
 
-  const mock = [
-    {
-      timelock: 1666131029,
-      amount: 57,
-      executed: false,
-    }
-  ];
-
-  const [manager, setManager] = useState('');
-  const [poolAddress, setPoolAddress] = useState('');
-  const [poolName, setPoolName] = useState('');
+  const [saloonChef, setSaloonChef] = useState('0x5088CE3706104d36DD3083B63e98b162C3f89A38');
+  const [pid, setPid] = useState(0);
+  const USDCAddress = '0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d'; // BSC
+  // const USDCAddress = '0xA451b801aB64744A51ebdA169D1bEA9c023D8028'; // Testnet SUSDC
   const [dataReturned, setDataReturned] = useState(false);
 
   const fetchData = async () => {
     // eslint-disable-next-line
     const res = await fetch(`https://portal.saloon.finance/api/v1/bounty?project=${title}`);
-    const manager_return = await fetch(`https://portal.saloon.finance/api/v1/get-manager-address`);
     var json = await res.json();
-    const json_manager = await manager_return.json();
-    json['manager_address'] = json_manager['manager_address'];
-    setManager(json_manager['manager_address']);
-    setPoolAddress(json['pool_address']);
-    setPoolName(json['pool_name']);
     setDataReturned(true);
     return json;
   };
@@ -111,7 +98,7 @@ const Bounty = () => {
     fetchData().then(bounty => {
       setBounty(bounty);
     });
-  }, [userStaked, userTimelockTimestamp, poolName, allowance]);
+  }, [userStaked]);
 
   useEffect(() => {
     const walletAddress = window.localStorage.getItem('WALLET_ADDRESS');
@@ -172,13 +159,10 @@ const Bounty = () => {
   async function approveUSDC() {
     const provider = await web3Modal.connect();
     const library = new ethers.providers.Web3Provider(provider);
-    const WETHAddress = '0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d'; //mumbai SUSDC
-    const WETHabi = WETH;
     const maxInt = ethers.constants.MaxUint256; // Will pass into solidity as uint 2**256 - 1
     const signer = await library.getSigner();
-    // const manager = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880';
-    const contract = new ethers.Contract(WETHAddress, WETHabi, signer);
-    const tx = await contract.approve(poolAddress, maxInt);
+    const contract = new ethers.Contract(USDCAddress, USDCABI, signer);
+    const tx = await contract.approve(saloonChef, maxInt);
     setAmountVisibilities(false, false);
     setTransactionPending(true);
     setAmounts("", "");
@@ -207,13 +191,11 @@ const Bounty = () => {
 
 
   async function stake(amount) {
-    // const manager = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880'; //mumbai
-    // const manager = await fetch('https://portal.saloon.finance/api/v1/get-manager-address');
-    console.log(manager, poolName, amount);
-    const managerABI = MANAGER;
+    console.log('Stake', pid, amount);
     const signer = await library.getSigner();
-    const contract = new ethers.Contract(manager, managerABI, signer);
-    const tx = await contract.stake(poolName, amount);
+    const contract = new ethers.Contract(saloonChef, SALOONCHEFABI, signer);
+    amount = ethers.utils.parseEther(amount);
+    const tx = await contract.stake(pid, account, amount);
     setAmountVisibilities(false, false);
     setTransactionPending(true);
     setAmounts("", "");
@@ -225,20 +207,16 @@ const Bounty = () => {
         // console.log(bounty);
         setBounty(bounty);
         temp += 1;
-        getUserStaked(manager, poolName);
-        getUserTimelock(manager, poolName);
+        getUserInfo(pid);
       });
     }
   }
 
   async function claimPremium() {
-    // const manager = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880'; //mumbai
-    // const manager = await fetch('https://portal.saloon.finance/api/v1/get-manager-address');
-    console.log('Claim Premium', manager, poolName);
-    const managerABI = MANAGER;
+    console.log('Claim Premium', pid);
     const signer = await library.getSigner();
-    const contract = new ethers.Contract(manager, managerABI, signer);
-    const tx = await contract.claimPremium(poolName);
+    const contract = new ethers.Contract(saloonChef, SALOONCHEFABI, signer);
+    const tx = await contract.claimPremium(pid);
     setAmountVisibilities(false, false);
     setClaimPending(true);
     setAmounts("", "");
@@ -251,13 +229,11 @@ const Bounty = () => {
 
 
   async function scheduleUnstake(amount) {
-    // const manager = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880'; //mumbai
-    // const manager = await fetch('https://portal.saloon.finance/api/v1/get-manager-address');
-    console.log(manager, poolName, amount);
-    const managerABI = MANAGER;
+    console.log('Schedule Unstake', pid, amount);
     const signer = await library.getSigner();
-    const contract = new ethers.Contract(manager, managerABI, signer);
-    const tx = await contract.scheduleUnstake(poolName, amount);
+    const contract = new ethers.Contract(saloonChef, SALOONCHEFABI, signer);
+    amount = ethers.utils.parseEther(amount);
+    const tx = await contract.scheduleUnstake(pid, amount);
     setAmountVisibilities(false, false);
     setTransactionPending(true);
     setAmounts("", "");
@@ -269,20 +245,17 @@ const Bounty = () => {
         // console.log(bounty);
         setBounty(bounty);
         temp += 1;
-        getUserStaked(manager, poolName);
-        getUserTimelock(manager, poolName);
+        getUserInfo(pid);
       });
     }
   }
 
   async function unstake(amount) {
-    // const manager = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880'; //mumbai
-    // const manager = await fetch('https://portal.saloon.finance/api/v1/get-manager-address');
-    console.log(manager, poolName, amount);
-    const managerABI = MANAGER;
+    console.log('Unstake', pid, amount);
     const signer = await library.getSigner();
-    const contract = new ethers.Contract(manager, managerABI, signer);
-    const tx = await contract.unstake(poolName, amount);
+    const contract = new ethers.Contract(saloonChef, SALOONCHEFABI, signer);
+    amount = ethers.utils.parseEther(amount);
+    const tx = await contract.unstake(pid, amount);
     setAmountVisibilities(false, false);
     setTransactionPending(true);
     setAmounts("", "");
@@ -294,8 +267,7 @@ const Bounty = () => {
         // console.log(bounty);
         setBounty(bounty);
         temp += 1;
-        getUserStaked(manager, poolName);
-        getUserTimelock(manager, poolName);
+        getUserInfo(pid);
       });
     }
   }
@@ -303,62 +275,27 @@ const Bounty = () => {
 
   const checkAllowance = async () => {
     // // Should be token address used by bounty
-    const WETHAddress = '0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d'; //mumbai SUSDC
-    const WETHabi = WETH;
     const signer = await library.getSigner();
-    const contract = new ethers.Contract(WETHAddress, WETHabi, signer);
-    const allow = await contract.allowance(account, poolAddress);
-    // console.log('Allowance Local:' + allow);
+    const contract = new ethers.Contract(USDCAddress, USDCABI, signer);
+    const allow = await contract.allowance(account, saloonChef);
+    console.log('Allowance Local:' + allow);
     setAllowance(allow);
   };
 
-  const getUserStaked = async (manager, poolName) => {
+  const getUserInfo = async (pid) => {
     await delay(3000);
-    // const manager = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880'; //mumbai
-    // const manager = await fetch('https://portal.saloon.finance/api/v1/get-manager-address');
-    // console.log(manager, poolName, amount);
-    const managerABI = MANAGER;
     const signer = await library.getSigner();
-    const contract = new ethers.Contract(manager, managerABI, signer);
-    // const sendVal = Math.round(Math.random() * 10**16);
-    // const final_amount = amount * 10**13;
+    const contract = new ethers.Contract(saloonChef, SALOONCHEFABI, signer);
     (async () => {
-      const userStakedLocal = await contract.viewUserStakingBalance(poolName, '0x0376e82258Ed00A9D7c6513eC9ddaEac015DEdFc');
-      // console.log('User staked: ' + userStakedLocal.toString());
-      setUserStaked(userStakedLocal);
-      // setUserStaked(old => {
-      //   return {
-      //     ...old,
-      //     userStaked: userStakedLocal
-      //   };
-      // });
-    })();
-  };
-
-  const getUserTimelock = async (manager, poolName) => {
-    await delay(3000);
-    // const manager = '0xf9D228708c2CBA2B121AC6D4d888FDfB7c0b6880'; //mumbai
-    // const manager = await fetch('https://portal.saloon.finance/api/v1/get-manager-address');
-    // console.log(manager, poolName, amount);
-    const managerABI = MANAGER;
-    const signer = await library.getSigner();
-    const contract = new ethers.Contract(manager, managerABI, signer);
-    (async () => {
-      const userTimelockLocal = await contract.viewUserTimelock(poolName, '0x0376e82258Ed00A9D7c6513eC9ddaEac015DEdFc');
-      // console.log('User Timelock Local: ' + userTimelockLocal);
-      if (userTimelockLocal[2] == false && userTimelockLocal[0] > 0) {
-        setUserTimelockTimestamp(userTimelockLocal[0] * 1000);
-        setUserTimelockAmount(userTimelockLocal[1]);
+      const userInfoLocal = await contract.viewUserInfo(pid, account);
+      setUserStaked(ethers.utils.formatEther(userInfoLocal[0]));
+      if (userInfoLocal[2] > 0) {
+        setUserTimelockTimestamp(userInfoLocal[3] * 1000);
+        setUserTimelockAmount(ethers.utils.formatEther(userInfoLocal[2]));
       } else {
         setUserTimelockTimestamp(0);
         setUserTimelockAmount(0);
       }
-      // setUserStaked(old => {
-      //   return {
-      //     ...old,
-      //     userStaked: userStakedLocal
-      //   };
-      // });
     })();
   };
 
@@ -406,6 +343,7 @@ const Bounty = () => {
       await library.provider.request({
         method: "wallet_switchEthereumChain",
         params: [{ chainId: "0x38" }]
+        // params: [{ chainId: "0x61" }]
       });
       handleNetwork(network);
     } catch (switchError) {
@@ -420,42 +358,6 @@ const Bounty = () => {
         }
       }
     }
-  };
-
-  const signMessage = async () => {
-    if (!library) return;
-    try {
-      const signature = await library.provider.request({
-        method: "personal_sign",
-        params: [message, account]
-      });
-      setSignedMessage(message);
-      setSignature(signature);
-    } catch (error) {
-      setError(error);
-    }
-  };
-
-  const verifyMessage = async () => {
-    if (!library) return;
-    try {
-      const verify = await library.provider.request({
-        method: "personal_ecRecover",
-        params: [signedMessage, signature]
-      });
-      setVerified(verify === account.toLowerCase());
-    } catch (error) {
-      setError(error);
-    }
-  };
-
-  const truncateAddress = (address) => {
-    if (!address) return "No Account";
-    const match = address.match(
-      /^(0x[a-zA-Z0-9]{2})[a-zA-Z0-9]+([a-zA-Z0-9]{2})$/
-    );
-    if (!match) return address;
-    return `${match[1]}…${match[2]}`;
   };
 
   const refreshState = () => {
@@ -509,8 +411,7 @@ const Bounty = () => {
 
       checkAllowance();
 
-      getUserStaked(manager, poolName);
-      getUserTimelock(manager, poolName);
+      getUserInfo(pid);
 
       const handleChainChanged = (_hexChainId) => {
         setChainId(_hexChainId);
@@ -534,7 +435,7 @@ const Bounty = () => {
         }
       };
     }
-  }, [provider, manager, poolName, account]);
+  }, [provider, account]);
 
   const test = 1;
   // async function trackEvent(){
@@ -638,8 +539,8 @@ const Bounty = () => {
 
           >
             <Box padding={2}
-              // display={'flex'} 
-              // alignItems={'center'}
+            // display={'flex'} 
+            // alignItems={'center'}
             >
               <Grid
                 container
@@ -803,7 +704,7 @@ const Bounty = () => {
                           // if chain is not Mumbai
                           // BNB TEST 97
                           // BNB MAIN 56
-                          chainId == 56 ? ( 
+                          chainId == 56 ? (
                             <Box>
                               {
                                 // if staking hasnt been allowed

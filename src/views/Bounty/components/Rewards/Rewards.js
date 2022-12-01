@@ -42,7 +42,7 @@ const Rewards = (props) => {
     {
       title: 'Medium',
       // figure: chain_data.payout * 0.2,
-      figure: (data.pool_payout/1 * 0.05).toFixed(0),
+      figure: (data.pool_payout/1 * 0).toFixed(0),
       prefix: 'USD $',
       color: theme.palette.primary.superlightred,
       font: 'h6'
@@ -50,7 +50,7 @@ const Rewards = (props) => {
     {
       title: 'Low',
       // figure: chain_data.payout * 0.05,
-      figure: (data.pool_payout/1 * 0.01).toFixed(0),
+      figure: (data.pool_payout/1 * 0).toFixed(0),
       prefix: 'USD $',
       color: theme.palette.background.paper,
       font: 'subtitle1'

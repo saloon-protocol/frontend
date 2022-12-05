@@ -165,6 +165,7 @@ const Reviews = () => {
                           sx={{ borderRadius: 0, borderColor: 'white', borderWidth: 2 }}
                           href={item.link}
                           fullWidth
+                          target="blank"
                           endIcon={
                             <svg
                               width={16}
@@ -192,7 +193,7 @@ const Reviews = () => {
                             color={theme.palette.wildwest.grey}
                             sx={{ textTransform: 'uppercase' }}
                           >
-                            TELEGRAM
+                            SIGN-UP FORM
                           </Typography>
                         </Button>
                       </Grid>
@@ -202,7 +203,8 @@ const Reviews = () => {
                           color="primary"
                           size="large"
                           sx={{ borderRadius: 0, borderColor: 'white', borderWidth: 2 }}
-                          href={item.link}
+                          href="https://discord.gg/rpGvaUhM"
+                          target="blank"
                           fullWidth
                           endIcon={
                             <svg
@@ -231,7 +233,7 @@ const Reviews = () => {
                             color={theme.palette.wildwest.grey}
                             sx={{ textTransform: 'uppercase' }}
                           >
-                            DISCORD
+                            MESSAGE DISCORD
                           </Typography>
                         </Button>
                       </Grid>

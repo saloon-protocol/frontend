@@ -7,7 +7,7 @@ import Divider from '@mui/material/Divider';
 
 import {
 // eslint-disable-next-line
-  SignUpLetter,Work, WorkH, Hero, Newsletter, About, CompanyValues, Reviews, HeroCareer, Process
+  TVL,SignUpLetter,Work, WorkH, Hero, Newsletter, About, CompanyValues, Reviews, HeroCareer, Process
 } from './components';
 
 const SaloonHome = () => {
@@ -22,6 +22,9 @@ const SaloonHome = () => {
           // backgroundImage: `linear-gradient(90deg,${theme.palette.wildwest.wine} 50%, ${theme.palette.wildwest.darkbrown} 100%)`,
         }}
       >
+        <Container>
+          <TVL/>
+        </Container>
         <Container>
           <Work/>
         </Container>

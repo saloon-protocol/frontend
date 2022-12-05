@@ -19,6 +19,10 @@ const routes = [
     path: '/bounty/:title',
     renderer: (params = {}) => <BountyView {...params} />,
   },
+  {
+    path: '/draft/:title',
+    renderer: (params = {}) => <BountyView {...params} />,
+  },
 
   {
     path: '/bounties',

@@ -29,6 +29,7 @@ const Routes = () => {
       <Route path="/" element={<SaloonHome/>} />
       <Route path="/bounties" element={<Bounties/>} title="Bounties"/>
       <Route path="/bounty/:title" element={<Bounty/>} />
+      <Route path="/draft/:title" element={<Bounty/>} />
       <Route path="/about" element={<About/>} />
       <Route path="/bounty" element={<Bounty/>} />
       

@@ -209,11 +209,6 @@ const Topbar = ({ onSidebarOpen, pages, colorInvert = false }) => {
         >
           Saloon
         </Link>
-        <Typography variant={'caption'}
-          // align='center'
-        >
-          TESTNET 
-        </Typography>
       </Box>
       
       <Box sx={{ display: { xs: 'none', md: 'flex' } }} alignItems={'center'}>

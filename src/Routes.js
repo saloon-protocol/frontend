@@ -5,7 +5,8 @@ import { Routes as ReactRoutes, Route } from 'react-router-dom';
 // import blocksRoutes from 'blocks/routes';
 // import demosRoutes from 'demos/routes';
 // eslint-disable-next-line
-import { About, SaloonHome, Bounties, Bounty 
+import {
+  About, SaloonHome, Bounties, Bounty, Draft
 } from 'views';
 
 const Routes = () => {
@@ -25,15 +26,15 @@ const Routes = () => {
       ))}
       <Route path="*" element={<Navigate replace to="/not-found-cover" />} />
       <Route path="*" element={<Navigate replace to="/" />} /> */}
-      
-      <Route path="/" element={<SaloonHome/>} />
-      <Route path="/bounties" element={<Bounties/>} title="Bounties"/>
-      <Route path="/bounty/:title" element={<Bounty/>} />
-      <Route path="/draft/:title" element={<Bounty/>} />
-      <Route path="/about" element={<About/>} />
-      <Route path="/bounty" element={<Bounty/>} />
-      
-      
+
+      <Route path="/" element={<SaloonHome />} />
+      <Route path="/bounties" element={<Bounties />} title="Bounties" />
+      <Route path="/bounty/:title" element={<Bounty />} />
+      <Route path="/draft/:title" element={<Draft />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/bounty" element={<Bounty />} />
+
+
 
     </ReactRoutes>
   );

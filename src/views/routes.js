@@ -3,13 +3,12 @@ import React from 'react';
 import {
   // IndexView,
   Home as HomeView,
-
   About as AboutView,
- 
   NotFoundCover as NotFoundCoverView,
   SaloonHome as SaloonHomeView,
   Bounties as BountiesView,
-  Bounty as BountyView
+  Bounty as BountyView,
+  Draft as DraftView,
 } from 'views';
 
 // import {About} from './SaloonHome/components/About/About';
@@ -21,7 +20,7 @@ const routes = [
   },
   {
     path: '/draft/:title',
-    renderer: (params = {}) => <BountyView {...params} />,
+    renderer: (params = {}) => <DraftView {...params} />,
   },
 
   {
@@ -40,12 +39,12 @@ const routes = [
     path: '/home',
     renderer: (params = {}) => <HomeView {...params} />,
   },
-  
+
   {
     path: '/about',
     renderer: (params = {}) => <AboutView {...params} />,
   },
-  
+
   {
     path: '/not-found-cover',
     renderer: (params = {}) => <NotFoundCoverView {...params} />,

@@ -203,7 +203,7 @@ const Reviews = () => {
                           color="primary"
                           size="large"
                           sx={{ borderRadius: 0, borderColor: 'white', borderWidth: 2 }}
-                          href="https://discord.gg/rpGvaUhM"
+                          href="https://discord.gg/vd3dvmdHAs"
                           target="blank"
                           fullWidth
                           endIcon={

@@ -58,7 +58,7 @@ const Bounty = () => {
   const delay = ms => new Promise(res => setTimeout(res, ms));
 
   const [saloonChef, setSaloonChef] = useState('0x5088CE3706104d36DD3083B63e98b162C3f89A38');
-  const [pid, setPid] = useState(0);
+  const [pid, setPid] = useState(-1);
   const USDCAddress = '0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d'; // BSC
   // const USDCAddress = '0xA451b801aB64744A51ebdA169D1bEA9c023D8028'; // Testnet SUSDC
   const [dataReturned, setDataReturned] = useState(false);
@@ -97,8 +97,10 @@ const Bounty = () => {
   useEffect(() => {
     fetchData().then(bounty => {
       setBounty(bounty);
+      setPid(bounty.pid);
+      getUserInfo(pid);
     });
-  }, [userStaked]);
+  }, [userStaked, pid]);
 
   useEffect(() => {
     const walletAddress = window.localStorage.getItem('WALLET_ADDRESS');
@@ -283,6 +285,7 @@ const Bounty = () => {
   };
 
   const getUserInfo = async (pid) => {
+    if (pid == -1) return;
     await delay(3000);
     const signer = await library.getSigner();
     const contract = new ethers.Contract(saloonChef, SALOONCHEFABI, signer);

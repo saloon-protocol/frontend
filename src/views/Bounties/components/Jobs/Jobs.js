@@ -13,6 +13,8 @@ import TextField from '@mui/material/TextField';
 import Search from '../Search';
 import MANAGER from '../../../../chain-info/Manager.json';
 import { ethers } from 'ethers';
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 
 // eslint-disable-next-line
 import { useParams } from 'react-router-dom';
@@ -230,6 +232,21 @@ const Jobs = () => {
 
         </Grid>
       </Grid>
+
+      <Alert severity="warning">
+      We're pausing our bounty program for a short time while we implement some new features and fix some items from recent submissions.
+        <p></p>
+      Coming soon:
+        <p></p>
+      - Dynamic APYs (yields as high as 500% or higher).
+        <p></p>
+      - Auto-compounding: Automatically turn your yield into stake to earn faster.
+        <p></p>
+      - Hunter leaderboard: Leaderboard of our best hunters with links to various social profiles.
+        <p></p>
+      Stay tuned!
+      </Alert>
+
       <Box
         display={'flex'}
         flexDirection={{ xs: 'column', sm: 'row' }}

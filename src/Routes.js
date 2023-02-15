@@ -6,8 +6,9 @@ import { Routes as ReactRoutes, Route } from 'react-router-dom';
 // import demosRoutes from 'demos/routes';
 // eslint-disable-next-line
 import {
-  About, SaloonHome, Bounties, Bounty, Draft
+  About, SaloonHome, Bounties, Bounty, Draft, MyStakes
 } from 'views';
+
 
 const Routes = () => {
   return (
@@ -33,6 +34,8 @@ const Routes = () => {
       <Route path="/draft/:title" element={<Draft />} />
       <Route path="/about" element={<About />} />
       <Route path="/bounty" element={<Bounty />} />
+      <Route path="/mystakes" element={<MyStakes />} />
+
 
 
 

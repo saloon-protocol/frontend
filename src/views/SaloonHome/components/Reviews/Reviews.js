@@ -203,7 +203,7 @@ const Reviews = () => {
                           color="primary"
                           size="large"
                           sx={{ borderRadius: 0, borderColor: 'white', borderWidth: 2 }}
-                          href="https://discord.gg/vd3dvmdHAs"
+                          href="http://t.me/hake_saloon"
                           target="blank"
                           fullWidth
                           endIcon={
@@ -233,7 +233,7 @@ const Reviews = () => {
                             color={theme.palette.wildwest.grey}
                             sx={{ textTransform: 'uppercase' }}
                           >
-                            MESSAGE DISCORD
+                            TELEGRAM
                           </Typography>
                         </Button>
                       </Grid>

@@ -1,23 +1,22 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-// import { alpha, useTheme} from '@mui/material/styles';
-import MenuIcon from '@mui/icons-material/Menu';
-import { SimpleNavItem } from './components';
-import { Typography } from '@mui/material';
-import { Link } from '@mui/material';
+import Main from 'layouts/Main';
+import Container from 'components/Container';
+import Divider from '@mui/material/Divider';
+import Typography from '@mui/material/Typography';
+import UserGlobalStakeList from './UserGlobalStakeList';
+import { useState, useEffect } from 'react';
 import Web3Modal from 'web3modal';
 import '@ethersproject/shims';
 import {ethers} from 'ethers';
-// import WalletConnectProvider from '@walletconnect/web3-provider';
-// eslint-disable-next-line
-import { useState, useEffect } from 'react';
+import {Topbar} from '../../layouts/Main/components/Topbar';
 
-// NavItem has popover function instead of SimpleNavItem
 
-const Topbar = ({ onSidebarOpen, pages, colorInvert = false }) => {
 
+
+const MyStakes = () => {
+  const theme = useTheme();
   const mumbaiwss = 'wss://polygon-mumbai.g.alchemy.com/v2/MFd0LBZozOhdiLbJPopgwAMbqIxeZSC7';
   
   // var provider;
@@ -197,154 +196,32 @@ const Topbar = ({ onSidebarOpen, pages, colorInvert = false }) => {
         }
       };
     }
-  }, [provider,account]);
+  }, [provider,account]); 
 
-  const {
-    // eslint-disable-next-line
-
-    docs: docsPage,
-    about: aboutPage,
-    // bounties: bountiesPage
-  } = pages;
-
-  return (
-    <Box
-      display={'flex'}
-      justifyContent={'space-between'}
-      alignItems={'center'}
-      width={1}
-      sx={{mt:4}}
-      
-    >
-      <Box
-        display={'flex'}
-        marginLeft={2}
-        // component="a"
-        // href="/home"
-        // title="Saloon"
-        // width={{ xs: 100, md: 120 }}
-      >
-        <Link
-
-          height={1}
-          width={1}
-          fontFamily='Diplomata'
-          variant={'h6'}
-          color="inherit"
-          underline="none"
-          href='/'
-        >
-          Saloon
-        </Link>
-      </Box>
-      
-      <Box sx={{ display: { xs: 'none', md: 'flex' } }} alignItems={'center'}>
-
-        <Box marginLeft={2}>
-          <Button href='/bounties' color='secondary' variant='outlined' 
-            sx={{borderRadius:0}} size='large'
-          >
-            BOUNTIES
-          </Button>
-        </Box>
-        <Box marginLeft={4}>
-          <Link href='https://docs.saloon.finance/saloon-finance/howdy/introduction' 
-            color='inherit' 
-            sx={{borderRadius:0}} 
-            // size='large'
-            underline="hover"
-            fontWeight={500}
-            target='blank'
-          >
-            DOCS
-          </Link>
-        </Box>
-        <Box marginLeft={4}>
-          <Link href='/about' 
-            color='inherit' 
-            sx={{borderRadius:0}} 
-            // size='large'
-            underline="hover"
-            fontWeight={500}
-          >
-            ABOUT
-          </Link>
-      
-        </Box>
-        
+  //   const account2 = true;
+  return(
+    <Main>
+      <Container>
         {
           account == null ? (
-            <Box marginLeft={4}>
-              <Button 
-                color="inherit"
-                variant="outlined"
-                size="medium"
-                sx={{ borderRadius: 0, marginRight: 2 }}
-                onClick={() => connectWallet(false)}>
-                CONNECT
-              </Button>
-            </Box>
-          
+            <Typography variant="h1" marginBottom={6} align={"center"} padding={10}>
+              Connect your wallet to see your current stakes
+            </Typography>
+
           ) : (
-            <Box sx={{ display: { xs: 'none', md: 'flex' } }} alignItems={'center'}>
-              <Box marginLeft={4}>
-                <Link href='/mystakes' 
-                  color='inherit' 
-                  sx={{borderRadius:0}} 
-                  // size='large'
-                  underline="hover"
-                  fontWeight={500}
-                >
-                  MY STAKES
-                </Link>
-      
-              </Box> 
             
-              {/* // run if there (update this to something more fun)
-              // figure out how to truncate this address */}
-              <Box marginLeft={4}>
-                <Typography>
-                  {truncateAddress(account)}
-                </Typography>
-              </Box>
+            <Box>
+              <Typography variant="h2" marginBottom={6}>
+                My Current Stakes
+              </Typography>
+              <UserGlobalStakeList/>
             </Box>
-            
           )
         }
-        {/* <Button onClick={connectWallet}>
-          Connect
-        </Button> */}
         
-        <Box marginLeft={4}>
-        </Box>
-      </Box>
-      <Box sx={{ display: { xs: 'block', md: 'none' } }} alignItems={'center'} paddingX={4}>
-        <Button
-          onClick={() => onSidebarOpen()}
-          aria-label="Menu"
-          variant={'outlined'}
-          sx={{
-            borderRadius: 0,
-            minWidth: 'auto',
-            padding: 1,
-            // borderColor: alpha('primary', 0.2),
-            borderColor: 'inherit'
-          }}
-          color='inherit'
-      
-        >
-          <MenuIcon />
-        </Button>
-      </Box>
-    </Box>
+      </Container>
+
+    </Main>
   );
 };
-
-Topbar.propTypes = {
-  onSidebarOpen: PropTypes.func,
-  pages: PropTypes.object,
-  colorInvert: PropTypes.bool,
-};
-
-export default Topbar;
- 
+export default MyStakes;

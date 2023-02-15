@@ -29,7 +29,7 @@ import Tooltip from '@mui/material/Tooltip';
 
 import {
   // eslint-disable-next-line
-  Jobs, Rewards, InScope, Impacts
+  Jobs, Rewards, InScope, Impacts, UserStakeList
 } from './components';
 import { ethers } from 'ethers';
 // eslint-disable-next-line
@@ -104,7 +104,7 @@ const Bounty = () => {
 
   useEffect(() => {
     const walletAddress = window.localStorage.getItem('WALLET_ADDRESS');
-    if (walletAddress !== null) {
+    if (walletAddress !== "undefined") {
       setAccount(walletAddress);
       connectWallet(true).then(console.log('Connect wallet done.'));
     }
@@ -810,9 +810,23 @@ const Bounty = () => {
 
           </Box>
         </Box>
-        {/* <Button onClick={trackEvent}>
-          Test
-        </Button> */}
+        {
+          account == null ? (
+            // run if null
+            <Box>
+
+            </Box>
+          ) : (
+            <Box padding={1}> 
+              <Typography variant='h6' marginBottom={1}>
+                My Current Staking Positions 
+              </Typography>
+              <UserStakeList/>
+            </Box>
+            
+          )
+        }
+        
 
       </Container>
 

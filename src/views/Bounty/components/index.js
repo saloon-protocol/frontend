@@ -4,4 +4,5 @@ export { default as Rewards } from './Rewards';
 export { default as Impacts } from './Impacts';
 export { default as InScope } from './InScope';
 export { default as Staking } from './Staking';
+export { default as UserStakeList} from './UserStakeList';
 

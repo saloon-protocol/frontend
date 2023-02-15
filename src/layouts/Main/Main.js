@@ -38,7 +38,10 @@ const Main = ({ children, colorInvert = false, bgcolor = 'transparent' }) => {
   });
 
   return (
-    <Box container>
+    <Box container 
+      sx={{ alignItems: 'flex-start' }}
+      
+    >
       {/* <Box bgcolor={bgcolor} position={'relative'} zIndex={theme.zIndex.appBar}>
         <Container paddingTop={'8px !important'} paddingBottom={'0 !important'}>
           <TopNav colorInvert={colorInvert} />
@@ -79,7 +82,7 @@ const Main = ({ children, colorInvert = false, bgcolor = 'transparent' }) => {
         <Divider />
       </main>
       <Container paddingY={4}>
-        <Footer />
+        <Footer/>
       </Container>
     </Box>
     
